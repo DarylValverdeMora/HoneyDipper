@@ -5,9 +5,6 @@ Para publicar se necesitan originales y permiso. Registro completo en `src/data/
 
 ## Permisos
 
-- [ ] **Interior con el arco amarillo** (`interior-arco.webp`, de IMG_2354.PNG). Es una foto de Google Maps
-  del usuario "JuanK Nuñez". Se usa en el hero y en "El lugar". No se puede publicar sin permiso del autor
-  o sin reemplazarla por una foto propia.
 - [ ] Confirmar que las fotos de comida y pasteles (capturas de Instagram) son del negocio y se pueden usar.
 
 ## Fotos que faltan (hoy son [PLACEHOLDER])

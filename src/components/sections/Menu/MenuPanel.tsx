@@ -1,8 +1,13 @@
 import type { FC } from 'react'
 import { business } from '../../../data/business'
+import { whatsappTemplates } from '../../../data/whatsapp'
 import { groupPanelId, groupTabId } from '../../../hooks/useMenuState'
+import { buildWhatsAppLink } from '../../../lib/whatsapp'
+import { ButtonLink } from '../../ui/Button'
 import { useMenu } from './menu-context'
 import { MenuCategory } from './MenuCategory'
+
+const RESERVATION_LINK = buildWhatsAppLink({ flow: 'reserva' })
 
 /** Panel del grupo activo. Solo se renderiza ese grupo. */
 export const MenuPanel: FC = () => {
@@ -17,16 +22,21 @@ export const MenuPanel: FC = () => {
       role="tabpanel"
       aria-labelledby={groupTabId(activeGroup.id)}
       tabIndex={0}
-      className="scroll-mt-menu-anchor pt-4 pb-12 focus-visible:outline-offset-8"
+      className="scroll-mt-menu-anchor pt-4 pb-16 focus-visible:outline-offset-8 lg:pt-0"
     >
       {etiqueta.texto !== activeGroup.pestana && <p className="text-sm text-foreground">{etiqueta.texto}</p>}
       {isReviewMode && etiqueta.kind === 'pendiente' && (
         <p className="mt-2 rounded-lg bg-surface px-3 py-2 text-xs text-foreground shadow-raised">{etiqueta.placeholder}</p>
       )}
       {activeGroup.categorias.map((category) => {
-        return <MenuCategory key={category.id} category={category} />
+        return <MenuCategory key={category.id} category={category} isReviewMode={isReviewMode} />
       })}
-      <p className="mt-6 text-sm text-foreground">Precios en colones. {business.serviceChargeNote}.</p>
+      <div className="mt-8 flex flex-col items-start gap-4">
+        <p className="text-sm text-foreground">Precios en colones. {business.serviceChargeNote}.</p>
+        <ButtonLink href={RESERVATION_LINK} external>
+          {whatsappTemplates.reserva.ctaLabel}
+        </ButtonLink>
+      </div>
     </div>
   )
 }

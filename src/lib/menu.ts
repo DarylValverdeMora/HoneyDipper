@@ -1,7 +1,9 @@
+import { menuContentChanges } from '../data/menu-content-changes'
+import type { ContentChange } from '../data/menu-content-changes'
 import { menuCorrections } from '../data/menu-corrections'
 import type { SpellingCorrection } from '../data/menu-corrections'
 import { menuFlags } from '../data/menu'
-import type { Menu, MenuCategory, MenuFlag, MenuGroup, MenuGroupId, MenuProduct } from '../data/menu.types'
+import type { Menu, MenuCategory, MenuCategoryId, MenuFlag, MenuGroup, MenuGroupId, MenuProduct } from '../data/menu.types'
 
 const WHOLE_WORD_BOUNDARY = '(?<![\\p{L}\\p{N}])'
 const WHOLE_WORD_END = '(?![\\p{L}\\p{N}])'
@@ -78,4 +80,23 @@ export const listProducts = (groups: readonly MenuGroup[]): ProductLocation[] =>
 
 export const listProductsToConfirm = (groups: readonly MenuGroup[]): ProductLocation[] => {
   return listProducts(groups).filter(({ product }) => product.porConfirmar !== undefined)
+}
+
+/** El cambio de contenido que corresponde a este plato, solo si su `original` sigue igual al de menu.ts. */
+export const findContentChange = (
+  categoryId: MenuCategoryId,
+  product: MenuProduct,
+  changes: readonly ContentChange[] = menuContentChanges,
+): ContentChange | undefined => {
+  return changes.find(
+    (change) =>
+      change.categoryId === categoryId && change.producto === product.nombre && change.original === product.descripcion,
+  )
+}
+
+/** Descripción lista para mostrar: aplica el cambio de contenido (si hay) y luego las correcciones de ortografía. */
+export const getDisplayDescription = (categoryId: MenuCategoryId, product: MenuProduct): string | undefined => {
+  const description = findContentChange(categoryId, product)?.nuevo ?? product.descripcion
+  if (description === undefined) return undefined
+  return toDisplayText(description)
 }

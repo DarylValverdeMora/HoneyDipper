@@ -18,8 +18,6 @@ export const menuFlags: Record<MenuFlag, boolean> = {
 
 const POR_CONFIRMAR_CHIMICHANGA =
   'Hay dos chimichangas: ₡4.850 en Snacks y ₡4.650 en el Menú mexicano. Confirmar cuál está vigente.'
-const POR_CONFIRMAR_PATACON =
-  '"Hamburguesa de patacón" (₡4.800) y "De patacón" (₡5.000) podrían ser el mismo plato.'
 
 const WAFFLE_O_PANCAKES = ['Waffle', 'Pancakes'] as const
 const WAFFLE_O_CROISSANT = ['Waffle', 'Croissant'] as const
@@ -73,7 +71,6 @@ export const menu: Menu = [
             descripcion:
               'Arroz, frijoles, picadillo, plátano maduro, ensalada y 1 proteína a escoger: Pollo, Carne Mechada, Chuleta o Pescado. *Incluye bebida del día.',
             precio: unico(4200),
-            porConfirmar: 'En el menú esta línea no tiene nombre; se usa "Casado" por la categoría.',
           },
           { nombre: 'Arroz con camarones', precio: unico(5500) },
           { nombre: 'Arroz con carne', precio: unico(4950) },
@@ -237,7 +234,6 @@ export const menu: Menu = [
             nombre: 'Hamburguesa de patacón',
             descripcion: 'Con dos patacones, lechuga, tomate, pollo empanizado o torta de carne y aderezo de la casa.',
             precio: unico(4800),
-            porConfirmar: POR_CONFIRMAR_PATACON,
           },
           {
             nombre: 'Pulled pork',
@@ -251,7 +247,6 @@ export const menu: Menu = [
             nombre: 'De patacón',
             descripcion: 'Dos patacones con torta de carne, lechuga, tomate y queso.',
             precio: unico(5000),
-            porConfirmar: POR_CONFIRMAR_PATACON,
           },
         ],
       },

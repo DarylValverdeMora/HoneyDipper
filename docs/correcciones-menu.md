@@ -56,6 +56,16 @@ Total: 43 correcciones en 13 reglas.
 | " ," | "," | Menú mexicano > Hamburguesa mexicana |
 | " ," | "," | Waffles o pancakes > Nutella |
 
+## Cambios de contenido (no son de ortografía)
+
+El dueño pidió cambiar qué dice el plato. El original queda en `src/data/menu.ts`; el texto nuevo
+vive en `src/data/menu-content-changes.ts` y es el que se muestra. Antes de publicar, el dueño
+debe aprobar el texto exacto.
+
+| Plato | Original | Nuevo | Estado | Motivo |
+| --- | --- | --- | --- | --- |
+| Mango strawberry | Bebida carbonatada con reducción de frutos rojos o maracuyá. | Bebida carbonatada con mango y reducción de frutos rojos o maracuyá. | **Pendiente de aprobación del dueño** | El dueño confirmó que sí lleva mango (2026-11-06). La descripción original era igual a la de la Clásica. |
+
 ## Pendientes de decidir con el dueño (no se corrigen)
 
 - "Camarón saltado" en Montaditos > Camarón (en Ensaladas dice "salteado").

@@ -13,8 +13,8 @@ export const MenuChips: FC = () => {
   const rowRef = useChipsAutoScroll(state.activeCategoryId)
 
   return (
-    <nav aria-label={`Categorías de ${state.activeGroup.pestana}`} className="-mx-4 md:-mx-6">
-      <ul ref={rowRef} data-lenis-prevent-horizontal className="flex h-14 items-center gap-2 scrollbar-none overflow-x-auto px-4 md:px-6">
+    <nav aria-label={`Categorías de ${state.activeGroup.pestana}`} className="-mx-4 md:-mx-10 lg:mx-0">
+      <ul ref={rowRef} data-lenis-prevent-horizontal className="scrollbar-none flex h-14 items-center gap-2 overflow-x-auto px-4 md:px-10 lg:h-auto lg:flex-wrap lg:overflow-visible lg:px-0">
         {state.activeGroup.categorias.map((category) => {
           const anchorId = categoryAnchorId(category.id)
           const isActive = anchorId === state.activeCategoryId

@@ -3,6 +3,7 @@ import { MenuChips } from './MenuChips'
 import { MenuItem } from './MenuItem'
 import { MenuPanel } from './MenuPanel'
 import { MenuProvider } from './MenuProvider'
+import { MenuSearch } from './MenuSearch'
 import { MenuTabs } from './MenuTabs'
 
 export const Menu = {
@@ -12,4 +13,5 @@ export const Menu = {
   Panel: MenuPanel,
   Category: MenuCategory,
   Item: MenuItem,
+  Search: MenuSearch,
 }

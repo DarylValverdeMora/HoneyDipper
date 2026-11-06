@@ -64,8 +64,8 @@ export const photos = {
     height: 1560,
     sections: ['hero', 'lugar'],
     source: 'IMG_2354.PNG',
-    permission: 'pendiente',
-    note: 'Foto de Google Maps del usuario "JuanK Nuñez". No publicar sin permiso.',
+    permission: 'confirmado',
+    note: 'Foto de Google Maps del usuario "JuanK Nuñez". Permiso confirmado verbalmente (Daryl, 2026-11-06); hace falta la confirmación por escrito antes de publicar.',
   },
   hamburguesaPollo: {
     src: hamburguesaPollo,
@@ -152,6 +152,11 @@ export const photos = {
 } satisfies Record<string, Photo>
 
 export type PhotoId = keyof typeof photos
+
+/** Fotos asignadas a una sección o categoría, en el orden de este archivo. */
+export const photosForSection = (section: string): Photo[] => {
+  return Object.values(photos).filter((photo) => photo.sections.some((photoSection) => photoSection === section))
+}
 
 /** Espacios donde no hay foto apta; se muestran como [PLACEHOLDER] con forma de arco. */
 export const missingPhotos = [

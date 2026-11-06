@@ -84,6 +84,5 @@ export const business = {
   },
 
   about: '[PLACEHOLDER] Texto de "sobre nosotros": historia y quién está detrás',
-  events: '[PLACEHOLDER] Eventos: capacidad, qué incluye y cómo se reserva',
   paymentMethods: ['Tarjeta', 'Efectivo'],
 } as const

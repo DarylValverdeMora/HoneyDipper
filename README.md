@@ -56,6 +56,7 @@ defecto de Tailwind está desactivada. La variante B se activa con `data-variant
 - `og:image` en `index.html` usa una ruta relativa (`./og-image.jpg`). WhatsApp y Facebook necesitan
   una **URL absoluta**: cámbiala por `https://<dominio>/og-image.jpg` al desplegar.
 - Reemplazar todos los `[PLACEHOLDER]`.
+- Tener **por escrito** el permiso de la foto del interior (`interior-arco.webp`, de IMG_2354, autor "JuanK Nuñez" en Google Maps). Hoy está confirmado solo de palabra.
 
 ## Datos pendientes: [PLACEHOLDER]
 
@@ -70,9 +71,9 @@ Al cierre de la etapa 2C:
 - Cuál número tiene WhatsApp (restaurante 8396-8602 o pastelería 6349-0223) y a cuál van los eventos.
 - Días y horario del brunch.
 - Texto de "sobre nosotros".
-- Información de eventos: capacidad, qué incluye y cómo se reserva.
 - Días del brunch (la pestaña dice "Brunch (sáb. y dom.)" sin confirmar).
-- Productos marcados `porConfirmar` en el menú (`npm run check:menu` los lista).
+- Productos marcados `porConfirmar` en el menú (`npm run check:menu` los lista): las dos chimichangas y el frappé horchata.
+- Texto exacto de la soda italiana "Mango strawberry" (cambio de contenido pendiente de aprobación, ver `docs/correcciones-menu.md`).
 - Facebook y TikTok, si existen.
 - Confirmar si `pizzas.webp` son tortizzas.
 - Fotos faltantes: ensalada, evento, terraza, fachada, bebidas.

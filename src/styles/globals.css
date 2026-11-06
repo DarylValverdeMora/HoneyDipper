@@ -49,6 +49,9 @@
   /* Alto de la primera vista: la pantalla menos el header */
   --spacing-hero: calc(100dvh - var(--header-height));
   --spacing-menu-nav: var(--menu-nav-height);
+  /* Columna fija del menú en escritorio: arranca bajo el header y nunca pasa del alto de la pantalla */
+  --spacing-menu-side: calc(var(--header-height) + 2rem);
+  --spacing-menu-side-max: calc(100dvh - var(--header-height) - 4rem);
   /* Donde queda el título de una categoría al saltar a ella: debajo del header y la barra del menú */
   --spacing-menu-anchor: calc(var(--header-height) + var(--menu-nav-height) + 0.75rem);
 
@@ -99,6 +102,11 @@
   /* Los anclajes no quedan tapados por el header fijo */
   [id] {
     scroll-margin-top: calc(var(--header-height) + 1rem);
+  }
+
+  /* El buscador trae su propio botón para borrar */
+  input[type='search']::-webkit-search-cancel-button {
+    appearance: none;
   }
 
   :focus-visible {

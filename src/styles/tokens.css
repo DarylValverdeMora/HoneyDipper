@@ -77,6 +77,13 @@
   --shadow-menu-bar: 0 1px 0 var(--menu-surface-rule);
 }
 
+/* En escritorio la barra del menú pasa a la columna izquierda: ya no ocupa alto arriba. */
+@media (min-width: 64rem) {
+  :root {
+    --menu-nav-height: 0rem;
+  }
+}
+
 /*
  * Fondos tomados de las páginas impresas del menú. Sobre Rosa palo y Caramelo el Miel tostado
  * no llega a 4,5:1, así que el precio usa Verde pino ahí.

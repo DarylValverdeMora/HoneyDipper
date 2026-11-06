@@ -1,12 +1,13 @@
 import type { BusinessLine } from './business'
 
-export type WhatsAppFlow = 'reserva' | 'pastel' | 'evento'
+export type WhatsAppFlow = 'reserva' | 'pastel' | 'evento' | 'consulta'
 
 /** Campos que puede llenar la persona en cada flujo. Todos son opcionales al enviar. */
 export type FlowFields = {
   reserva: 'nombre' | 'fecha' | 'hora' | 'personas'
   pastel: 'ocasion' | 'fecha' | 'porciones' | 'idea'
   evento: 'tipo' | 'fecha' | 'personas'
+  consulta: 'plato'
 }
 
 export type MessageTemplate<F extends WhatsAppFlow> = {
@@ -57,5 +58,13 @@ export const whatsappTemplates: MessageTemplates = {
       { key: 'personas', label: 'Cantidad de personas' },
     ],
     closing: '¿Qué opciones tienen?',
+  },
+  consulta: {
+    ctaLabel: 'Pregúntanos por WhatsApp',
+    // [PLACEHOLDER] Confirmar a qué número van las consultas del menú.
+    line: 'restaurante',
+    intro: 'Hola, Honey Dipper. Tengo una consulta sobre el menú.',
+    fields: [{ key: 'plato', label: 'Busco' }],
+    closing: '¿Lo tienen?',
   },
 }

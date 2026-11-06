@@ -35,3 +35,15 @@ describe('menu', () => {
     )
   })
 })
+
+describe('cambios de contenido', () => {
+  it('muestra la descripción nueva de Mango strawberry y deja el original en los datos', async () => {
+    const { getDisplayDescription, listProducts: list } = await import('./menu')
+    const { menu: data } = await import('../data/menu')
+    const location = list(data).find(({ product }) => product.nombre === 'Mango strawberry')
+    expect(location?.product.descripcion).toBe('Bebida carbonatada con reducción de frutos rojos o maracuyá.')
+    expect(location === undefined ? undefined : getDisplayDescription(location.category.id, location.product)).toBe(
+      'Bebida carbonatada con mango y reducción de frutos rojos o maracuyá.',
+    )
+  })
+})

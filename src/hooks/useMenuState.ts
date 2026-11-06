@@ -1,7 +1,7 @@
-import { useCallback, useMemo, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import type { RefObject } from 'react'
 import { menu, menuFlags } from '../data/menu'
-import type { MenuGroup, MenuGroupId } from '../data/menu.types'
+import type { MenuCategoryId, MenuGroup, MenuGroupId } from '../data/menu.types'
 import { getVisibleGroups } from '../lib/menu'
 import { useReviewMode } from './useReviewMode'
 import { useScrollSpy } from './useScrollSpy'
@@ -11,6 +11,25 @@ import { readRemVariablePx } from '../lib/css-length'
 export const categoryAnchorId = (categoryId: string): string => {
   return `menu-${categoryId}`
 }
+
+const NON_ALPHANUMERIC = /[^a-z0-9]+/g
+
+/** 'Café con mantequilla de maní' → 'cafe-con-mantequilla-de-mani' */
+const slugify = (text: string): string => {
+  return text
+    .normalize('NFD')
+    .replace(/\p{M}/gu, '')
+    .toLowerCase()
+    .replace(NON_ALPHANUMERIC, '-')
+    .replace(/^-|-$/g, '')
+}
+
+export const productAnchorId = (categoryId: MenuCategoryId, productName: string): string => {
+  return `${categoryAnchorId(categoryId)}--${slugify(productName)}`
+}
+
+/** Cuánto dura el resaltado del plato al llegar desde la búsqueda. */
+const HIGHLIGHT_MS = 1800
 
 export const groupTabId = (groupId: MenuGroupId): string => {
   return `menu-tab-${groupId}`
@@ -27,9 +46,17 @@ export type MenuState = {
   isReviewMode: boolean
 }
 
+export type ProductTarget = {
+  groupId: MenuGroupId
+  categoryId: MenuCategoryId
+  productName: string
+}
+
 export type MenuActions = {
   selectGroup: (groupId: MenuGroupId) => void
   selectCategory: (categoryId: string) => void
+  /** Cambia al grupo del plato, baja hasta él, lo resalta y le pasa el foco. */
+  goToProduct: (target: ProductTarget) => void
 }
 
 export type MenuMeta = {
@@ -92,6 +119,27 @@ export const useMenuState = (): MenuStateValue => {
     [pin, release, scrollToElement],
   )
 
+  const [pendingTarget, setPendingTarget] = useState<ProductTarget | null>(null)
+
+  const goToProduct = useCallback((target: ProductTarget) => {
+    setActiveGroupId(target.groupId)
+    setPendingTarget(target)
+  }, [])
+
+  // Cuando el grupo del plato ya está en pantalla, se baja hasta la fila.
+  useEffect(() => {
+    if (pendingTarget === null || pendingTarget.groupId !== activeGroup.id) return
+    const row = document.getElementById(productAnchorId(pendingTarget.categoryId, pendingTarget.productName))
+    setPendingTarget(null)
+    if (row === null) return
+
+    pin(categoryAnchorId(pendingTarget.categoryId))
+    scrollToElement(row, { onComplete: release })
+    row.focus({ preventScroll: true })
+    row.setAttribute('data-highlighted', '')
+    window.setTimeout(() => row.removeAttribute('data-highlighted'), HIGHLIGHT_MS)
+  }, [pendingTarget, activeGroup.id, pin, release, scrollToElement])
+
   const firstCategoryId = categoryIds[0] ?? ''
   const activeCategoryId = spy.activeId ?? firstCategoryId
 
@@ -99,7 +147,10 @@ export const useMenuState = (): MenuStateValue => {
     () => ({ groups, activeGroup, activeCategoryId, isReviewMode }),
     [groups, activeGroup, activeCategoryId, isReviewMode],
   )
-  const actions = useMemo<MenuActions>(() => ({ selectGroup, selectCategory }), [selectGroup, selectCategory])
+  const actions = useMemo<MenuActions>(
+    () => ({ selectGroup, selectCategory, goToProduct }),
+    [selectGroup, selectCategory, goToProduct],
+  )
   const meta = useMemo<MenuMeta>(() => ({ panelRef }), [])
 
   return { state, actions, meta }
