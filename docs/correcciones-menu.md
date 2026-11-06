@@ -1,34 +1,60 @@
 # Correcciones del menú
 
-Regla aprobada por Daryl (etapa 2B): se corrige solo el texto que se muestra (descripciones y notas).
-Los **nombres de los platos se dejan como están** en el menú original (por ejemplo "Hawaina", "Capresse",
-"Expresso", "Capuccino"). Cada corrección se registra aquí.
+Archivo generado con `npm run docs:correcciones`. No editar a mano.
 
-El menú se carga en `src/data/menu.ts` en la etapa 2C; esta lista se completa y se verifica en ese momento.
+Regla aprobada por Daryl: se corrige solo el texto que se muestra (descripciones y notas). Los
+**nombres de los platos se dejan como están** (por ejemplo "Hawaina", "Capresse", "Expresso",
+"Capuccino", "Té caliente ó frío"). El texto original queda intacto en `src/data/menu.ts`; las
+correcciones viven en `src/data/menu-corrections.ts` y se aplican al mostrar. Para que el dueño
+rechace una, se borra su fila en ese archivo y se vuelve a generar este documento.
 
-## Normalización general
+Total: 39 correcciones en 11 reglas.
 
 | Original | Corregido | Dónde |
 | --- | --- | --- |
-| mozarella | mozzarella | Todas las descripciones (el menú mezcla las dos formas) |
-| marshmellows | marshmallows | Chocolate caliente (el menú mezcla las dos formas) |
+| Ensalda | Ensalada | Wraps > Pollo |
+| ensalda | ensalada | Snacks > Fajitas |
+| soble | doble | Bebidas calientes > Latte |
+| poodoro | pomodoro | Waffles o croissants > Italiano |
+| adearezo | aderezo | Hamburguesas > Pollo |
+| Turrilaba | Turrialba | Tostadas francesas > Tostadas francesas |
+| acosto | costo | Entradas > Orden de patacones |
+| duce de leche | dulce de leche | Frappés > Frappé paleta |
+| chill – beans | chili beans | Menú mexicano > Hamburguesa mexicana |
+| marshmellows | marshmallows | Bebidas calientes > Chocolate caliente |
+| mozarella | mozzarella | Tortizzas > Honey Dipper |
+| mozarella | mozzarella | Tortizzas > Jamón y queso |
+| mozarella | mozzarella | Tortizzas > Hawaina |
+| mozarella | mozzarella | Tortizzas > Margarita |
+| mozarella | mozzarella | Tortizzas > Mexicana |
+| mozarella | mozzarella | Sandwiches > Capresse |
+| mozarella | mozzarella | Sandwiches > Sándwich Honey |
+| mozarella | mozzarella | Sandwiches > Birria |
+| mozarella | mozzarella | Sandwiches > Chicken nuggets |
+| mozarella | mozzarella | Pitas > Capresse |
+| mozarella | mozzarella | Snacks > Chimichanga |
+| mozarella | mozzarella | Snacks > Papas Honey |
+| mozarella | mozzarella | Hamburguesas > Carne |
+| mozarella | mozzarella | Hamburguesas > Pollo |
+| mozarella | mozzarella | Hamburguesas > Vegetariana |
+| mozarella | mozzarella | Hamburguesas > Chicken burger |
+| mozarella | mozzarella | Hamburguesas > Pulled pork |
+| mozarella | mozzarella | Hamburguesas > La pepperoni |
+| mozarella | mozzarella | Hamburguesas > La tropical |
+| mozarella | mozzarella | Menú mexicano > Quesabirria |
+| mozarella | mozzarella | Menú mexicano > Sopa azteca |
+| mozarella | mozzarella | Menú mexicano > Chimichanga |
+| mozarella | mozzarella | Menú mexicano > Nachos |
+| mozarella | mozzarella | Menú mexicano > Hamburguesa mexicana |
+| mozarella | mozzarella | Brunch > Honey brunch |
+| mozarella | mozzarella | Brunch > Sandwich de pan brioche |
+| mozarella | mozzarella | Waffles o croissants > Jamón y queso |
+| mozarella | mozzarella | Waffles o croissants > Capresse |
+| mozarella | mozzarella | Waffles o croissants > Italiano |
 
-## Correcciones puntuales
+## Pendientes de decidir con el dueño (no se corrigen)
 
-| Categoría | Plato | Original | Corregido |
-| --- | --- | --- | --- |
-| Entradas | Orden de patacones | "tiene acosto adicional de ₡250" | "tiene costo adicional de ₡250" |
-| Wraps | Pollo | "Ensalda de la casa" | "Ensalada de la casa" |
-| Snacks | Fajitas | "papas y ensalda" | "papas y ensalada" |
-| Hamburguesas | Pollo | "adearezo de la casa" | "aderezo de la casa" |
-| Hamburguesas | La pepperoni | "peperoni" | "pepperoni" |
-| Bebidas frías | Frappé Paleta | "duce de leche" | "dulce de leche" |
-| Bebidas calientes | Latte | "Café expresso soble" | "Café expresso doble" |
-| Brunch | Italiano (waffles o croissants) | "salsa poodoro" | "salsa pomodoro" |
-| Brunch | Tostadas francesas | "emprendedores de Turrilaba" | "emprendedores de Turrialba" |
-| Varias | Varias | espacios antes de comas ("lechuga , tomate ,") | "lechuga, tomate," |
-
-## Pendientes de decidir con el dueño (no se corrigen todavía)
-
-- Hamburguesa mexicana: "chill – beans" (¿"chili beans"?).
-- Montaditos, Camarón: "Camarón saltado" (en Ensaladas dice "salteado").
+- "peperoni" en Hamburguesas > La pepperoni (el nombre del plato dice "pepperoni").
+- Espacios antes de comas: "Lechuga , tomate" (Sandwiches > De la casa) y "lechuga , tomate ," (Menú mexicano > Hamburguesa mexicana).
+- "Camarón saltado" en Montaditos > Camarón (en Ensaladas dice "salteado").
+- "Lechuga, tomate atún arreglado" en Sandwiches > Atún (parece faltar una coma).

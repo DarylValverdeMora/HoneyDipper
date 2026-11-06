@@ -40,7 +40,7 @@ export const business = {
   location: {
     city: 'Turrialba',
     country: 'Costa Rica',
-    address: '[PLACEHOLDER] Dirección escrita del local',
+    address: 'Frente al parquecito de la Dominica',
     mapsUrl: 'https://maps.app.goo.gl/ug1RtwHNZvQqTvwd8',
     coordinates: { lat: 9.909953817368812, lng: -83.68866456584233 },
   },
@@ -85,6 +85,5 @@ export const business = {
 
   about: '[PLACEHOLDER] Texto de "sobre nosotros": historia y quién está detrás',
   events: '[PLACEHOLDER] Eventos: capacidad, qué incluye y cómo se reserva',
-  paymentMethods: '[PLACEHOLDER] Métodos de pago',
-  parking: '[PLACEHOLDER] Parqueo',
+  paymentMethods: ['Tarjeta', 'Efectivo'],
 } as const

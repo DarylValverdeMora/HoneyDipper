@@ -11,7 +11,9 @@ Stack: Vite + React + TypeScript (estricto) + Tailwind v4 + GSAP/ScrollTrigger +
 npm install
 npm run dev        # servidor local en http://localhost:5173
 npm run typecheck  # chequeo de tipos
-npm test           # pruebas (enlaces de WhatsApp)
+npm test           # pruebas (WhatsApp y menú)
+npm run check:menu # conteo de productos por grupo (falla si no da 158)
+npm run docs:correcciones  # regenera docs/correcciones-menu.md
 npm run build      # build de producción en dist/
 npm run preview    # sirve la build
 ```
@@ -25,6 +27,8 @@ npm run preview    # sirve la build
 | Colores, fuentes y radios (y la variante B del modo presentación) | `src/styles/tokens.css` |
 | Conexión de los tokens con Tailwind | `src/styles/globals.css` (`@theme inline`) |
 | Nombre, slogan, teléfonos, WhatsApp, horario, mapa | `src/data/business.ts` |
+| Menú completo (texto original, precios, banderas) | `src/data/menu.ts` y tipos en `src/data/menu.types.ts` |
+| Correcciones de ortografía que se aplican al mostrar | `src/data/menu-corrections.ts` |
 | Mensajes prellenados de WhatsApp | `src/data/whatsapp.ts` |
 | Armado del enlace `wa.me` | `src/lib/whatsapp.ts` |
 | Fotos, texto alternativo y permiso | `src/data/photos.ts` |
@@ -49,14 +53,14 @@ Para listarlos:
 grep -rn "\[PLACEHOLDER\]" src index.html
 ```
 
-Al cierre de la etapa 2B:
+Al cierre de la etapa 2C:
 
 - Cuál número tiene WhatsApp (restaurante 8396-8602 o pastelería 6349-0223) y a cuál van los eventos.
-- Dirección escrita del local (el mapa ya tiene enlace y coordenadas).
 - Días y horario del brunch.
 - Texto de "sobre nosotros".
 - Información de eventos: capacidad, qué incluye y cómo se reserva.
-- Métodos de pago y parqueo.
+- Días del brunch (la pestaña dice "Brunch (sáb. y dom.)" sin confirmar).
+- Productos marcados `porConfirmar` en el menú (`npm run check:menu` los lista).
 - Facebook y TikTok, si existen.
 - Confirmar si `pizzas.webp` son tortizzas.
 - Fotos faltantes: ensalada, evento, terraza, fachada, bebidas.
