@@ -40,6 +40,10 @@ npm run preview    # sirve la build
 | Hilo de miel: trazo, gotitas y secuencia de carga | `src/hooks/useHoneyThread.ts`, `src/lib/honey-thread.ts` |
 | Duraciones y curvas de movimiento | `src/lib/motion.ts` |
 | Gotita del hilo en una sección: `<h2 {...honeyDrop}>` | `src/lib/honey-drop.ts` |
+| Sección Menú (compuesto `Menu.*`) | `src/components/sections/Menu/` |
+| Estado del menú, scroll-spy y pestañas con teclado | `src/hooks/useMenuState.ts`, `useScrollSpy.ts`, `useRovingTabs.ts` |
+| Formato de precios (₡1.200, tamaños, "Consulta el precio") | `src/lib/price.ts` |
+| Marcas de platos por confirmar | Abrir la página con `?review=1` |
 | Conversión de fotos a WebP | `scripts/convert-photos.py` |
 | Correcciones de ortografía del menú | `docs/correcciones-menu.md` |
 | Fotos que hay que pedir | `docs/fotos-pendientes.md` |

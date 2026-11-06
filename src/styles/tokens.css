@@ -66,6 +66,41 @@
 
   /* Alto del header fijo; lo usan los anclajes (scroll-margin) */
   --header-height: 4.5rem;
+
+  /* Alto de la barra fija del menú (pestañas + chips) */
+  --menu-nav-height: 6.5rem;
+
+  /* Superficie del menú: fondo, precio y línea entre platos. Cambian según el grupo. */
+  --menu-surface-bg: var(--menu-comidas);
+  --menu-surface-price: var(--hd-miel-tostado);
+  --menu-surface-rule: color-mix(in srgb, var(--hd-dorado-miel) 60%, transparent);
+  --shadow-menu-bar: 0 1px 0 var(--menu-surface-rule);
+}
+
+/*
+ * Fondos tomados de las páginas impresas del menú. Sobre Rosa palo y Caramelo el Miel tostado
+ * no llega a 4,5:1, así que el precio usa Verde pino ahí.
+ */
+[data-menu-surface='comidas'],
+[data-menu-surface='brunch'] {
+  --menu-surface-bg: var(--menu-comidas);
+}
+
+[data-menu-surface='dulces'],
+[data-menu-surface='ninos'] {
+  --menu-surface-bg: var(--menu-dulces);
+  --menu-surface-price: var(--hd-verde-pino);
+  --menu-surface-rule: color-mix(in srgb, var(--hd-miel-tostado) 45%, transparent);
+}
+
+[data-menu-surface='bebidas'] {
+  --menu-surface-bg: var(--menu-bebidas);
+}
+
+[data-menu-surface='hamburguesas'] {
+  --menu-surface-bg: var(--menu-hamburguesas);
+  --menu-surface-price: var(--hd-verde-pino);
+  --menu-surface-rule: color-mix(in srgb, var(--hd-verde-pino) 30%, transparent);
 }
 
 /*

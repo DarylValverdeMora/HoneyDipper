@@ -4,7 +4,7 @@ import { photos } from '../../data/photos'
 import { cn } from '../../lib/cn'
 import { honeyDrop } from '../../lib/honey-drop'
 import { ArchPhoto } from '../ui/ArchFrame'
-import { PhotoPlaceholder } from '../ui/PhotoPlaceholder'
+import { MenuSection } from './Menu/MenuSection'
 
 /*
  * Etapas 3A y 3B: secciones temporales, solo para probar el marco (anclajes, header, botón flotante).
@@ -39,14 +39,7 @@ const PreviewSection: FC<PreviewSectionProps> = ({ id, title, className, childre
 export const PreviewSections: FC = () => {
   return (
     <>
-      <PreviewSection id="menu" title="Menú" className="bg-surface">
-        <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
-          <ArchPhoto photo={photos.hamburguesaPollo} className="aspect-3/4" />
-          <ArchPhoto photo={photos.pancakesHelado} bordered className="aspect-3/4" />
-          <PhotoPlaceholder description="un casado" className="aspect-3/4" />
-          <PhotoPlaceholder description="una bebida fría" bordered className="aspect-3/4" />
-        </div>
-      </PreviewSection>
+      <MenuSection />
       <PreviewSection id="pasteleria" title="Pastelería" className="bg-surface-soft">
         <ArchPhoto photo={photos.pastelChorreado} bordered className="aspect-3/4 w-full max-w-xs" />
       </PreviewSection>

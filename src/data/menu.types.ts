@@ -83,6 +83,8 @@ export type GroupLabel =
 
 export type MenuGroup = {
   id: MenuGroupId
+  /** Texto corto de la pestaña. */
+  pestana: string
   etiqueta: GroupLabel
   categorias: NonEmpty<MenuCategory>
 }

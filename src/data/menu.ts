@@ -27,6 +27,7 @@ const WAFFLE_O_CROISSANT = ['Waffle', 'Croissant'] as const
 export const menu: Menu = [
   {
     id: 'comidas',
+    pestana: 'Comidas',
     etiqueta: { kind: 'confirmada', texto: 'Comidas' },
     categorias: [
       {
@@ -284,6 +285,7 @@ export const menu: Menu = [
   },
   {
     id: 'brunch',
+    pestana: 'Brunch',
     etiqueta: {
       kind: 'pendiente',
       texto: 'Brunch (sáb. y dom.)',
@@ -375,6 +377,7 @@ export const menu: Menu = [
   },
   {
     id: 'dulces',
+    pestana: 'Dulces',
     etiqueta: { kind: 'confirmada', texto: 'Dulces' },
     categorias: [
       {
@@ -400,6 +403,7 @@ export const menu: Menu = [
   },
   {
     id: 'bebidas',
+    pestana: 'Bebidas',
     etiqueta: { kind: 'confirmada', texto: 'Bebidas' },
     categorias: [
       {
@@ -513,6 +517,7 @@ export const menu: Menu = [
   },
   {
     id: 'ninos',
+    pestana: 'Niños',
     etiqueta: { kind: 'confirmada', texto: 'Niños' },
     categorias: [
       {

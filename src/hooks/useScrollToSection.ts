@@ -1,10 +1,10 @@
 import { useCallback } from 'react'
 import type { SectionId } from '../data/navigation'
-import { useLenisInstance } from '../lib/lenis-context'
+import { useScrollToElement } from './useScrollToElement'
 
-/** Lleva a una sección: con Lenis si está activo, si no con el scroll nativo (ambos respetan scroll-margin). */
+/** Lleva a una sección de la página y deja el ancla en la URL. */
 export const useScrollToSection = (): ((sectionId: SectionId) => void) => {
-  const lenis = useLenisInstance()
+  const scrollToElement = useScrollToElement()
 
   return useCallback(
     (sectionId: SectionId) => {
@@ -12,12 +12,8 @@ export const useScrollToSection = (): ((sectionId: SectionId) => void) => {
       if (target === null) return
 
       window.history.replaceState(null, '', `#${sectionId}`)
-      if (lenis !== null) {
-        lenis.scrollTo(target)
-        return
-      }
-      target.scrollIntoView()
+      scrollToElement(target)
     },
-    [lenis],
+    [scrollToElement],
   )
 }
