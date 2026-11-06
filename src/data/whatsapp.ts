@@ -1,0 +1,61 @@
+import type { BusinessLine } from './business'
+
+export type WhatsAppFlow = 'reserva' | 'pastel' | 'evento'
+
+/** Campos que puede llenar la persona en cada flujo. Todos son opcionales al enviar. */
+export type FlowFields = {
+  reserva: 'nombre' | 'fecha' | 'hora' | 'personas'
+  pastel: 'ocasion' | 'fecha' | 'porciones' | 'idea'
+  evento: 'tipo' | 'fecha' | 'personas'
+}
+
+export type MessageTemplate<F extends WhatsAppFlow> = {
+  /** Texto del botón; el mismo en toda la página. */
+  ctaLabel: string
+  /** A qué número va el mensaje. */
+  line: BusinessLine
+  intro: string
+  fields: ReadonlyArray<{ key: FlowFields[F]; label: string }>
+  closing: string
+}
+
+export type MessageTemplates = { [F in WhatsAppFlow]: MessageTemplate<F> }
+
+export const whatsappTemplates: MessageTemplates = {
+  reserva: {
+    ctaLabel: 'Reservar mesa',
+    line: 'restaurante',
+    intro: 'Hola, Honey Dipper. Quiero reservar una mesa.',
+    fields: [
+      { key: 'nombre', label: 'Nombre' },
+      { key: 'fecha', label: 'Fecha' },
+      { key: 'hora', label: 'Hora' },
+      { key: 'personas', label: 'Personas' },
+    ],
+    closing: '¿Tienen espacio?',
+  },
+  pastel: {
+    ctaLabel: 'Cotiza tu pastel',
+    line: 'pasteleria',
+    intro: 'Hola, Honey Dipper. Quiero cotizar un pastel.',
+    fields: [
+      { key: 'ocasion', label: 'Ocasión' },
+      { key: 'fecha', label: 'Fecha de entrega' },
+      { key: 'porciones', label: 'Porciones' },
+      { key: 'idea', label: 'Idea de sabor o diseño' },
+    ],
+    closing: 'Si les sirve, les mando una foto de referencia.',
+  },
+  evento: {
+    ctaLabel: 'Consultar por un evento',
+    // [PLACEHOLDER] Confirmar a qué número van las consultas de eventos.
+    line: 'restaurante',
+    intro: 'Hola, Honey Dipper. Quiero consultar por un evento en el local.',
+    fields: [
+      { key: 'tipo', label: 'Tipo de evento' },
+      { key: 'fecha', label: 'Fecha' },
+      { key: 'personas', label: 'Cantidad de personas' },
+    ],
+    closing: '¿Qué opciones tienen?',
+  },
+}

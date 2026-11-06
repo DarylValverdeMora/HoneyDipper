@@ -1,0 +1,66 @@
+/*
+ * Tokens de Honey Dipper. Un solo lugar para cambiar la paleta.
+ * Colores de marca muestreados de las imágenes de referencia (ficha etapa 1).
+ * Verde pino y Miel tostado son tonos derivados para que el texto tenga contraste.
+ */
+
+:root {
+  /* Paleta de marca */
+  --hd-menta-honey: #bfd7ca;
+  --hd-menta-claro: #d8f1ed;
+  --hd-blanco-calido: #fffffa;
+  --hd-dorado-miel: #b69468;
+  --hd-verde-agua: #95cac2;
+  --hd-caramelo: #b79065;
+  --hd-rosa-palo: #ddabac;
+  --hd-amarillo-mantequilla: #f3e6af;
+  --hd-rojo-terracota: #d8524f;
+
+  /* Derivados para texto (13:1 y 6,3:1 sobre blanco cálido) */
+  --hd-verde-pino: #24332d;
+  --hd-miel-tostado: #7a5a30;
+
+  /* Tipografías */
+  --hd-font-display: 'Cormorant', 'Cormorant Garamond', Georgia, serif;
+  --hd-font-smallcaps: 'Cormorant SC', 'Cormorant', Georgia, serif;
+  --hd-font-body: 'DM Sans', system-ui, sans-serif;
+
+  /* Roles semánticos: los componentes usan estos, nunca la paleta directa */
+  --surface: var(--hd-blanco-calido);
+  --surface-brand: var(--hd-menta-honey);
+  --surface-soft: var(--hd-menta-claro);
+  --foreground: var(--hd-verde-pino);
+  --foreground-accent: var(--hd-miel-tostado);
+  --on-brand: var(--hd-verde-pino);
+  --honey: var(--hd-dorado-miel);
+  --border: var(--hd-dorado-miel);
+  --arch: var(--hd-amarillo-mantequilla);
+  --cta: var(--hd-verde-pino);
+  --on-cta: var(--hd-blanco-calido);
+  --cta-alt: var(--hd-amarillo-mantequilla);
+  --on-cta-alt: var(--hd-verde-pino);
+
+  /* Fondos de los grupos del menú, como las páginas impresas */
+  --menu-comidas: var(--hd-blanco-calido);
+  --menu-hamburguesas: var(--hd-caramelo);
+  --menu-dulces: var(--hd-rosa-palo);
+  --menu-bebidas: var(--hd-menta-claro);
+  --menu-ninos: var(--hd-rosa-palo);
+  --menu-mexicano: var(--hd-rojo-terracota);
+  --menu-tab-active: var(--hd-verde-agua);
+
+  /* Radios: el arco del local y esquinas suaves */
+  --radius-arch: 999px 999px 0 0;
+}
+
+/*
+ * Variante B "Caramelo" (modo presentación, ?present=1&v=b).
+ * Solo el mecanismo: se reasignan roles. El diseño completo de B se termina en una etapa posterior.
+ */
+[data-variant='b'] {
+  --surface-brand: var(--hd-caramelo);
+  --surface-soft: var(--hd-rosa-palo);
+  --on-brand: var(--hd-verde-pino);
+  --border: var(--hd-miel-tostado);
+  --cta-alt: var(--hd-rosa-palo);
+}

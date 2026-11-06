@@ -1,0 +1,80 @@
+@import 'tailwindcss';
+@import './tokens.css';
+
+/*
+ * Se apaga la paleta por defecto de Tailwind para obligar a usar los tokens de la marca.
+ * `inline` hace que las utilidades lean la variable en tiempo de ejecución,
+ * así la variante B cambia los colores sin recompilar.
+ */
+@theme inline {
+  --color-*: initial;
+  --color-surface: var(--surface);
+  --color-surface-brand: var(--surface-brand);
+  --color-surface-soft: var(--surface-soft);
+  --color-foreground: var(--foreground);
+  --color-foreground-accent: var(--foreground-accent);
+  --color-on-brand: var(--on-brand);
+  --color-honey: var(--honey);
+  --color-border: var(--border);
+  --color-arch: var(--arch);
+  --color-cta: var(--cta);
+  --color-on-cta: var(--on-cta);
+  --color-cta-alt: var(--cta-alt);
+  --color-on-cta-alt: var(--on-cta-alt);
+  --color-menu-comidas: var(--menu-comidas);
+  --color-menu-hamburguesas: var(--menu-hamburguesas);
+  --color-menu-dulces: var(--menu-dulces);
+  --color-menu-bebidas: var(--menu-bebidas);
+  --color-menu-ninos: var(--menu-ninos);
+  --color-menu-mexicano: var(--menu-mexicano);
+  --color-menu-tab-active: var(--menu-tab-active);
+  --color-transparent: transparent;
+  --color-current: currentColor;
+
+  --font-display: var(--hd-font-display);
+  --font-smallcaps: var(--hd-font-smallcaps);
+  --font-body: var(--hd-font-body);
+
+  --radius-arch: var(--radius-arch);
+}
+
+@layer base {
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    background-color: var(--surface);
+    color: var(--foreground);
+    font-family: var(--hd-font-body);
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--hd-font-display);
+    text-wrap: balance;
+  }
+
+  p,
+  li,
+  figcaption {
+    text-wrap: pretty;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--foreground);
+    outline-offset: 3px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
