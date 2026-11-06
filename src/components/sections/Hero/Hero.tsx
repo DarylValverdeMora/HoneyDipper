@@ -1,0 +1,41 @@
+import type { FC } from 'react'
+import { business } from '../../../data/business'
+import { photos } from '../../../data/photos'
+import { whatsappTemplates } from '../../../data/whatsapp'
+import { buildWhatsAppLink } from '../../../lib/whatsapp'
+import { ArchPhoto } from '../../ui/ArchFrame'
+import { ButtonLink } from '../../ui/Button'
+import { HeroLogo } from './HeroLogo'
+
+/** Primera vista: logo, slogan, las dos acciones y el arco del local. Fondo Menta Honey. */
+export const Hero: FC = () => {
+  return (
+    <section id="inicio" aria-label="Inicio" className="bg-surface-brand text-on-brand">
+      <div
+        data-honey-rail
+        className="mx-auto grid max-w-6xl grid-cols-1 items-center gap-10 px-4 pt-6 pb-16 md:px-6 lg:min-h-hero lg:grid-cols-2 lg:gap-16 lg:py-12"
+      >
+        <div className="flex flex-col items-start gap-8">
+          <HeroLogo />
+          <p data-hero-slogan className="max-w-md font-display text-3xl leading-tight italic md:text-4xl">
+            {business.slogan}
+          </p>
+          <div className="flex flex-wrap gap-3">
+            <ButtonLink href={buildWhatsAppLink({ flow: 'reserva' })} external>
+              {whatsappTemplates.reserva.ctaLabel}
+            </ButtonLink>
+            <ButtonLink href={buildWhatsAppLink({ flow: 'pastel' })} external intent="secundario">
+              {whatsappTemplates.pastel.ctaLabel}
+            </ButtonLink>
+          </div>
+        </div>
+        <ArchPhoto
+          photo={photos.interiorArco}
+          bordered
+          priority
+          className="aspect-3/4 w-full max-w-sm justify-self-center lg:max-w-md lg:justify-self-end"
+        />
+      </div>
+    </section>
+  )
+}

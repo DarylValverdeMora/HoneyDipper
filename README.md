@@ -36,6 +36,10 @@ npm run preview    # sirve la build
 | Botones, arco, hoja modal, panal y foto pendiente | `src/components/ui/` |
 | Header, footer y botón flotante de WhatsApp | `src/components/layout/` |
 | Scroll suave (Lenis), movimiento reducido y lógica de las hojas | `src/hooks/` |
+| Hero (logo, slogan, CTA, arco del interior) | `src/components/sections/Hero/` |
+| Hilo de miel: trazo, gotitas y secuencia de carga | `src/hooks/useHoneyThread.ts`, `src/lib/honey-thread.ts` |
+| Duraciones y curvas de movimiento | `src/lib/motion.ts` |
+| Gotita del hilo en una sección: `<h2 {...honeyDrop}>` | `src/lib/honey-drop.ts` |
 | Conversión de fotos a WebP | `scripts/convert-photos.py` |
 | Correcciones de ortografía del menú | `docs/correcciones-menu.md` |
 | Fotos que hay que pedir | `docs/fotos-pendientes.md` |

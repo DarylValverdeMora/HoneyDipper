@@ -42,6 +42,8 @@
   --shadow-sheet: var(--shadow-sheet);
 
   --spacing-header: var(--header-height);
+  /* Alto de la primera vista: la pantalla menos el header */
+  --spacing-hero: calc(100dvh - var(--header-height));
 
   --animate-sheet-in-bottom: sheet-in-bottom 320ms cubic-bezier(0.32, 0.72, 0, 1);
   --animate-sheet-in-right: sheet-in-right 320ms cubic-bezier(0.32, 0.72, 0, 1);

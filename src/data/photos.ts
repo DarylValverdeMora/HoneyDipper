@@ -3,6 +3,7 @@ import hamburguesaPapasWaffle from '../assets/img/hamburguesa-papas-waffle.webp'
 import hamburguesaPollo from '../assets/img/hamburguesa-pollo.webp'
 import interiorArco from '../assets/img/interior-arco.webp'
 import logoHoneyDipper from '../assets/img/logo-honey-dipper.jpg'
+import logoHoneyDipperHero from '../assets/img/logo-honey-dipper-hero.webp'
 import pancakesHelado from '../assets/img/pancakes-helado.webp'
 import pastelChorreado from '../assets/img/pastel-chorreado.webp'
 import pastelCumpleanos from '../assets/img/pastel-cumpleanos.webp'
@@ -44,6 +45,17 @@ export const photos = {
     source: '334567232_128492653313998_3196433340749445455_n.jpg',
     permission: 'pendiente',
     note: 'JPG con fondo menta #BFD7CA, igual al token Menta Honey. Falta SVG o PNG transparente.',
+  },
+  /** Recorte del logo (x 222..862, y 270..950 del original) para el hero. El logo no se toca. */
+  logoHero: {
+    src: logoHoneyDipperHero,
+    alt: 'Honey Dipper, cafetería y pastelería',
+    width: 640,
+    height: 680,
+    sections: ['hero'],
+    source: '334567232_128492653313998_3196433340749445455_n.jpg',
+    permission: 'pendiente',
+    note: 'Mismo logo, con menos margen menta. La gota del logo queda en x 310, y 224 de este recorte.',
   },
   interiorArco: {
     src: interiorArco,

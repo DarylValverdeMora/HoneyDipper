@@ -1,17 +1,14 @@
 import type { FC, ReactNode } from 'react'
 import type { SectionId } from '../../data/navigation'
 import { photos } from '../../data/photos'
-import { whatsappTemplates } from '../../data/whatsapp'
 import { cn } from '../../lib/cn'
-import { buildWhatsAppLink } from '../../lib/whatsapp'
+import { honeyDrop } from '../../lib/honey-drop'
 import { ArchPhoto } from '../ui/ArchFrame'
-import { ButtonLink } from '../ui/Button'
-import { Panal } from '../ui/Panal'
 import { PhotoPlaceholder } from '../ui/PhotoPlaceholder'
 
 /*
- * Etapa 3A: secciones temporales, solo para probar el marco (anclajes, header, botón flotante).
- * Se reemplazan por las secciones reales a partir de la etapa 3B.
+ * Etapas 3A y 3B: secciones temporales, solo para probar el marco (anclajes, header, botón flotante).
+ * Se reemplazan por las secciones reales en la etapa 4.
  */
 
 type PreviewSectionProps = {
@@ -27,7 +24,7 @@ const PreviewSection: FC<PreviewSectionProps> = ({ id, title, className, childre
   return (
     <section id={id} aria-labelledby={titleId} className={cn('relative isolate overflow-hidden', className)}>
       <div className="mx-auto flex min-h-dvh max-w-6xl flex-col gap-8 px-4 py-16 md:px-6">
-        <h2 id={titleId} className="text-4xl md:text-5xl">
+        <h2 id={titleId} {...honeyDrop} className="text-4xl md:text-5xl">
           {title}
         </h2>
         <p className="max-w-prose text-sm text-foreground-accent">
@@ -42,17 +39,6 @@ const PreviewSection: FC<PreviewSectionProps> = ({ id, title, className, childre
 export const PreviewSections: FC = () => {
   return (
     <>
-      <PreviewSection id="inicio" title="Inicio" className="bg-surface-brand text-on-brand">
-        <Panal />
-        <div className="flex flex-wrap gap-3">
-          <ButtonLink href={buildWhatsAppLink({ flow: 'reserva' })} external>
-            {whatsappTemplates.reserva.ctaLabel}
-          </ButtonLink>
-          <ButtonLink href={buildWhatsAppLink({ flow: 'pastel' })} external intent="secundario">
-            {whatsappTemplates.pastel.ctaLabel}
-          </ButtonLink>
-        </div>
-      </PreviewSection>
       <PreviewSection id="menu" title="Menú" className="bg-surface">
         <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
           <ArchPhoto photo={photos.hamburguesaPollo} className="aspect-3/4" />

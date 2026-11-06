@@ -1,7 +1,9 @@
 import type { FC } from 'react'
 import { Footer } from './components/layout/Footer'
 import { Header } from './components/layout/Header'
+import { HoneyThreadLayer } from './components/layout/HoneyThreadLayer'
 import { WhatsAppFab } from './components/layout/WhatsAppFab'
+import { Hero } from './components/sections/Hero/Hero'
 import { PreviewSections } from './components/sections/PreviewSections'
 import { useLenis } from './hooks/useLenis'
 import { useReducedMotion } from './hooks/useReducedMotion'
@@ -28,10 +30,13 @@ export const App: FC = () => {
     <LenisContext value={lenis}>
       <SkipLink />
       <Header />
-      <main id={MAIN_CONTENT_ID} className="pt-header">
-        <PreviewSections />
-      </main>
-      <Footer />
+      <HoneyThreadLayer>
+        <main id={MAIN_CONTENT_ID} className="pt-header">
+          <Hero />
+          <PreviewSections />
+        </main>
+        <Footer />
+      </HoneyThreadLayer>
       <WhatsAppFab />
     </LenisContext>
   )
