@@ -1,5 +1,6 @@
 /** Secciones de la página. Los ids son los anclajes que usan el header y el botón flotante. */
-export const SECTION_IDS = ['inicio', 'menu', 'pasteleria', 'eventos', 'como-llegar'] as const
+/** 'lugar' no está en el menú de navegación, pero sí tiene anclaje. 'horario' es el bloque del pie de página. */
+export const SECTION_IDS = ['inicio', 'menu', 'pasteleria', 'eventos', 'lugar', 'como-llegar', 'horario'] as const
 export type SectionId = (typeof SECTION_IDS)[number]
 
 export type NavLink = {

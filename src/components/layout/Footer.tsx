@@ -1,6 +1,7 @@
 import type { FC, ReactNode } from 'react'
 import { business } from '../../data/business'
 import type { ContactLine } from '../../data/business'
+import type { SectionId } from '../../data/navigation'
 import { formatDays, formatHours } from '../../lib/schedule'
 import { Panal } from '../ui/Panal'
 import { Logo } from './Logo'
@@ -15,11 +16,12 @@ const linkStyles =
 type FooterBlockProps = {
   title: string
   children: ReactNode
+  id?: SectionId
 }
 
-const FooterBlock: FC<FooterBlockProps> = ({ title, children }) => {
+const FooterBlock: FC<FooterBlockProps> = ({ title, children, id }) => {
   return (
-    <div className="flex flex-col gap-3">
+    <div id={id} className="flex flex-col gap-3">
       <h2 className="text-2xl">{title}</h2>
       {children}
     </div>
@@ -28,7 +30,7 @@ const FooterBlock: FC<FooterBlockProps> = ({ title, children }) => {
 
 const HoursBlock: FC = () => {
   return (
-    <FooterBlock title="Horario">
+    <FooterBlock title="Horario" id="horario">
       <dl className="grid grid-cols-1 gap-2 text-sm">
         {business.openingHours.map((entry) => {
           return (

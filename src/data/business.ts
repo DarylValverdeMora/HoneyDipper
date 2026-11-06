@@ -70,6 +70,7 @@ export const business = {
     tiktok: '[PLACEHOLDER] TikTok, si existe',
   },
 
+  /** Zona horaria fija del negocio. La franja de hoy calcula con esta, nunca con la del dispositivo. */
   timeZone: 'America/Costa_Rica',
 
   openingHours: [
@@ -85,4 +86,7 @@ export const business = {
 
   about: '[PLACEHOLDER] Texto de "sobre nosotros": historia y quién está detrás',
   paymentMethods: ['Tarjeta', 'Efectivo'],
+
+  /** Muestra la sección "El lugar". En false se oculta completa (por ejemplo, si no llega el permiso de la foto). */
+  mostrarLugar: true,
 } as const

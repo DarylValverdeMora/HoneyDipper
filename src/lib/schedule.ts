@@ -1,6 +1,6 @@
 import type { OpeningHours } from '../data/business'
 import type { ClockTime, DayOfWeek } from './types'
-import { DAYS_OF_WEEK } from './types'
+import { assertNever, DAYS_OF_WEEK } from './types'
 
 const DAY_LABELS: Record<DayOfWeek, string> = {
   lunes: 'lunes',
@@ -44,4 +44,108 @@ export const formatDays = (days: OpeningHours['days']): string => {
 
 export const formatHours = (entry: OpeningHours): string => {
   return `${formatClockTime(entry.opens)} a ${formatClockTime(entry.closes)}`
+}
+
+/** Hora en el reloj del negocio: día de la semana y minutos desde la medianoche. */
+export type BusinessClock = {
+  day: DayOfWeek
+  minutes: number
+}
+
+const WEEKDAY_BY_ENGLISH_NAME: Record<string, DayOfWeek> = {
+  Monday: 'lunes',
+  Tuesday: 'martes',
+  Wednesday: 'miercoles',
+  Thursday: 'jueves',
+  Friday: 'viernes',
+  Saturday: 'sabado',
+  Sunday: 'domingo',
+}
+
+const MINUTES_PER_HOUR = 60
+
+const clockFormatters = new Map<string, Intl.DateTimeFormat>()
+
+const formatterFor = (timeZone: string): Intl.DateTimeFormat => {
+  const cached = clockFormatters.get(timeZone)
+  if (cached) return cached
+  const formatter = new Intl.DateTimeFormat('en-US', {
+    timeZone,
+    weekday: 'long',
+    hour: '2-digit',
+    minute: '2-digit',
+    hourCycle: 'h23',
+  })
+  clockFormatters.set(timeZone, formatter)
+  return formatter
+}
+
+/** Lee día y hora en la zona horaria indicada, sin importar la del dispositivo. */
+export const readBusinessClock = (instant: Date, timeZone: string): BusinessClock => {
+  const parts = formatterFor(timeZone).formatToParts(instant)
+  const partValue = (type: Intl.DateTimeFormatPartTypes): string => {
+    return parts.find((part) => part.type === type)?.value ?? ''
+  }
+  const day = WEEKDAY_BY_ENGLISH_NAME[partValue('weekday')]
+  if (!day) {
+    throw new Error(`No se pudo leer el día de la semana en ${timeZone}.`)
+  }
+  const minutes = Number(partValue('hour')) * MINUTES_PER_HOUR + Number(partValue('minute'))
+  return { day, minutes }
+}
+
+const toMinutes = (time: ClockTime): number => {
+  const [hours, minutes] = time.split(':')
+  return Number(hours) * MINUTES_PER_HOUR + Number(minutes)
+}
+
+export const hoursForDay = (
+  schedule: readonly OpeningHours[],
+  day: DayOfWeek,
+): OpeningHours | undefined => {
+  return schedule.find((entry) => entry.days.includes(day))
+}
+
+export type TodayStatus =
+  | { kind: 'antes-de-abrir'; hours: OpeningHours }
+  | { kind: 'abierto'; hours: OpeningHours }
+  | { kind: 'cerrado-por-hoy'; hours: OpeningHours }
+  | { kind: 'sin-horario' }
+
+type TodayStatusArgs = {
+  now: Date
+  timeZone: string
+  schedule: readonly OpeningHours[]
+}
+
+/** Estado del negocio en este instante, calculado con la hora del negocio (no la del dispositivo). */
+export const getTodayStatus = ({ now, timeZone, schedule }: TodayStatusArgs): TodayStatus => {
+  const clock = readBusinessClock(now, timeZone)
+  const hours = hoursForDay(schedule, clock.day)
+  if (!hours) return { kind: 'sin-horario' }
+  if (clock.minutes < toMinutes(hours.opens)) return { kind: 'antes-de-abrir', hours }
+  if (clock.minutes < toMinutes(hours.closes)) return { kind: 'abierto', hours }
+  return { kind: 'cerrado-por-hoy', hours }
+}
+
+/** 'Hoy abrimos de 11:00 a.m. a 9:00 p.m.' */
+export const describeTodayHours = (status: TodayStatus): string => {
+  if (status.kind === 'sin-horario') return 'Hoy no abrimos'
+  return `Hoy abrimos de ${formatClockTime(status.hours.opens)} a ${formatClockTime(status.hours.closes)}`
+}
+
+/** Frase corta del estado actual. La hora de cierre ya va en describeTodayHours. */
+export const describeOpenNow = (status: TodayStatus): string => {
+  switch (status.kind) {
+    case 'abierto':
+      return 'Abierto ahora'
+    case 'antes-de-abrir':
+      return `Cerrado ahora, abrimos a las ${formatClockTime(status.hours.opens)}`
+    case 'cerrado-por-hoy':
+      return 'Cerrado ahora'
+    case 'sin-horario':
+      return 'Cerrado hoy'
+    default:
+      return assertNever(status)
+  }
 }

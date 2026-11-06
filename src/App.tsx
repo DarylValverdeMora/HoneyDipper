@@ -4,7 +4,12 @@ import { Header } from './components/layout/Header'
 import { HoneyThreadLayer } from './components/layout/HoneyThreadLayer'
 import { WhatsAppFab } from './components/layout/WhatsAppFab'
 import { Hero } from './components/sections/Hero/Hero'
-import { PreviewSections } from './components/sections/PreviewSections'
+import { EventosSection } from './components/sections/Eventos/EventosSection'
+import { LugarSection } from './components/sections/Lugar/LugarSection'
+import { MenuSection } from './components/sections/Menu/MenuSection'
+import { PasteleriaSection } from './components/sections/Pasteleria/PasteleriaSection'
+import { ComoLlegarPreview } from './components/sections/PreviewSections'
+import { TodayStrip } from './components/sections/TodayStrip/TodayStrip'
 import { useLenis } from './hooks/useLenis'
 import { useReducedMotion } from './hooks/useReducedMotion'
 import { LenisContext } from './lib/lenis-context'
@@ -33,7 +38,12 @@ export const App: FC = () => {
       <HoneyThreadLayer>
         <main id={MAIN_CONTENT_ID} className="pt-header">
           <Hero />
-          <PreviewSections />
+          <TodayStrip />
+          <MenuSection />
+          <PasteleriaSection />
+          <EventosSection />
+          <LugarSection />
+          <ComoLlegarPreview />
         </main>
         <Footer />
       </HoneyThreadLayer>

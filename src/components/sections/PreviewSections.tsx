@@ -1,50 +1,20 @@
-import type { FC, ReactNode } from 'react'
-import type { SectionId } from '../../data/navigation'
-import { photos } from '../../data/photos'
-import { cn } from '../../lib/cn'
+import type { FC } from 'react'
 import { honeyDrop } from '../../lib/honey-drop'
-import { ArchPhoto } from '../ui/ArchFrame'
-import { MenuSection } from './Menu/MenuSection'
 
 /*
- * Etapas 3A y 3B: secciones temporales, solo para probar el marco (anclajes, header, botón flotante).
- * Se reemplazan por las secciones reales en la etapa 4.
+ * Sección temporal: "Cómo llegar" se construye en la etapa 4D.
  */
-
-type PreviewSectionProps = {
-  id: SectionId
-  title: string
-  className: string
-  children?: ReactNode
-}
-
-const PreviewSection: FC<PreviewSectionProps> = ({ id, title, className, children }) => {
-  const titleId = `${id}-titulo`
-
+export const ComoLlegarPreview: FC = () => {
   return (
-    <section id={id} aria-labelledby={titleId} className={cn('relative isolate overflow-hidden', className)}>
-      <div className="mx-auto flex min-h-dvh max-w-6xl flex-col gap-8 px-4 py-16 md:px-6">
-        <h2 id={titleId} {...honeyDrop} className="text-4xl md:text-5xl">
-          {title}
+    <section id="como-llegar" aria-labelledby="como-llegar-titulo" className="bg-surface text-foreground">
+      <div className="mx-auto flex max-w-6xl flex-col gap-8 px-4 py-16 md:px-6">
+        <h2 id="como-llegar-titulo" {...honeyDrop} className="text-5xl md:text-6xl">
+          Cómo llegar
         </h2>
         <p className="max-w-prose text-sm text-foreground-accent">
-          [PLACEHOLDER] Sección temporal de la etapa 3A para probar anclajes y el marco de la página.
+          [PLACEHOLDER] Sección temporal. El mapa y las indicaciones llegan en la etapa 4D.
         </p>
-        {children}
       </div>
     </section>
-  )
-}
-
-export const PreviewSections: FC = () => {
-  return (
-    <>
-      <MenuSection />
-      <PreviewSection id="pasteleria" title="Pastelería" className="bg-surface-soft">
-        <ArchPhoto photo={photos.pastelChorreado} bordered className="aspect-3/4 w-full max-w-xs" />
-      </PreviewSection>
-      <PreviewSection id="eventos" title="Eventos" className="bg-surface" />
-      <PreviewSection id="como-llegar" title="Cómo llegar" className="bg-surface-brand text-on-brand" />
-    </>
   )
 }

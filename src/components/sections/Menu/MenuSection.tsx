@@ -1,5 +1,6 @@
 import type { FC, ReactNode } from 'react'
 import { business } from '../../../data/business'
+import { honeyDrop } from '../../../lib/honey-drop'
 import { Panal } from '../../ui/Panal'
 import { Menu } from './index'
 import { useMenu } from './menu-context'
@@ -29,7 +30,7 @@ const MenuHeader: FC = () => {
       <Panal className="opacity-15" />
       <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between lg:gap-16">
         <div>
-          <h2 id="menu-titulo" className="text-5xl md:text-6xl">
+          <h2 id="menu-titulo" {...honeyDrop} className="text-5xl md:text-6xl">
             Menú
           </h2>
           <p className="mt-3 text-sm text-foreground">Precios en colones. {business.serviceChargeNote}.</p>

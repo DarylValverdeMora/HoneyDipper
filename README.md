@@ -43,6 +43,10 @@ npm run preview    # sirve la build
 | Sección Menú (compuesto `Menu.*`) | `src/components/sections/Menu/` |
 | Estado del menú, scroll-spy y pestañas con teclado | `src/hooks/useMenuState.ts`, `useScrollSpy.ts`, `useRovingTabs.ts` |
 | Formato de precios (₡1.200, tamaños, "Consulta el precio") | `src/lib/price.ts` |
+| Horario de hoy y "abierto ahora" (hora fija de Costa Rica) | `src/lib/schedule.ts`, `src/hooks/useTodayStatus.ts` |
+| Franja de hoy, Pastelería, Eventos y El lugar | `src/components/sections/TodayStrip/`, `Pasteleria/`, `Eventos/`, `Lugar/` |
+| Ocultar la sección El lugar | `mostrarLugar` en `src/data/business.ts` |
+| Fondo de tablillas de madera (solo CSS) | `@utility wood-slats` en `src/styles/globals.css`, colores `--wood-*` en `tokens.css` |
 | Marcas de platos por confirmar | Abrir la página con `?review=1` |
 | Conversión de fotos a WebP | `scripts/convert-photos.py` |
 | Correcciones de ortografía del menú | `docs/correcciones-menu.md` |

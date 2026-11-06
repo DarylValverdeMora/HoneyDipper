@@ -49,6 +49,13 @@
   --menu-mexicano: var(--hd-rojo-terracota);
   --menu-tab-active: var(--hd-verde-agua);
 
+  /* Tablillas de madera de la pastelería (solo CSS), con el tono del techo del local */
+  --wood-base: color-mix(in srgb, var(--hd-caramelo) 42%, var(--hd-blanco-calido));
+  --wood-seam: color-mix(in srgb, var(--hd-miel-tostado) 38%, transparent);
+  --wood-tone: color-mix(in srgb, var(--hd-caramelo) 16%, transparent);
+  --wood-grain: color-mix(in srgb, var(--hd-miel-tostado) 6%, transparent);
+  --wood-slat: 1.75rem;
+
   /* Contorno neutro para fotos (negro puro al 10%) */
   --image-outline: rgb(0 0 0 / 0.1);
 

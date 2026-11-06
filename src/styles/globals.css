@@ -142,6 +142,22 @@
   }
 }
 
+/*
+ * Tablillas verticales de madera: una junta fina cada tablilla, una de cada tres un poco
+ * más oscura y una veta muy suave. Sin imágenes.
+ */
+@utility wood-slats {
+  background-color: var(--wood-base);
+  background-image:
+    repeating-linear-gradient(90deg, var(--wood-seam) 0 1px, transparent 1px var(--wood-slat)),
+    repeating-linear-gradient(
+      90deg,
+      transparent 0 calc(var(--wood-slat) * 2),
+      var(--wood-tone) calc(var(--wood-slat) * 2) calc(var(--wood-slat) * 3)
+    ),
+    repeating-linear-gradient(90deg, transparent 0 5px, var(--wood-grain) 5px 6px, transparent 6px 11px);
+}
+
 /* Nombres de platos: Cormorant en versalitas */
 @utility dish-name {
   font-family: var(--hd-font-smallcaps);
