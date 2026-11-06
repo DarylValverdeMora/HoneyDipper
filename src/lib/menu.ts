@@ -14,8 +14,18 @@ const toWholeWordPattern = (original: string): RegExp => {
   return new RegExp(`${WHOLE_WORD_BOUNDARY}${escapeRegExp(original)}${WHOLE_WORD_END}`, 'gu')
 }
 
+const toPattern = (correction: SpellingCorrection): RegExp => {
+  if (correction.kind === 'patron') return new RegExp(correction.patron.source, correction.patron.flags)
+  return toWholeWordPattern(correction.original)
+}
+
+const toReplacement = (correction: SpellingCorrection): string => {
+  if (correction.kind === 'patron') return correction.reemplazo
+  return correction.corregido
+}
+
 const applyCorrection = (text: string, correction: SpellingCorrection): string => {
-  return text.replace(toWholeWordPattern(correction.original), correction.corregido)
+  return text.replace(toPattern(correction), toReplacement(correction))
 }
 
 /** Texto listo para mostrar: aplica las correcciones de ortografía aprobadas. Solo para descripciones y notas. */
@@ -23,9 +33,9 @@ export const toDisplayText = (text: string, corrections: readonly SpellingCorrec
   return corrections.reduce(applyCorrection, text)
 }
 
-/** Cuántas veces aparece una corrección en un texto (palabra completa). */
+/** Cuántas veces aparece una corrección en un texto. */
 export const countCorrectionMatches = (text: string, correction: SpellingCorrection): number => {
-  return text.match(toWholeWordPattern(correction.original))?.length ?? 0
+  return text.match(toPattern(correction))?.length ?? 0
 }
 
 const isCategoryVisible = (category: MenuCategory, flags: Record<MenuFlag, boolean>): boolean => {

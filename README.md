@@ -32,6 +32,10 @@ npm run preview    # sirve la build
 | Mensajes prellenados de WhatsApp | `src/data/whatsapp.ts` |
 | Armado del enlace `wa.me` | `src/lib/whatsapp.ts` |
 | Fotos, texto alternativo y permiso | `src/data/photos.ts` |
+| Enlaces del header y ids de las secciones | `src/data/navigation.ts` |
+| Botones, arco, hoja modal, panal y foto pendiente | `src/components/ui/` |
+| Header, footer y botón flotante de WhatsApp | `src/components/layout/` |
+| Scroll suave (Lenis), movimiento reducido y lógica de las hojas | `src/hooks/` |
 | Conversión de fotos a WebP | `scripts/convert-photos.py` |
 | Correcciones de ortografía del menú | `docs/correcciones-menu.md` |
 | Fotos que hay que pedir | `docs/fotos-pendientes.md` |

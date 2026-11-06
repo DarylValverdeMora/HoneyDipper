@@ -49,8 +49,23 @@
   --menu-mexicano: var(--hd-rojo-terracota);
   --menu-tab-active: var(--hd-verde-agua);
 
-  /* Radios: el arco del local y esquinas suaves */
-  --radius-arch: 999px 999px 0 0;
+  /* Contorno neutro para fotos (negro puro al 10%) */
+  --image-outline: rgb(0 0 0 / 0.1);
+
+  /* Sombras: sin bordes para dar profundidad a hojas y botón flotante */
+  --shadow-raised:
+    0 0 0 1px rgb(0 0 0 / 0.06),
+    0 1px 2px -1px rgb(0 0 0 / 0.08),
+    0 4px 12px 0 rgb(0 0 0 / 0.08);
+  --shadow-sheet:
+    0 0 0 1px rgb(0 0 0 / 0.06),
+    0 -8px 32px 0 rgb(0 0 0 / 0.12);
+
+  /* Velo detrás de las hojas */
+  --backdrop: rgb(36 51 45 / 0.45);
+
+  /* Alto del header fijo; lo usan los anclajes (scroll-margin) */
+  --header-height: 4.5rem;
 }
 
 /*

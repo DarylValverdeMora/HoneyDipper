@@ -9,6 +9,10 @@ describe('toDisplayText', () => {
     )
     expect(toDisplayText('queso mozzarella')).toBe('queso mozzarella')
     expect(toDisplayText('Pan brioche, chill – beans, carne')).toBe('Pan brioche, chili beans, carne')
+    expect(toDisplayText('Pan brioche, lechuga , tomate , chill – beans,  carne')).toBe(
+      'Pan brioche, lechuga, tomate, chili beans,  carne',
+    )
+    expect(toDisplayText('queso mozarella y peperoni.')).toBe('queso mozzarella y pepperoni.')
   })
 })
 

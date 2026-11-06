@@ -53,8 +53,6 @@ ${allRows.join('\n')}
 
 ## Pendientes de decidir con el dueño (no se corrigen)
 
-- "peperoni" en Hamburguesas > La pepperoni (el nombre del plato dice "pepperoni").
-- Espacios antes de comas: "Lechuga , tomate" (Sandwiches > De la casa) y "lechuga , tomate ," (Menú mexicano > Hamburguesa mexicana).
 - "Camarón saltado" en Montaditos > Camarón (en Ensaladas dice "salteado").
 - "Lechuga, tomate atún arreglado" en Sandwiches > Atún (parece faltar una coma).
 `

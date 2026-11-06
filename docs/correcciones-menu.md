@@ -8,7 +8,7 @@ Regla aprobada por Daryl: se corrige solo el texto que se muestra (descripciones
 correcciones viven en `src/data/menu-corrections.ts` y se aplican al mostrar. Para que el dueño
 rechace una, se borra su fila en ese archivo y se vuelve a generar este documento.
 
-Total: 39 correcciones en 11 reglas.
+Total: 43 correcciones en 13 reglas.
 
 | Original | Corregido | Dónde |
 | --- | --- | --- |
@@ -51,10 +51,12 @@ Total: 39 correcciones en 11 reglas.
 | mozarella | mozzarella | Waffles o croissants > Jamón y queso |
 | mozarella | mozzarella | Waffles o croissants > Capresse |
 | mozarella | mozzarella | Waffles o croissants > Italiano |
+| peperoni | pepperoni | Hamburguesas > La pepperoni |
+| " ," | "," | Sandwiches > De la casa |
+| " ," | "," | Menú mexicano > Hamburguesa mexicana |
+| " ," | "," | Waffles o pancakes > Nutella |
 
 ## Pendientes de decidir con el dueño (no se corrigen)
 
-- "peperoni" en Hamburguesas > La pepperoni (el nombre del plato dice "pepperoni").
-- Espacios antes de comas: "Lechuga , tomate" (Sandwiches > De la casa) y "lechuga , tomate ," (Menú mexicano > Hamburguesa mexicana).
 - "Camarón saltado" en Montaditos > Camarón (en Ensaladas dice "salteado").
 - "Lechuga, tomate atún arreglado" en Sandwiches > Atún (parece faltar una coma).
