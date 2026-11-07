@@ -3,6 +3,7 @@ import { navLinks, toAnchor } from '../../data/navigation'
 import { whatsappTemplates } from '../../data/whatsapp'
 import { useMobileNav } from '../../hooks/useMobileNav'
 import { buildWhatsAppLink } from '../../lib/whatsapp'
+import { ReserveButton } from '../flows/ReserveButton'
 import { ButtonLink } from '../ui/Button'
 import { MenuIcon } from '../ui/Icons'
 import { Sheet } from '../ui/Sheet'
@@ -58,9 +59,7 @@ const MobileNavSheet: FC<MobileNavSheetProps> = ({ isOpen, onClose, navigateTo }
         </ul>
       </nav>
       <div className="mt-8 flex flex-col gap-3">
-        <ButtonLink href={buildWhatsAppLink({ flow: 'reserva' })} external full>
-          {whatsappTemplates.reserva.ctaLabel}
-        </ButtonLink>
+        <ReserveButton full onBeforeOpen={onClose} />
         <ButtonLink href={buildWhatsAppLink({ flow: 'pastel' })} external full intent="secundario">
           {whatsappTemplates.pastel.ctaLabel}
         </ButtonLink>
@@ -78,9 +77,7 @@ export const Header: FC = () => {
         <Logo className="h-14" />
         <DesktopNav />
         <div className="flex items-center gap-1">
-          <ButtonLink href={buildWhatsAppLink({ flow: 'reserva' })} external size="sm">
-            {whatsappTemplates.reserva.ctaLabel}
-          </ButtonLink>
+          <ReserveButton size="sm" />
           <button
             type="button"
             onClick={open}

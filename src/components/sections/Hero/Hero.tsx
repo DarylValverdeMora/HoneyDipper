@@ -3,6 +3,7 @@ import { business } from '../../../data/business'
 import { photos } from '../../../data/photos'
 import { whatsappTemplates } from '../../../data/whatsapp'
 import { buildWhatsAppLink } from '../../../lib/whatsapp'
+import { ReserveButton } from '../../flows/ReserveButton'
 import { ArchPhoto } from '../../ui/ArchFrame'
 import { ButtonLink } from '../../ui/Button'
 import { HeroLogo } from './HeroLogo'
@@ -21,9 +22,7 @@ export const Hero: FC = () => {
             {business.slogan}
           </p>
           <div className="flex flex-wrap gap-3">
-            <ButtonLink href={buildWhatsAppLink({ flow: 'reserva' })} external>
-              {whatsappTemplates.reserva.ctaLabel}
-            </ButtonLink>
+            <ReserveButton />
             <ButtonLink href={buildWhatsAppLink({ flow: 'pastel' })} external intent="secundario">
               {whatsappTemplates.pastel.ctaLabel}
             </ButtonLink>

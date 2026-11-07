@@ -1,11 +1,10 @@
 import type { FC, ReactNode } from 'react'
 import { business } from '../../../data/business'
-import { whatsappTemplates } from '../../../data/whatsapp'
 import { useTodayStatus } from '../../../hooks/useTodayStatus'
 import { formatPaymentMethods, toTelLink } from '../../../lib/contact'
 import { honeyDrop } from '../../../lib/honey-drop'
 import { formatDays, formatHours } from '../../../lib/schedule'
-import { buildWhatsAppLink } from '../../../lib/whatsapp'
+import { ReserveButton } from '../../flows/ReserveButton'
 import { ButtonLink } from '../../ui/Button'
 import { MapCard } from './MapCard'
 
@@ -87,9 +86,7 @@ export const VisitaSection: FC = () => {
             <ButtonLink href={business.location.mapsUrl} external intent="secundario">
               Abrir en Google Maps
             </ButtonLink>
-            <ButtonLink href={buildWhatsAppLink({ flow: 'reserva' })} external>
-              {whatsappTemplates.reserva.ctaLabel}
-            </ButtonLink>
+            <ReserveButton />
           </div>
         </div>
         <div className="lg:col-span-7 lg:row-span-2">

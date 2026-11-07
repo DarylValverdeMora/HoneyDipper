@@ -3,6 +3,8 @@ import type { FC } from 'react'
 import { Footer } from './components/layout/Footer'
 import { Header } from './components/layout/Header'
 import { HoneyThreadLayer } from './components/layout/HoneyThreadLayer'
+import { ReservationSheet } from './components/flows/ReservationSheet'
+import { WhatsAppFlowProvider } from './components/flows/WhatsAppFlowProvider'
 import { WhatsAppFab } from './components/layout/WhatsAppFab'
 import { Hero } from './components/sections/Hero/Hero'
 import { EventosSection } from './components/sections/Eventos/EventosSection'
@@ -42,26 +44,29 @@ export const App: FC = () => {
 
   return (
     <LenisContext value={lenis}>
-      <SkipLink />
-      <Header />
-      <HoneyThreadLayer>
-        <main id={MAIN_CONTENT_ID} className="pt-header">
-          <Hero />
-          <TodayStrip />
-          <MenuSection />
-          <PasteleriaSection />
-          <EventosSection />
-          <LugarSection />
-          <VisitaSection />
-        </main>
-        <Footer />
-      </HoneyThreadLayer>
-      <WhatsAppFab />
-      {presentation.kind === 'activo' && (
-        <Suspense fallback={null}>
-          <PresentPanel variant={presentation.variant} onSelectVariant={selectVariant} />
-        </Suspense>
-      )}
+      <WhatsAppFlowProvider>
+        <SkipLink />
+        <Header />
+        <HoneyThreadLayer>
+          <main id={MAIN_CONTENT_ID} className="pt-header">
+            <Hero />
+            <TodayStrip />
+            <MenuSection />
+            <PasteleriaSection />
+            <EventosSection />
+            <LugarSection />
+            <VisitaSection />
+          </main>
+          <Footer />
+        </HoneyThreadLayer>
+        <WhatsAppFab />
+        <ReservationSheet />
+        {presentation.kind === 'activo' && (
+          <Suspense fallback={null}>
+            <PresentPanel variant={presentation.variant} onSelectVariant={selectVariant} />
+          </Suspense>
+        )}
+      </WhatsAppFlowProvider>
     </LenisContext>
   )
 }

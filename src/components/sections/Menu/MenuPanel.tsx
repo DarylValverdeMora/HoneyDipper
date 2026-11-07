@@ -1,13 +1,9 @@
 import type { FC } from 'react'
 import { business } from '../../../data/business'
-import { whatsappTemplates } from '../../../data/whatsapp'
 import { groupPanelId, groupTabId } from '../../../hooks/useMenuState'
-import { buildWhatsAppLink } from '../../../lib/whatsapp'
-import { ButtonLink } from '../../ui/Button'
+import { ReserveButton } from '../../flows/ReserveButton'
 import { useMenu } from './menu-context'
 import { MenuCategory } from './MenuCategory'
-
-const RESERVATION_LINK = buildWhatsAppLink({ flow: 'reserva' })
 
 /** Panel del grupo activo. Solo se renderiza ese grupo. */
 export const MenuPanel: FC = () => {
@@ -33,9 +29,7 @@ export const MenuPanel: FC = () => {
       })}
       <div className="mt-8 flex flex-col items-start gap-4">
         <p className="text-sm text-foreground">Precios en colones. {business.serviceChargeNote}.</p>
-        <ButtonLink href={RESERVATION_LINK} external>
-          {whatsappTemplates.reserva.ctaLabel}
-        </ButtonLink>
+        <ReserveButton />
       </div>
     </div>
   )

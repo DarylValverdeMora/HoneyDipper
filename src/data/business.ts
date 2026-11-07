@@ -79,6 +79,14 @@ export const business = {
     { days: ['sabado', 'domingo'], opens: '09:00', closes: '21:00' },
   ] satisfies NonEmpty<OpeningHours>,
 
+  /**
+   * [PLACEHOLDER] Última hora que se puede reservar, en minutos antes del cierre. El dueño debe confirmarla.
+   * Con 60 y cierre a las 9:00 p.m., la última reserva es a las 8:00 p.m.
+   */
+  reservaUltimaAntesCierreMin: 60,
+  /** [PLACEHOLDER] Máximo de personas que se eligen en la hoja; más que eso se conversa por WhatsApp. */
+  reservaMaxPersonas: 10,
+
   brunch: {
     days: '[PLACEHOLDER] Días del brunch (¿solo sábado y domingo?)',
     hours: '[PLACEHOLDER] Horario del brunch',
