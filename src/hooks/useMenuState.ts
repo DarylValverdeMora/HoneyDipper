@@ -1,12 +1,22 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import type { RefObject } from 'react'
 import { menu, menuFlags } from '../data/menu'
-import type { MenuCategoryId, MenuGroup, MenuGroupId } from '../data/menu.types'
+import type { MenuCategory, MenuCategoryId, MenuGroup, MenuGroupId } from '../data/menu.types'
+import { refreshScrollTriggers } from '../lib/load-motion'
 import { getVisibleGroups } from '../lib/menu'
+import {
+  initialSelection,
+  nextStep,
+  requireGroups,
+  resolveSelection,
+  selectCategory as pickCategory,
+  selectExact,
+  selectGroup as pickGroup,
+} from '../lib/menu-selection'
+import type { MenuSelection, NextStep } from '../lib/menu-selection'
+import type { NonEmpty } from '../lib/types'
 import { useReviewMode } from './useReviewMode'
-import { useScrollSpy } from './useScrollSpy'
 import { useScrollToElement } from './useScrollToElement'
-import { readRemVariablePx } from '../lib/css-length'
 
 export const categoryAnchorId = (categoryId: string): string => {
   return `menu-${categoryId}`
@@ -28,9 +38,6 @@ export const productAnchorId = (categoryId: MenuCategoryId, productName: string)
   return `${categoryAnchorId(categoryId)}--${slugify(productName)}`
 }
 
-/** Cuánto dura el resaltado del plato al llegar desde la búsqueda. */
-const HIGHLIGHT_MS = 1800
-
 export const groupTabId = (groupId: MenuGroupId): string => {
   return `menu-tab-${groupId}`
 }
@@ -39,119 +46,148 @@ export const groupPanelId = (groupId: MenuGroupId): string => {
   return `menu-panel-${groupId}`
 }
 
+export const categoryTabId = (categoryId: MenuCategoryId): string => {
+  return `menu-categoria-tab-${categoryId}`
+}
+
+/** Cuánto dura el resaltado del plato al llegar desde la búsqueda. */
+const HIGHLIGHT_MS = 1800
+
 export type MenuState = {
-  groups: readonly MenuGroup[]
+  groups: NonEmpty<MenuGroup>
   activeGroup: MenuGroup
-  activeCategoryId: string
+  /** La única categoría que se ve. */
+  activeCategory: MenuCategory
+  /** A dónde lleva el botón "Siguiente" del final. */
+  next: NextStep
   isReviewMode: boolean
 }
 
-export type ProductTarget = {
-  groupId: MenuGroupId
-  categoryId: MenuCategoryId
+export type ProductTarget = MenuSelection & {
   productName: string
 }
 
 export type MenuActions = {
+  /** Abre el grupo en su primera categoría. */
   selectGroup: (groupId: MenuGroupId) => void
-  selectCategory: (categoryId: string) => void
-  /** Cambia al grupo del plato, baja hasta él, lo resalta y le pasa el foco. */
+  selectCategory: (categoryId: MenuCategoryId) => void
+  /** Botón "Siguiente": cambia de categoría (o de grupo) y pasa el foco al panel nuevo. */
+  goToNext: () => void
+  /** Selecciona el grupo y la categoría del plato, baja hasta él, lo resalta y le pasa el foco. */
   goToProduct: (target: ProductTarget) => void
 }
 
 export type MenuMeta = {
-  /** Inicio del panel del grupo: al cambiar de grupo se vuelve aquí si ya se bajó. */
+  /** Inicio del panel: al cambiar de categoría se vuelve aquí si ya quedó atrás. */
   panelRef: RefObject<HTMLDivElement | null>
+  /** Barra fija de pestañas y chips (en móvil y tablet). */
+  barRef: RefObject<HTMLDivElement | null>
 }
+
+/** Qué hacer cuando la categoría nueva ya está en pantalla. */
+type AfterChange =
+  | { kind: 'nada' }
+  | { kind: 'inicio'; focusPanel: boolean }
+  | { kind: 'plato'; target: ProductTarget }
 
 type MenuStateValue = { state: MenuState; actions: MenuActions; meta: MenuMeta }
 
-const findGroup = (groups: readonly MenuGroup[], groupId: MenuGroupId): MenuGroup | undefined => {
-  return groups.find((group) => group.id === groupId)
+/** true si el inicio del panel quedó tapado por la barra fija (o por el header en escritorio). */
+const isPanelStartHidden = (panel: HTMLElement, bar: HTMLElement | null, headerBottom: number): boolean => {
+  const barBottom = bar === null ? 0 : bar.getBoundingClientRect().bottom
+  const coveredUntil = Math.max(barBottom, headerBottom)
+  return panel.getBoundingClientRect().top < coveredUntil
 }
 
-/** true si el inicio del panel ya quedó tapado por la barra fija del menú. */
-const isPanelScrolledPast = (panel: HTMLElement): boolean => {
-  const stickyBottom = readRemVariablePx('--header-height') + readRemVariablePx('--menu-nav-height')
-  return panel.getBoundingClientRect().top < stickyBottom
+const headerBottom = (): number => {
+  return document.querySelector('header')?.getBoundingClientRect().bottom ?? 0
+}
+
+const highlightRow = (row: HTMLElement): void => {
+  row.focus({ preventScroll: true })
+  row.setAttribute('data-highlighted', '')
+  window.setTimeout(() => row.removeAttribute('data-highlighted'), HIGHLIGHT_MS)
 }
 
 /**
- * Estado del menú: grupo activo (pestaña) y categoría activa (chip, por scroll-spy).
+ * Estado del menú: un grupo (pestaña) y UNA categoría visible a la vez (chips como pestañas).
  * Los grupos salen de menu.ts respetando las banderas, como mostrarMenuMexicano.
  */
 export const useMenuState = (): MenuStateValue => {
-  const groups = useMemo(() => getVisibleGroups(menu, menuFlags), [])
-  const [firstGroup] = groups
-  if (firstGroup === undefined) throw new Error('El menú no tiene grupos visibles.')
-
-  const [activeGroupId, setActiveGroupId] = useState<MenuGroupId>(firstGroup.id)
-  const activeGroup = findGroup(groups, activeGroupId) ?? firstGroup
-  const categoryIds = useMemo(
-    () => activeGroup.categorias.map((category) => categoryAnchorId(category.id)),
-    [activeGroup],
-  )
-  const spy = useScrollSpy(categoryIds)
+  const groups = useMemo(() => requireGroups(getVisibleGroups(menu, menuFlags)), [])
+  const [selection, setSelection] = useState<MenuSelection>(() => initialSelection(groups))
+  const [afterChange, setAfterChange] = useState<AfterChange>({ kind: 'nada' })
   const isReviewMode = useReviewMode()
   const scrollToElement = useScrollToElement()
   const panelRef = useRef<HTMLDivElement>(null)
+  const barRef = useRef<HTMLDivElement>(null)
+
+  const { group: activeGroup, category: activeCategory } = resolveSelection(groups, selection)
+  const next = useMemo(() => nextStep(groups, selection), [groups, selection])
+
+  const changeTo = useCallback((nextSelection: MenuSelection, then: AfterChange) => {
+    setSelection(nextSelection)
+    setAfterChange(then)
+  }, [])
 
   const selectGroup = useCallback(
     (groupId: MenuGroupId) => {
-      setActiveGroupId(groupId)
-      requestAnimationFrame(() => {
-        const panel = panelRef.current
-        if (panel !== null && isPanelScrolledPast(panel)) scrollToElement(panel)
-      })
+      changeTo(pickGroup(groups, selection, groupId), { kind: 'inicio', focusPanel: false })
     },
-    [scrollToElement],
+    [changeTo, groups, selection],
   )
 
-  const { pin, release } = spy
   const selectCategory = useCallback(
-    (categoryId: string) => {
-      const anchorId = categoryAnchorId(categoryId)
-      const target = document.getElementById(anchorId)
-      if (target === null) return
-      pin(anchorId)
-      scrollToElement(target, { onComplete: release })
+    (categoryId: MenuCategoryId) => {
+      changeTo(pickCategory(groups, selection, categoryId), { kind: 'inicio', focusPanel: false })
     },
-    [pin, release, scrollToElement],
+    [changeTo, groups, selection],
   )
 
-  const [pendingTarget, setPendingTarget] = useState<ProductTarget | null>(null)
+  const goToNext = useCallback(() => {
+    changeTo(next.selection, { kind: 'inicio', focusPanel: true })
+  }, [changeTo, next])
 
-  const goToProduct = useCallback((target: ProductTarget) => {
-    setActiveGroupId(target.groupId)
-    setPendingTarget(target)
-  }, [])
+  const goToProduct = useCallback(
+    (target: ProductTarget) => {
+      changeTo(selectExact(groups, selection, target), { kind: 'plato', target })
+    },
+    [changeTo, groups, selection],
+  )
 
-  // Cuando el grupo del plato ya está en pantalla, se baja hasta la fila.
+  // Ya con la categoría nueva en pantalla: el hilo vuelve a medir y, si hace falta, se sube o se baja.
   useEffect(() => {
-    if (pendingTarget === null || pendingTarget.groupId !== activeGroup.id) return
-    const row = document.getElementById(productAnchorId(pendingTarget.categoryId, pendingTarget.productName))
-    setPendingTarget(null)
-    if (row === null) return
+    if (afterChange.kind === 'nada') return undefined
+    const frameId = requestAnimationFrame(() => {
+      setAfterChange({ kind: 'nada' })
+      refreshScrollTriggers()
+      const panel = panelRef.current
+      if (panel === null) return
 
-    pin(categoryAnchorId(pendingTarget.categoryId))
-    scrollToElement(row, { onComplete: release })
-    row.focus({ preventScroll: true })
-    row.setAttribute('data-highlighted', '')
-    window.setTimeout(() => row.removeAttribute('data-highlighted'), HIGHLIGHT_MS)
-  }, [pendingTarget, activeGroup.id, pin, release, scrollToElement])
+      if (afterChange.kind === 'plato') {
+        const { categoryId, productName } = afterChange.target
+        const row = document.getElementById(productAnchorId(categoryId, productName))
+        if (row === null) return
+        scrollToElement(row)
+        highlightRow(row)
+        return
+      }
 
-  const firstCategoryId = categoryIds[0] ?? ''
-  const activeCategoryId = spy.activeId ?? firstCategoryId
+      if (afterChange.focusPanel) panel.focus({ preventScroll: true })
+      if (isPanelStartHidden(panel, barRef.current, headerBottom())) scrollToElement(panel)
+    })
+    return () => cancelAnimationFrame(frameId)
+  }, [afterChange, scrollToElement])
 
   const state = useMemo<MenuState>(
-    () => ({ groups, activeGroup, activeCategoryId, isReviewMode }),
-    [groups, activeGroup, activeCategoryId, isReviewMode],
+    () => ({ groups, activeGroup, activeCategory, next, isReviewMode }),
+    [groups, activeGroup, activeCategory, next, isReviewMode],
   )
   const actions = useMemo<MenuActions>(
-    () => ({ selectGroup, selectCategory, goToProduct }),
-    [selectGroup, selectCategory, goToProduct],
+    () => ({ selectGroup, selectCategory, goToNext, goToProduct }),
+    [selectGroup, selectCategory, goToNext, goToProduct],
   )
-  const meta = useMemo<MenuMeta>(() => ({ panelRef }), [])
+  const meta = useMemo<MenuMeta>(() => ({ panelRef, barRef }), [])
 
   return { state, actions, meta }
 }

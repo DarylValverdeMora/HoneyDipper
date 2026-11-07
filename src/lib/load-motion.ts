@@ -10,3 +10,8 @@ export const loadMotion = (): Promise<MotionRuntime> => {
   pending ??= import('./motion-runtime')
   return pending
 }
+
+/** Vuelve a medir los ScrollTrigger (hilo de miel) si GSAP ya se cargó. Si no, no hace falta: medirá al cargar. */
+export const refreshScrollTriggers = (): void => {
+  void pending?.then(({ ScrollTrigger }) => ScrollTrigger.refresh())
+}

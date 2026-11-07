@@ -88,9 +88,15 @@
   --shadow-menu-bar: 0 1px 0 var(--menu-surface-rule);
 }
 
+/* Grupos de una sola categoría (Dulces, Niños): la barra solo lleva las pestañas de grupo. */
+[data-menu-single-category] {
+  --menu-nav-height: 3rem;
+}
+
 /* En escritorio la barra del menú pasa a la columna izquierda: ya no ocupa alto arriba. */
 @media (min-width: 64rem) {
-  :root {
+  :root,
+  [data-menu-single-category] {
     --menu-nav-height: 0rem;
   }
 }

@@ -2,7 +2,7 @@ import { memo, useMemo } from 'react'
 import type { FC } from 'react'
 import type { MenuCategory as MenuCategoryData } from '../../../data/menu.types'
 import { photosForSection } from '../../../data/photos'
-import { categoryAnchorId } from '../../../hooks/useMenuState'
+import { categoryAnchorId, categoryTabId } from '../../../hooks/useMenuState'
 import { cn } from '../../../lib/cn'
 import { honeyDrop } from '../../../lib/honey-drop'
 import { toDisplayText } from '../../../lib/menu'
@@ -17,6 +17,8 @@ const SURFACE_BY_CATEGORY: Partial<Record<MenuCategoryData['id'], 'hamburguesas'
 type MenuCategoryProps = {
   category: MenuCategoryData
   isReviewMode: boolean
+  /** Si el grupo tiene varias categorías, esta sección es el panel de su chip (pestaña). */
+  isTabPanel?: boolean
 }
 
 type CategoryPhotosProps = {
@@ -37,14 +39,15 @@ const CategoryPhotos: FC<CategoryPhotosProps> = ({ category }) => {
   )
 }
 
-const MenuCategorySection: FC<MenuCategoryProps> = ({ category, isReviewMode }) => {
+const MenuCategorySection: FC<MenuCategoryProps> = ({ category, isReviewMode, isTabPanel = false }) => {
   const surface = SURFACE_BY_CATEGORY[category.id]
   const titleId = `${categoryAnchorId(category.id)}-titulo`
 
   return (
     <section
       id={categoryAnchorId(category.id)}
-      aria-labelledby={titleId}
+      role={isTabPanel ? 'tabpanel' : undefined}
+      aria-labelledby={isTabPanel ? categoryTabId(category.id) : titleId}
       data-menu-surface={surface}
       className={cn(
         'scroll-mt-menu-anchor py-8 md:py-10',

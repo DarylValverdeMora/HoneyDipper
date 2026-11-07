@@ -17,6 +17,7 @@ const MenuSurface: FC<MenuSurfaceProps> = ({ children }) => {
       id="menu"
       aria-labelledby="menu-titulo"
       data-menu-surface={state.activeGroup.id}
+      data-menu-single-category={state.activeGroup.categorias.length < 2 ? '' : undefined}
       className="bg-menu-surface text-foreground transition-[background-color] duration-300 ease-out"
     >
       {children}
@@ -44,9 +45,22 @@ const MenuHeader: FC = () => {
 }
 
 /**
- * Sección Menú. En móvil y tablet, pestañas y chips quedan fijos arriba;
+ * Sección Menú: una categoría a la vez. En móvil y tablet, pestañas y chips quedan fijos arriba;
  * en escritorio pasan a una columna fija a la izquierda y los platos van a la derecha.
  */
+const MenuBar: FC = () => {
+  const { meta } = useMenu()
+  return (
+    <div
+      ref={meta.barRef}
+      className="sticky top-header z-20 -mx-4 flex h-menu-nav flex-col justify-end bg-menu-surface px-4 shadow-menu-bar transition-[background-color] duration-300 ease-out md:-mx-10 md:px-10 lg:top-menu-side lg:col-span-3 lg:mx-0 lg:h-auto lg:max-h-menu-side-max lg:justify-start lg:gap-6 lg:self-start lg:overflow-y-auto lg:bg-transparent lg:px-0 lg:shadow-none"
+    >
+      <Menu.Tabs />
+      <Menu.Chips />
+    </div>
+  )
+}
+
 export const MenuSection: FC = () => {
   return (
     <Menu.Provider>
@@ -54,10 +68,7 @@ export const MenuSection: FC = () => {
         <div className="mx-auto max-w-3xl px-4 md:px-10 lg:max-w-6xl lg:px-6">
           <MenuHeader />
           <div className="lg:grid lg:grid-cols-12 lg:gap-12">
-            <div className="sticky top-header z-20 -mx-4 flex h-menu-nav flex-col justify-end bg-menu-surface px-4 shadow-menu-bar transition-[background-color] duration-300 ease-out md:-mx-10 md:px-10 lg:top-menu-side lg:col-span-3 lg:mx-0 lg:h-auto lg:max-h-menu-side-max lg:justify-start lg:gap-6 lg:self-start lg:overflow-y-auto lg:bg-transparent lg:px-0 lg:shadow-none">
-              <Menu.Tabs />
-              <Menu.Chips />
-            </div>
+            <MenuBar />
             <div className="lg:col-span-9">
               <Menu.Panel />
             </div>
