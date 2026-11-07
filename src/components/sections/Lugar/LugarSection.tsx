@@ -2,6 +2,7 @@ import type { FC } from 'react'
 import { business } from '../../../data/business'
 import { photos } from '../../../data/photos'
 import { honeyDrop } from '../../../lib/honey-drop'
+import { ArchPhoto } from '../../ui/ArchFrame'
 import { PhotoPlaceholder } from '../../ui/PhotoPlaceholder'
 
 const TITLE_ID = 'lugar-titulo'
@@ -30,7 +31,28 @@ const InteriorPhoto: FC = () => {
   )
 }
 
-/** El lugar: una foto grande del interior y espacios para las fotos que faltan. Se apaga con business.mostrarLugar. */
+/**
+ * Otro encuadre del interior (mostrador, 750 px: se muestra a 20 rem como máximo) y la terraza de noche. La terraza mide 226 px de
+ * ancho, así que va en un arco chico de 7 rem (112 px) y se ve nítida en pantallas 2x. Falta la fachada.
+ */
+const MoreOfThePlace: FC = () => {
+  return (
+    <div className="flex max-w-xs flex-col gap-6 lg:col-span-5 lg:col-start-8 lg:row-start-2">
+      <ArchPhoto
+        photo={photos.interiorMostrador}
+        bordered
+        sizes="(min-width: 20rem) 288px, calc(100vw - 2rem)"
+        className="aspect-4/5 w-full"
+      />
+      <div className="flex items-end gap-4">
+        <ArchPhoto photo={photos.terrazaNoche} bordered className="aspect-1/2 w-28 shrink-0" />
+        <PhotoPlaceholder description="la fachada o la entrada" bordered className="aspect-3/4 w-36" />
+      </div>
+    </div>
+  )
+}
+
+/** El lugar: el interior, el mostrador, la terraza de noche y un espacio para la fachada. Se apaga con business.mostrarLugar. */
 export const LugarSection: FC = () => {
   if (!business.mostrarLugar) return null
 
@@ -49,10 +71,7 @@ export const LugarSection: FC = () => {
         <div className="flex justify-center lg:col-span-7 lg:col-start-1 lg:row-span-2 lg:row-start-1 lg:items-center lg:justify-start">
           <InteriorPhoto />
         </div>
-        <div className="grid max-w-sm grid-cols-2 gap-4 lg:col-span-5 lg:col-start-8 lg:row-start-2">
-          <PhotoPlaceholder description="la terraza" bordered className="aspect-3/4 w-full" />
-          <PhotoPlaceholder description="la fachada o la entrada" bordered className="aspect-3/4 w-full" />
-        </div>
+        <MoreOfThePlace />
       </div>
     </section>
   )

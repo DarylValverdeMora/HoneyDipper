@@ -65,3 +65,21 @@ export const ArchPhoto: FC<ArchPhotoProps> = ({ photo, bordered = false, classNa
     </ArchFrame>
   )
 }
+
+type ArchFigureProps = ArchPhotoProps & {
+  /** Clases de la figura (ubicación en la grilla). El tamaño del arco va en `frameClassName`. */
+  figureClassName?: string
+  frameClassName?: string
+}
+
+/** Arco con foto y, si la foto trae crédito, "Foto: @usuario" debajo en letra pequeña. */
+export const ArchFigure: FC<ArchFigureProps> = ({ photo, figureClassName, frameClassName, ...photoProps }) => {
+  return (
+    <figure {...(figureClassName === undefined ? {} : { className: figureClassName })}>
+      <ArchPhoto photo={photo} {...photoProps} {...(frameClassName === undefined ? {} : { className: frameClassName })} />
+      {photo.credito !== undefined && (
+        <figcaption className="mt-2 text-center text-xs text-foreground-accent">Foto: {photo.credito}</figcaption>
+      )}
+    </figure>
+  )
+}

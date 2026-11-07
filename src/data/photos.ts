@@ -1,10 +1,17 @@
+import ensalada from '../assets/img/ensalada.webp'
+import evento1 from '../assets/img/evento-1.webp'
+import evento1w600 from '../assets/img/evento-1-600.webp'
+import evento2 from '../assets/img/evento-2.webp'
+import evento2w600 from '../assets/img/evento-2-600.webp'
 import galletas from '../assets/img/galletas.webp'
 import hamburguesaPapasWaffle from '../assets/img/hamburguesa-papas-waffle.webp'
 import hamburguesaPollo from '../assets/img/hamburguesa-pollo.webp'
 import interiorArco from '../assets/img/interior-arco.webp'
 import interiorArco480 from '../assets/img/interior-arco-480.webp'
 import interiorArco800 from '../assets/img/interior-arco-800.webp'
-import logoHoneyDipper from '../assets/img/logo-honey-dipper.jpg'
+import interiorMostrador from '../assets/img/interior-mostrador.webp'
+import interiorMostrador480 from '../assets/img/interior-mostrador-480.webp'
+import logoHoneyDipper from '../assets/img/logo-honey-dipper.webp'
 import logoHoneyDipperHero from '../assets/img/logo-honey-dipper-hero.webp'
 import pancakesHelado from '../assets/img/pancakes-helado.webp'
 import pastelChorreado from '../assets/img/pastel-chorreado.webp'
@@ -12,18 +19,23 @@ import pastelCumpleanos from '../assets/img/pastel-cumpleanos.webp'
 import pizzas from '../assets/img/pizzas.webp'
 import rollosCanela from '../assets/img/rollos-canela.webp'
 import sandwichPapasWaffle from '../assets/img/sandwich-papas-waffle.webp'
-import type { ConfirmationStatus } from './business'
+import terrazaNoche from '../assets/img/terraza-noche.webp'
 import type { NonEmpty } from '../lib/types'
 
 export type PhotoSection =
   | 'header'
   | 'hero'
+  | 'menu-ensaladas'
   | 'menu-hamburguesas'
   | 'menu-sandwiches'
   | 'menu-brunch'
   | 'menu-tortizzas'
   | 'pasteleria'
+  | 'eventos'
   | 'lugar'
+
+/** El negocio envió todas las imágenes de la carpeta HoneyDipper: el permiso de uso queda confirmado para todas. */
+const PERMISSION_OWNER = 'confirmado por el negocio (enviada por el dueño)' as const
 
 export type Photo = {
   src: string
@@ -33,9 +45,11 @@ export type Photo = {
   /** Versiones más livianas para pantallas chicas (srcset con ancho real de cada archivo). */
   srcSet?: string
   sections: NonEmpty<PhotoSection>
-  /** Archivo de referencia del que sale la foto. */
+  /** Archivo original del que sale la foto (recortado con scripts/crop-photos.py). */
   source: string
-  permission: ConfirmationStatus
+  permission: typeof PERMISSION_OWNER
+  /** Quién tomó la foto, si hay que mencionarlo. Se muestra como "Foto: <crédito>". */
+  credito?: string
   note?: string
 }
 
@@ -47,8 +61,8 @@ export const photos = {
     height: 1080,
     sections: ['header'],
     source: '334567232_128492653313998_3196433340749445455_n.jpg',
-    permission: 'pendiente',
-    note: 'JPG con fondo menta #BFD7CA, igual al token Menta Honey. Falta SVG o PNG transparente.',
+    permission: PERMISSION_OWNER,
+    note: 'Fondo menta #BFD7CA, igual al token Menta Honey. Falta SVG o PNG transparente.',
   },
   /** Recorte del logo (x 222..862, y 270..950 del original) para el hero. El logo no se toca. */
   logoHero: {
@@ -58,7 +72,7 @@ export const photos = {
     height: 680,
     sections: ['hero'],
     source: '334567232_128492653313998_3196433340749445455_n.jpg',
-    permission: 'pendiente',
+    permission: PERMISSION_OWNER,
     note: 'Mismo logo, con menos margen menta. La gota del logo queda en x 310, y 224 de este recorte.',
   },
   interiorArco: {
@@ -66,93 +80,147 @@ export const photos = {
     srcSet: `${interiorArco480} 480w, ${interiorArco800} 800w, ${interiorArco} 1170w`,
     alt: 'Interior de Honey Dipper: arco amarillo, pared menta con el logo dorado, vitrina de postres y techo de madera',
     width: 1170,
-    height: 1560,
+    height: 1557,
     sections: ['hero', 'lugar'],
     source: 'IMG_2354.PNG',
-    permission: 'confirmado',
-    note: 'Foto de Google Maps del usuario "JuanK Nuñez". Permiso confirmado verbalmente (Daryl, 2026-11-06); hace falta la confirmación por escrito antes de publicar.',
+    permission: PERMISSION_OWNER,
+  },
+  /** Otro encuadre de IMG_2354: el mostrador y la vitrina de postres, más de cerca. */
+  interiorMostrador: {
+    src: interiorMostrador,
+    srcSet: `${interiorMostrador480} 480w, ${interiorMostrador} 750w`,
+    alt: 'Mostrador menta con vitrina de postres y estantes, visto a través del arco del local',
+    width: 750,
+    height: 700,
+    sections: ['lugar'],
+    source: 'IMG_2354.PNG',
+    permission: PERMISSION_OWNER,
+  },
+  terrazaNoche: {
+    src: terrazaNoche,
+    alt: 'Terraza de Honey Dipper de noche, con luces colgantes entre las ramas y mesas bajo el árbol',
+    width: 226,
+    height: 450,
+    sections: ['lugar'],
+    source: 'Screenshot 2026-11-06 161846.png',
+    permission: PERMISSION_OWNER,
+    note: 'Original de 232×456: se muestra en un arco de 112 px para que se vea nítida en pantallas 2x.',
+  },
+  eventoRevelacion: {
+    src: evento1,
+    srcSet: `${evento1w600} 600w, ${evento1} 1170w`,
+    alt: 'Pareja celebrando con globos plateados junto a un cartel que dice "Boy or Girl?"',
+    width: 1170,
+    height: 1548,
+    sections: ['eventos'],
+    source: 'IMG_2352(1).PNG',
+    permission: PERMISSION_OWNER,
+    credito: '@fotogenicacr',
+    note: 'Pendiente: confirmar que la pareja está de acuerdo en aparecer y el crédito con el fotógrafo.',
+  },
+  eventoGlobos: {
+    src: evento2,
+    srcSet: `${evento2w600} 600w, ${evento2} 1170w`,
+    alt: 'Arco de globos rosados, celestes y dorados con el letrero "Boy or Girl?" y un pastel al pie',
+    width: 1170,
+    height: 1440,
+    sections: ['eventos'],
+    source: 'IMG_2353.PNG',
+    permission: PERMISSION_OWNER,
+    credito: '@fotogenicacr',
+    note: 'Pendiente: confirmar el crédito con el fotógrafo.',
+  },
+  ensalada: {
+    src: ensalada,
+    alt: 'Ensalada con pollo a la plancha, fresas, aguacate y tomate, con aderezo en un recipiente',
+    width: 184,
+    height: 184,
+    sections: ['menu-ensaladas'],
+    source: 'Screenshot 2026-11-06 162126.png',
+    permission: PERMISSION_OWNER,
+    note: 'Original de 190×312: se recortó cuadrada y se muestra a 128 px.',
   },
   hamburguesaPollo: {
     src: hamburguesaPollo,
     alt: 'Hamburguesa de pollo empanizado con guacamole y queso derretido, con papas fritas',
-    width: 787,
-    height: 578,
+    width: 521,
+    height: 568,
     sections: ['menu-hamburguesas'],
     source: 'Screenshot 2026-11-06 162926.png',
-    permission: 'pendiente',
+    permission: PERMISSION_OWNER,
   },
   hamburguesaPapasWaffle: {
     src: hamburguesaPapasWaffle,
     alt: 'Hamburguesa con papas waffle y aderezo en un plato de cerámica',
-    width: 410,
-    height: 632,
+    width: 406,
+    height: 450,
     sections: ['menu-hamburguesas'],
     source: 'Screenshot 2026-11-06 162937.png',
-    permission: 'pendiente',
+    permission: PERMISSION_OWNER,
   },
   sandwichPapasWaffle: {
     src: sandwichPapasWaffle,
     alt: 'Sándwich de carne en pan artesanal con papas waffle y jugo de naranja',
-    width: 326,
-    height: 542,
+    width: 320,
+    height: 536,
     sections: ['menu-sandwiches'],
     source: 'Screenshot 2026-11-06 162856.png',
-    permission: 'pendiente',
+    permission: PERMISSION_OWNER,
   },
   pancakesHelado: {
     src: pancakesHelado,
     alt: 'Pancakes con helado de chocolate, cono de barquillo, fresa y moras',
-    width: 265,
-    height: 334,
+    width: 248,
+    height: 329,
     sections: ['menu-brunch'],
     source: 'Screenshot 2026-11-06 162626.png',
-    permission: 'pendiente',
+    permission: PERMISSION_OWNER,
   },
   pizzas: {
     src: pizzas,
     alt: 'Dos pizzas delgadas, una de pepperoni y otra con albahaca',
-    width: 277,
-    height: 327,
+    width: 252,
+    height: 326,
     sections: ['menu-tortizzas'],
     source: 'Screenshot 2026-11-06 162644.png',
-    permission: 'pendiente',
+    permission: PERMISSION_OWNER,
     note: '[PLACEHOLDER] Confirmar que son tortizzas.',
   },
   pastelChorreado: {
     src: pastelChorreado,
     alt: 'Pastel de dos pisos con chorreado de colores, confites y velas',
-    width: 455,
-    height: 650,
+    width: 453,
+    height: 646,
     sections: ['pasteleria'],
     source: 'Screenshot 2026-11-06 162253.png',
-    permission: 'pendiente',
+    permission: PERMISSION_OWNER,
   },
   pastelCumpleanos: {
     src: pastelCumpleanos,
     alt: 'Pastel con el mensaje "Happy Birthday my love" y corazones rosados',
-    width: 471,
-    height: 645,
+    width: 467,
+    height: 644,
     sections: ['pasteleria'],
     source: 'Screenshot 2026-11-06 162222.png',
-    permission: 'pendiente',
+    permission: PERMISSION_OWNER,
   },
   rollosCanela: {
     src: rollosCanela,
     alt: 'Torre de rollos de canela con crema, fresas y moras',
-    width: 276,
-    height: 329,
+    width: 244,
+    height: 328,
     sections: ['pasteleria'],
     source: 'Screenshot 2026-11-06 162653.png',
-    permission: 'pendiente',
+    permission: PERMISSION_OWNER,
   },
   galletas: {
     src: galletas,
     alt: 'Cuatro galletas de avena apiladas en un plato rosado',
-    width: 270,
-    height: 337,
+    width: 264,
+    height: 331,
     sections: ['pasteleria'],
     source: 'Screenshot 2026-11-06 162820.png',
-    permission: 'pendiente',
+    permission: PERMISSION_OWNER,
   },
 } satisfies Record<string, Photo>
 
@@ -165,9 +233,6 @@ export const photosForSection = (section: string): Photo[] => {
 
 /** Espacios donde no hay foto apta; se muestran como [PLACEHOLDER] con forma de arco. */
 export const missingPhotos = [
-  { section: 'menu-ensaladas', description: '[PLACEHOLDER] Foto de una ensalada' },
-  { section: 'eventos', description: '[PLACEHOLDER] Foto de un evento en el local (con permiso)' },
-  { section: 'lugar', description: '[PLACEHOLDER] Foto de la terraza' },
   { section: 'lugar', description: '[PLACEHOLDER] Foto de la fachada o la entrada' },
   { section: 'menu-bebidas', description: '[PLACEHOLDER] Foto de bebidas o café servidos en el local' },
 ] as const

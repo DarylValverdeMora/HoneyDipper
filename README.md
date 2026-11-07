@@ -31,7 +31,7 @@ npm run preview    # sirve la build
 | Correcciones de ortografía que se aplican al mostrar | `src/data/menu-corrections.ts` |
 | Mensajes prellenados de WhatsApp | `src/data/whatsapp.ts` |
 | Armado del enlace `wa.me` | `src/lib/whatsapp.ts` |
-| Fotos, texto alternativo y permiso | `src/data/photos.ts` |
+| Fotos, texto alternativo, permiso y crédito | `src/data/photos.ts` |
 | Enlaces del header y ids de las secciones | `src/data/navigation.ts` |
 | Botones, arco, hoja modal, panal y foto pendiente | `src/components/ui/` |
 | Header, footer y botón flotante de WhatsApp | `src/components/layout/` |
@@ -41,7 +41,7 @@ npm run preview    # sirve la build
 | Duraciones y curvas de movimiento | `src/lib/motion.ts` |
 | Gotita del hilo en una sección: `<h2 {...honeyDrop}>` | `src/lib/honey-drop.ts` |
 | Sección Menú (compuesto `Menu.*`) | `src/components/sections/Menu/` |
-| Estado del menú, scroll-spy y pestañas con teclado | `src/hooks/useMenuState.ts`, `useScrollSpy.ts`, `useRovingTabs.ts` |
+| Estado del menú (categoría visible, "Siguiente", búsqueda) y pestañas con teclado | `src/hooks/useMenuState.ts`, `useRovingTabs.ts`, `src/lib/menu-selection.ts` |
 | Formato de precios (₡1.200, tamaños, "Consulta el precio") | `src/lib/price.ts` |
 | Horario de hoy y "abierto ahora" (hora fija de Costa Rica) | `src/lib/schedule.ts`, `src/hooks/useTodayStatus.ts` |
 | Franja de hoy, Pastelería, Eventos y El lugar | `src/components/sections/TodayStrip/`, `Pasteleria/`, `Eventos/`, `Lugar/` |
@@ -52,11 +52,12 @@ npm run preview    # sirve la build
 | Tokens de la variante B "Caramelo" | `[data-variant='b']` en `src/styles/tokens.css` |
 | Máscaras del logo para la variante B | `scripts/logo-masks.py` (genera `*-mask.webp`) |
 | Marcas de platos por confirmar | Abrir la página con `?review=1` |
-| Conversión de fotos a WebP | `scripts/convert-photos.py` (versiones de 480 y 800 px del interior y logo de 280 px hechas con Pillow) |
+| Recorte de fotos desde los originales y conversión a WebP | `scripts/crop-photos.py` (quita barra de estado, usuarios, textos e íconos; genera también las versiones del `srcset`) |
 | Fuentes (sin Google Fonts) | `@fontsource` en `src/styles/globals.css` |
 | `<head>`: robots, JSON-LD y precarga del LCP | `scripts/vite-head.ts`, `src/data/site.ts` |
 | Correcciones de ortografía del menú | `docs/correcciones-menu.md` |
 | Fotos que hay que pedir | `docs/fotos-pendientes.md` |
+| Decisión sobre cada una de las 36 imágenes recibidas | `docs/fotos-decisiones.md` |
 
 Los componentes usan solo colores semánticos (`bg-surface-brand`, `text-foreground`); la paleta por
 defecto de Tailwind está desactivada. La variante B se activa con `data-variant="b"` en `<html>`.
@@ -73,7 +74,7 @@ defecto de Tailwind está desactivada. La variante B se activa con `data-variant
   Permissions-Policy, nosniff, HSTS). Si se agrega otro servicio externo (analítica, otro mapa), hay que
   sumarlo a la CSP o el navegador lo bloquea.
 - Reemplazar todos los `[PLACEHOLDER]`.
-- Tener **por escrito** el permiso de la foto del interior (`interior-arco.webp`, de IMG_2354, autor "JuanK Nuñez" en Google Maps). Hoy está confirmado solo de palabra.
+- Dos pendientes menores con las fotos del evento (`evento-1.webp`, `evento-2.webp`): confirmar que la pareja que aparece está de acuerdo en salir en la página y confirmar el crédito "Foto: @fotogenicacr" con el fotógrafo. El resto de las fotos las envió el dueño y su permiso está confirmado.
 
 ## Datos pendientes: [PLACEHOLDER]
 
@@ -93,4 +94,4 @@ Al cierre de la etapa 2C:
 - Texto exacto de la soda italiana "Mango strawberry" (cambio de contenido pendiente de aprobación, ver `docs/correcciones-menu.md`).
 - Facebook y TikTok, si existen.
 - Confirmar si `pizzas.webp` son tortizzas.
-- Fotos faltantes: ensalada, evento, terraza, fachada, bebidas.
+- Fotos faltantes: fachada o entrada y bebidas (la ensalada, el evento y la terraza ya tienen foto).

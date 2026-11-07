@@ -15,7 +15,7 @@ export const PhotoPlaceholder: FC<PhotoPlaceholderProps> = ({ description, borde
       <div
         role="img"
         aria-label={`Foto pendiente: ${description}`}
-        className="flex size-full items-center justify-center bg-surface-brand px-8 pt-16 pb-8 text-center"
+        className="flex size-full items-center justify-center bg-surface-brand px-4 pt-12 pb-6 text-center"
       >
         <p className="font-body text-sm text-on-brand">[PLACEHOLDER] Foto de {description}</p>
       </div>

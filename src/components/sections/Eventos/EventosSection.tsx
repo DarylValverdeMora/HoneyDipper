@@ -1,9 +1,33 @@
 import { FlowButton } from '../../flows/FlowButton'
 import type { FC } from 'react'
+import { photos } from '../../../data/photos'
 import { honeyDrop } from '../../../lib/honey-drop'
-import { PhotoPlaceholder } from '../../ui/PhotoPlaceholder'
+import { ArchFigure } from '../../ui/ArchFrame'
 
 const TITLE_ID = 'eventos-titulo'
+
+/** Anchos del arco: 13 rem como máximo, muy por debajo de los 1170 px de cada foto (nítidas en pantallas 2x). */
+const EVENT_PHOTO_SIZES = '(min-width: 28rem) 208px, calc(50vw - 1.5rem)'
+
+const EventPhotos: FC = () => {
+  return (
+    <div className="grid w-full max-w-md grid-cols-2 items-start gap-4 justify-self-center sm:gap-6 lg:order-1 lg:col-span-5 lg:justify-self-start">
+      <ArchFigure
+        photo={photos.eventoRevelacion}
+        bordered
+        sizes={EVENT_PHOTO_SIZES}
+        frameClassName="aspect-3/4 w-full"
+      />
+      <ArchFigure
+        photo={photos.eventoGlobos}
+        bordered
+        sizes={EVENT_PHOTO_SIZES}
+        figureClassName="mt-10"
+        frameClassName="aspect-3/4 w-full"
+      />
+    </div>
+  )
+}
 
 const OCCASIONS = ['Cumpleaños', 'Baby showers', 'Reuniones'] as const
 
@@ -30,11 +54,7 @@ export const EventosSection: FC = () => {
           </p>
           <FlowButton flow="evento" className="self-start" />
         </div>
-        <PhotoPlaceholder
-          description="un evento en el local"
-          bordered
-          className="aspect-3/4 w-full max-w-sm justify-self-center lg:order-1 lg:col-span-5 lg:justify-self-start"
-        />
+        <EventPhotos />
       </div>
     </section>
   )
