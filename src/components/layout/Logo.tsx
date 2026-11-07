@@ -1,5 +1,6 @@
 import type { FC } from 'react'
-import logoWordmark from '../../assets/img/logo-honey-dipper-wordmark.jpg'
+// Versión de 280 px (2x del tamaño más grande en pantalla); el JPG original queda como fuente.
+import logoWordmark from '../../assets/img/logo-honey-dipper-wordmark-280.webp'
 import logoWordmarkMask from '../../assets/img/logo-honey-dipper-wordmark-mask.webp'
 import { business } from '../../data/business'
 import { toAnchor } from '../../data/navigation'

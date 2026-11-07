@@ -1,12 +1,10 @@
-import { useGSAP } from '@gsap/react'
-import gsap from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { useEffect } from 'react'
 import type { RefObject } from 'react'
+import { loadMotion } from '../lib/load-motion'
+import type { MotionRuntime } from '../lib/load-motion'
 import { HONEY_DROP_ATTRIBUTE } from '../lib/honey-drop'
 import { buildDropletPath, buildThreadPath, drawnLengthAt, railXFor } from '../lib/honey-thread'
 import { EASE_FALL, EASE_OUT, LOAD_SEQUENCE, THREAD_SCRUB_SECONDS } from '../lib/motion'
-
-gsap.registerPlugin(useGSAP, ScrollTrigger)
 
 /** La punta del hilo va a esta altura de la pantalla mientras se hace scroll. */
 const TIP_VIEWPORT_RATIO = 0.6
@@ -109,7 +107,7 @@ const tipYAtTop = (scope: HTMLElement): number => {
   return window.innerHeight * TIP_VIEWPORT_RATIO - scopeTopInPage
 }
 
-const createScrollDrawing = (elements: ThreadElements, state: ThreadState): void => {
+const createScrollDrawing = ({ gsap }: MotionRuntime, elements: ThreadElements, state: ThreadState): void => {
   gsap.fromTo(
     state,
     { tipY: () => tipYAtTop(elements.scope) },
@@ -129,7 +127,7 @@ const createScrollDrawing = (elements: ThreadElements, state: ThreadState): void
 }
 
 /** Una sola secuencia: la gota nueva crece en la punta de la del logo, cae y arranca el hilo; aparece el slogan. */
-const createLoadSequence = (elements: ThreadElements, state: ThreadState): void => {
+const createLoadSequence = ({ gsap }: MotionRuntime, elements: ThreadElements, state: ThreadState): void => {
   const drop = elements.scope.querySelector('[data-hero-drop]')
   const slogan = elements.scope.querySelector('[data-hero-slogan]')
   const fallDistance = Number(drop?.getAttribute('data-fall-distance') ?? 0)
@@ -138,7 +136,7 @@ const createLoadSequence = (elements: ThreadElements, state: ThreadState): void 
 
   if (drop !== null) {
     timeline
-      .fromTo(drop, { scale: 0, transformOrigin: '50% 0%' }, { scale: 1, duration: dropGrow })
+      .fromTo(drop, { scale: 0, opacity: 1, transformOrigin: '50% 0%' }, { scale: 1, duration: dropGrow })
       .to(drop, { y: fallDistance, scaleY: 1.12, duration: dropFall, ease: EASE_FALL })
       .addLabel('landed')
       .to(drop, { opacity: 0, duration: dropFade }, 'landed')
@@ -149,19 +147,17 @@ const createLoadSequence = (elements: ThreadElements, state: ThreadState): void 
     drop === null ? 0 : 'landed',
   )
   if (slogan !== null) {
-    timeline.from(slogan, { opacity: 0, y: sloganOffsetPx, duration: sloganReveal }, sloganDelay)
+    timeline.fromTo(slogan, { opacity: 0, y: sloganOffsetPx }, { opacity: 1, y: 0, duration: sloganReveal }, sloganDelay)
   }
 }
 
 const showStatic = (elements: ThreadElements, state: ThreadState): void => {
-  const drop = elements.scope.querySelector('[data-hero-drop]')
-  if (drop !== null) gsap.set(drop, { opacity: 0 })
   state.introProgress = 1
   state.tipY = Number.POSITIVE_INFINITY
   render(elements.line, state)
 }
 
-const refreshWhenPageSettles = (scope: HTMLElement): (() => void) => {
+const refreshWhenPageSettles = ({ ScrollTrigger }: MotionRuntime, scope: HTMLElement): (() => void) => {
   let frame = 0
   const scheduleRefresh = (): void => {
     cancelAnimationFrame(frame)
@@ -179,57 +175,79 @@ const refreshWhenPageSettles = (scope: HTMLElement): (() => void) => {
   }
 }
 
+/** Arma el hilo con las librerías ya cargadas. Devuelve cómo deshacerlo todo. */
+const startThread = (runtime: MotionRuntime, scope: HTMLElement): (() => void) => {
+  const { gsap, ScrollTrigger } = runtime
+  const elements = findElements(scope)
+  if (elements === null) return () => undefined
+
+  const state: ThreadState = {
+    total: 0,
+    introLength: 0,
+    railStartY: 0,
+    bottom: 0,
+    introProgress: 0,
+    tipY: 0,
+    droplets: [],
+  }
+  const mm = gsap.matchMedia()
+
+  mm.add(
+    { animate: '(prefers-reduced-motion: no-preference)', reduce: '(prefers-reduced-motion: reduce)' },
+    (context) => {
+      const isReduced = context.conditions?.['reduce'] === true
+      const remeasure = (): void => {
+        measure(elements, state)
+        render(elements.line, state)
+      }
+      measure(elements, state)
+
+      if (isReduced) {
+        showStatic(elements, state)
+      } else {
+        createScrollDrawing(runtime, elements, state)
+        createLoadSequence(runtime, elements, state)
+      }
+
+      ScrollTrigger.addEventListener('refreshInit', remeasure)
+      return () => ScrollTrigger.removeEventListener('refreshInit', remeasure)
+    },
+  )
+
+  const stopWatching = refreshWhenPageSettles(runtime, elements.scope)
+  return () => {
+    stopWatching()
+    mm.revert()
+  }
+}
+
+/** Si las librerías no llegan, el slogan se muestra igual (empieza invisible para poder animarlo). */
+const revealSloganWithoutMotion = (scope: HTMLElement): void => {
+  scope.querySelector<HTMLElement>('[data-hero-slogan]')?.style.setProperty('opacity', '1')
+}
+
 /**
  * Hilo de miel: un trazo dorado que nace en la gota del logo y baja por el margen izquierdo
  * a medida que se hace scroll, con una gotita en cada elemento marcado con data-honey-drop.
- * Con movimiento reducido queda dibujado completo desde el inicio.
+ * Con movimiento reducido queda dibujado completo desde el inicio. GSAP se descarga aparte.
  */
 export const useHoneyThread = (scopeRef: RefObject<HTMLElement | null>): void => {
-  useGSAP(
-    () => {
-      const scope = scopeRef.current
-      const elements = scope === null ? null : findElements(scope)
-      if (elements === null) return
+  useEffect(() => {
+    const scope = scopeRef.current
+    if (scope === null) return undefined
 
-      const state: ThreadState = {
-        total: 0,
-        introLength: 0,
-        railStartY: 0,
-        bottom: 0,
-        introProgress: 0,
-        tipY: 0,
-        droplets: [],
-      }
-      const mm = gsap.matchMedia()
+    let stop: (() => void) | null = null
+    let isCancelled = false
+    loadMotion().then(
+      (runtime) => {
+        if (!isCancelled) stop = startThread(runtime, scope)
+      },
+      () => revealSloganWithoutMotion(scope),
+    )
 
-      mm.add(
-        { animate: '(prefers-reduced-motion: no-preference)', reduce: '(prefers-reduced-motion: reduce)' },
-        (context) => {
-          const isReduced = context.conditions?.['reduce'] === true
-          const remeasure = (): void => {
-            measure(elements, state)
-            render(elements.line, state)
-          }
-          measure(elements, state)
-
-          if (isReduced) {
-            showStatic(elements, state)
-          } else {
-            createScrollDrawing(elements, state)
-            createLoadSequence(elements, state)
-          }
-
-          ScrollTrigger.addEventListener('refreshInit', remeasure)
-          return () => ScrollTrigger.removeEventListener('refreshInit', remeasure)
-        },
-      )
-
-      const stopWatching = refreshWhenPageSettles(elements.scope)
-      return () => {
-        stopWatching()
-        mm.revert()
-      }
-    },
-    { scope: scopeRef },
-  )
+    return () => {
+      isCancelled = true
+      stop?.()
+    }
+  }, [scopeRef])
 }

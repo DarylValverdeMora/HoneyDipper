@@ -38,7 +38,7 @@ type MobileNavSheetProps = {
 const MobileNavSheet: FC<MobileNavSheetProps> = ({ isOpen, onClose, navigateTo }) => {
   return (
     <Sheet isOpen={isOpen} onClose={onClose} title="Secciones">
-      <nav aria-label="Principal" id={MOBILE_NAV_ID}>
+      <nav aria-label="Principal (celular)" id={MOBILE_NAV_ID}>
         <ul className="flex flex-col">
           {navLinks.map((link) => {
             return (

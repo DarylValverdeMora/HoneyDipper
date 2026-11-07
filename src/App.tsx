@@ -14,6 +14,8 @@ import { PasteleriaSection } from './components/sections/Pasteleria/PasteleriaSe
 import { TodayStrip } from './components/sections/TodayStrip/TodayStrip'
 import { VisitaSection } from './components/sections/Visita/VisitaSection'
 import { usePresentation } from './hooks/usePresentation'
+import { useAfterFirstPaint } from './hooks/useAfterFirstPaint'
+import { useInitialHashScroll } from './hooks/useInitialHashScroll'
 import { useLenis } from './hooks/useLenis'
 import { useReducedMotion } from './hooks/useReducedMotion'
 import { LenisContext } from './lib/lenis-context'
@@ -41,6 +43,8 @@ export const App: FC = () => {
   const reducedMotion = useReducedMotion()
   const lenis = useLenis(!reducedMotion)
   const { presentation, selectVariant } = usePresentation()
+  const showRest = useAfterFirstPaint()
+  useInitialHashScroll(showRest)
 
   return (
     <LenisContext value={lenis}>
@@ -50,17 +54,25 @@ export const App: FC = () => {
         <HoneyThreadLayer>
           <main id={MAIN_CONTENT_ID} className="pt-header">
             <Hero />
-            <TodayStrip />
-            <MenuSection />
-            <PasteleriaSection />
-            <EventosSection />
-            <LugarSection />
-            <VisitaSection />
+            {showRest && (
+              <>
+                <TodayStrip />
+                <MenuSection />
+                <PasteleriaSection />
+                <EventosSection />
+                <LugarSection />
+                <VisitaSection />
+              </>
+            )}
           </main>
-          <Footer />
+          {showRest && <Footer />}
         </HoneyThreadLayer>
-        <WhatsAppFab />
-        <FlowSheets />
+        {showRest && (
+          <>
+            <WhatsAppFab />
+            <FlowSheets />
+          </>
+        )}
         {presentation.kind === 'activo' && (
           <Suspense fallback={null}>
             <PresentPanel variant={presentation.variant} onSelectVariant={selectVariant} />

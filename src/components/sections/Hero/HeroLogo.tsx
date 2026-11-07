@@ -41,7 +41,7 @@ export const HeroLogo: FC = () => {
         viewBox={`0 0 ${logoHero.width} ${logoHero.height}`}
         className="pointer-events-none absolute inset-0 size-full overflow-visible"
       >
-        <path data-hero-drop data-fall-distance={FALL_DISTANCE} d={NEW_DROP_PATH} className="fill-honey" />
+        <path data-hero-drop data-fall-distance={FALL_DISTANCE} d={NEW_DROP_PATH} className="fill-honey opacity-0" />
       </svg>
       <span
         data-honey-thread-start

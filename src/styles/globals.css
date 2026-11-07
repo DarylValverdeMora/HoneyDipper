@@ -1,4 +1,10 @@
 @import 'tailwindcss';
+/* Fuentes propias (@fontsource), solo lo que se usa: Cormorant normal e itálica, Cormorant SC 500 y DM Sans. */
+@import '@fontsource-variable/cormorant/wght.css';
+@import '@fontsource-variable/cormorant/wght-italic.css';
+@import '@fontsource/cormorant-sc/latin-500.css';
+@import '@fontsource/cormorant-sc/latin-ext-500.css';
+@import '@fontsource-variable/dm-sans/wght.css';
 @import 'lenis/dist/lenis.css';
 @import './tokens.css';
 

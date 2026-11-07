@@ -44,13 +44,17 @@ type ArchPhotoProps = {
   className?: string
   /** Solo la foto principal de la vista inicial debe cargar sin espera. */
   priority?: boolean
+  /** Ancho con que se muestra, para elegir la versión del srcset. */
+  sizes?: string
 }
 
-export const ArchPhoto: FC<ArchPhotoProps> = ({ photo, bordered = false, className, priority = false }) => {
+export const ArchPhoto: FC<ArchPhotoProps> = ({ photo, bordered = false, className, priority = false, sizes }) => {
+  const responsive = photo.srcSet !== undefined && sizes !== undefined ? { srcSet: photo.srcSet, sizes } : {}
   return (
     <ArchFrame bordered={bordered} {...(className === undefined ? {} : { className })}>
       <img
         src={photo.src}
+        {...responsive}
         alt={photo.alt}
         width={photo.width}
         height={photo.height}

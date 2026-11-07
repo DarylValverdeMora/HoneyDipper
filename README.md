@@ -52,7 +52,9 @@ npm run preview    # sirve la build
 | Tokens de la variante B "Caramelo" | `[data-variant='b']` en `src/styles/tokens.css` |
 | Máscaras del logo para la variante B | `scripts/logo-masks.py` (genera `*-mask.webp`) |
 | Marcas de platos por confirmar | Abrir la página con `?review=1` |
-| Conversión de fotos a WebP | `scripts/convert-photos.py` |
+| Conversión de fotos a WebP | `scripts/convert-photos.py` (versiones de 480 y 800 px del interior y logo de 280 px hechas con Pillow) |
+| Fuentes (sin Google Fonts) | `@fontsource` en `src/styles/globals.css` |
+| `<head>`: robots, JSON-LD y precarga del LCP | `scripts/vite-head.ts`, `src/data/site.ts` |
 | Correcciones de ortografía del menú | `docs/correcciones-menu.md` |
 | Fotos que hay que pedir | `docs/fotos-pendientes.md` |
 
@@ -61,8 +63,15 @@ defecto de Tailwind está desactivada. La variante B se activa con `data-variant
 
 ## Antes de desplegar
 
-- `og:image` en `index.html` usa una ruta relativa (`./og-image.jpg`). WhatsApp y Facebook necesitan
-  una **URL absoluta**: cámbiala por `https://<dominio>/og-image.jpg` al desplegar.
+- `og:image` y `twitter:image` en `index.html` usan una ruta relativa (`./og-image.jpg`). WhatsApp,
+  Facebook y X necesitan una **URL absoluta**: cámbiala por `https://<dominio>/og-image.jpg` al desplegar.
+- **Indexación**: mientras es prototipo, `site.indexable` es `false` en `src/data/site.ts` y la build
+  agrega `<meta name="robots" content="noindex, nofollow">`. Cuando el cliente apruebe, cambiarlo a `true`.
+- Los datos estructurados (JSON-LD) salen de `business.ts` al hacer la build (`scripts/vite-head.ts`,
+  `src/lib/structured-data.ts`). Cuando haya dominio, se puede agregar `url`.
+- `vercel.json` trae las cabeceras de seguridad (CSP, X-Frame-Options, Referrer-Policy,
+  Permissions-Policy, nosniff, HSTS). Si se agrega otro servicio externo (analítica, otro mapa), hay que
+  sumarlo a la CSP o el navegador lo bloquea.
 - Reemplazar todos los `[PLACEHOLDER]`.
 - Tener **por escrito** el permiso de la foto del interior (`interior-arco.webp`, de IMG_2354, autor "JuanK Nuñez" en Google Maps). Hoy está confirmado solo de palabra.
 

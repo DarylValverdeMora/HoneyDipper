@@ -16,7 +16,7 @@ export const TodayStrip: FC = () => {
       <div className="mx-auto flex max-w-6xl flex-col gap-2 px-4 py-5 md:flex-row md:items-center md:justify-between md:gap-8 md:px-6">
         <div className="flex flex-col gap-1">
           <p className="font-display text-2xl leading-tight md:text-3xl">
-            <span className="price lining-nums">{describeTodayHours(status)}</span>
+            <span className="tabular-nums lining-nums">{describeTodayHours(status)}</span>
           </p>
           <p className="flex items-center gap-2 text-sm font-medium">
             <span

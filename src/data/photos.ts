@@ -2,6 +2,8 @@ import galletas from '../assets/img/galletas.webp'
 import hamburguesaPapasWaffle from '../assets/img/hamburguesa-papas-waffle.webp'
 import hamburguesaPollo from '../assets/img/hamburguesa-pollo.webp'
 import interiorArco from '../assets/img/interior-arco.webp'
+import interiorArco480 from '../assets/img/interior-arco-480.webp'
+import interiorArco800 from '../assets/img/interior-arco-800.webp'
 import logoHoneyDipper from '../assets/img/logo-honey-dipper.jpg'
 import logoHoneyDipperHero from '../assets/img/logo-honey-dipper-hero.webp'
 import pancakesHelado from '../assets/img/pancakes-helado.webp'
@@ -28,6 +30,8 @@ export type Photo = {
   alt: string
   width: number
   height: number
+  /** Versiones más livianas para pantallas chicas (srcset con ancho real de cada archivo). */
+  srcSet?: string
   sections: NonEmpty<PhotoSection>
   /** Archivo de referencia del que sale la foto. */
   source: string
@@ -59,6 +63,7 @@ export const photos = {
   },
   interiorArco: {
     src: interiorArco,
+    srcSet: `${interiorArco480} 480w, ${interiorArco800} 800w, ${interiorArco} 1170w`,
     alt: 'Interior de Honey Dipper: arco amarillo, pared menta con el logo dorado, vitrina de postres y techo de madera',
     width: 1170,
     height: 1560,

@@ -17,6 +17,8 @@ const InteriorPhoto: FC = () => {
     <figure className="w-full max-w-xl">
       <img
         src={photo.src}
+        {...(photo.srcSet === undefined ? {} : { srcSet: photo.srcSet })}
+        sizes="(min-width: 36rem) 576px, calc(100vw - 2rem)"
         alt={photo.alt}
         width={photo.width}
         height={photo.height}

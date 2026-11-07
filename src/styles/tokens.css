@@ -23,9 +23,9 @@
   --hd-miel-oscura: #57391a;
 
   /* Tipografías */
-  --hd-font-display: 'Cormorant', 'Cormorant Garamond', Georgia, serif;
-  --hd-font-smallcaps: 'Cormorant SC', 'Cormorant', Georgia, serif;
-  --hd-font-body: 'DM Sans', system-ui, sans-serif;
+  --hd-font-display: 'Cormorant Variable', 'Cormorant', Georgia, serif;
+  --hd-font-smallcaps: 'Cormorant SC', 'Cormorant Variable', Georgia, serif;
+  --hd-font-body: 'DM Sans Variable', 'DM Sans', system-ui, sans-serif;
 
   /* Roles semánticos: los componentes usan estos, nunca la paleta directa */
   --surface: var(--hd-blanco-calido);

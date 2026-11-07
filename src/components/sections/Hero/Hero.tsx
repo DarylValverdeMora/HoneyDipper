@@ -15,7 +15,7 @@ export const Hero: FC = () => {
       >
         <div className="flex flex-col items-start gap-8">
           <HeroLogo />
-          <p data-hero-slogan className="max-w-md font-display text-3xl leading-tight italic md:text-4xl">
+          <p data-hero-slogan className="max-w-md motion-safe:opacity-0 font-display text-3xl leading-tight italic md:text-4xl">
             {business.slogan}
           </p>
           <div className="flex flex-wrap gap-3">
@@ -25,6 +25,7 @@ export const Hero: FC = () => {
         </div>
         <ArchPhoto
           photo={photos.interiorArco}
+          sizes="(min-width: 64rem) 448px, (min-width: 48rem) 384px, calc(100vw - 2rem)"
           bordered
           priority
           className="aspect-3/4 w-full max-w-sm justify-self-center lg:max-w-md lg:justify-self-end"
