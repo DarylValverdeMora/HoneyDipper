@@ -15,8 +15,3 @@ export const LOAD_SEQUENCE = {
 
 /** Suavizado del hilo al hacer scroll (segundos que tarda en alcanzar la posición). */
 export const THREAD_SCRUB_SECONDS = 0.6
-
-export const loadSequenceDuration = (): number => {
-  const { dropGrow, dropFall, threadIntro, sloganDelay, sloganReveal } = LOAD_SEQUENCE
-  return Math.max(dropGrow + dropFall + threadIntro, sloganDelay + sloganReveal)
-}

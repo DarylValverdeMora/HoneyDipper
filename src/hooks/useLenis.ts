@@ -25,6 +25,8 @@ const startLenis = (runtime: MotionRuntime, setLenis: (lenis: Lenis | null) => v
 
   return () => {
     gsap.ticker.remove(tick)
+    // Valores por defecto de GSAP: la página no deja un ajuste global cambiado al desmontar Lenis.
+    gsap.ticker.lagSmoothing(500, 33)
     instance.destroy()
     setLenis(null)
   }

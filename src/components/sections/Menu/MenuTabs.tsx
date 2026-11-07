@@ -1,6 +1,6 @@
 import type { FC } from 'react'
 import type { MenuGroupId } from '../../../data/menu.types'
-import { groupPanelId, groupTabId } from '../../../hooks/useMenuState'
+import { groupPanelId, groupTabId } from '../../../lib/menu-ids'
 import { useRovingTabs } from '../../../hooks/useRovingTabs'
 import { cn } from '../../../lib/cn'
 import { useMenu } from './menu-context'

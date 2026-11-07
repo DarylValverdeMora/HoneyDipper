@@ -47,6 +47,11 @@ const trapTabKey = (event: KeyboardEvent<HTMLDialogElement>): void => {
 export const useSheet = ({ isOpen, onClose }: SheetOptions): SheetBindings => {
   const dialogRef = useRef<HTMLDialogElement>(null)
   const lenis = useLenisInstance()
+  // En una ref: si Lenis termina de cargar con la hoja abierta, el efecto de abajo no debe reiniciarse.
+  const lenisRef = useRef(lenis)
+  useEffect(() => {
+    lenisRef.current = lenis
+  }, [lenis])
   useKeyboardInset(dialogRef, isOpen)
 
   useEffect(() => {
@@ -56,17 +61,17 @@ export const useSheet = ({ isOpen, onClose }: SheetOptions): SheetBindings => {
     const previouslyFocused = document.activeElement instanceof HTMLElement ? document.activeElement : null
     const root = document.documentElement
     dialog.showModal()
-    lenis?.stop()
+    lenisRef.current?.stop()
     // Con scroll nativo (movimiento reducido) también hay que congelar la página de fondo.
     root.style.overflow = 'hidden'
 
     return () => {
       dialog.close()
       root.style.overflow = ''
-      lenis?.start()
+      lenisRef.current?.start()
       previouslyFocused?.focus()
     }
-  }, [isOpen, lenis])
+  }, [isOpen])
 
   const onCancel = useCallback(
     (event: { preventDefault: () => void }) => {

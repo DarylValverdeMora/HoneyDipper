@@ -15,7 +15,6 @@ QUALITY = 82
 
 # nombre de salida: (archivo original, (izquierda, arriba, derecha, abajo), anchos extra para srcset)
 CROPS = {
-    'logo-honey-dipper': ('334567232_128492653313998_3196433340749445455_n.jpg', (0, 0, 1080, 1080), ()),
     'evento-1': ('IMG_2352(1).PNG', (0, 460, 1170, 2008), (600,)),
     'evento-2': ('IMG_2353.PNG', (0, 470, 1170, 1910), (600,)),
     'interior-arco': ('IMG_2354.PNG', (0, 438, 1170, 1995), (480, 800)),

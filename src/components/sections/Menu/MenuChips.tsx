@@ -1,7 +1,7 @@
 import { useCallback } from 'react'
 import type { FC } from 'react'
 import type { MenuCategory, MenuCategoryId } from '../../../data/menu.types'
-import { categoryAnchorId, categoryTabId } from '../../../hooks/useMenuState'
+import { categoryAnchorId, categoryTabId } from '../../../lib/menu-ids'
 import { useChipsAutoScroll } from '../../../hooks/useChipsAutoScroll'
 import { useRovingTabs } from '../../../hooks/useRovingTabs'
 import { cn } from '../../../lib/cn'

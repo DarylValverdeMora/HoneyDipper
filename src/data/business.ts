@@ -5,11 +5,15 @@ export type WhatsAppNumber = string & { readonly __brand: 'WhatsAppNumber' }
 
 const COSTA_RICA_NUMBER = /^506\d{8}$/
 
+const isWhatsAppNumber = (raw: string): raw is WhatsAppNumber => {
+  return COSTA_RICA_NUMBER.test(raw)
+}
+
 export const toWhatsAppNumber = (raw: string): WhatsAppNumber => {
-  if (!COSTA_RICA_NUMBER.test(raw)) {
+  if (!isWhatsAppNumber(raw)) {
     throw new Error(`Número de WhatsApp inválido: ${raw}. Debe ser 506 + 8 dígitos.`)
   }
-  return raw as WhatsAppNumber
+  return raw
 }
 
 export type ConfirmationStatus = 'confirmado' | 'pendiente'
@@ -97,6 +101,6 @@ export const business = {
   about: '[PLACEHOLDER] Texto de "sobre nosotros": historia y quién está detrás',
   paymentMethods: ['Tarjeta', 'Efectivo'],
 
-  /** Muestra la sección "El lugar". En false se oculta completa (por ejemplo, si no llega el permiso de la foto). */
+  /** Muestra la sección "El lugar". En false se oculta completa (por ejemplo, si el dueño prefiere no mostrarla). */
   mostrarLugar: true,
 } as const

@@ -3,11 +3,15 @@ import type { NonEmpty } from '../lib/types'
 /** Monto en colones: entero y positivo. Solo se crea con `colones()`. */
 export type Colones = number & { readonly __brand: 'Colones' }
 
+const isColones = (amount: number): amount is Colones => {
+  return Number.isInteger(amount) && amount > 0
+}
+
 export const colones = (amount: number): Colones => {
-  if (!Number.isInteger(amount) || amount <= 0) {
+  if (!isColones(amount)) {
     throw new Error(`Monto inválido en colones: ${amount}. Debe ser un entero positivo.`)
   }
-  return amount as Colones
+  return amount
 }
 
 export type Price =

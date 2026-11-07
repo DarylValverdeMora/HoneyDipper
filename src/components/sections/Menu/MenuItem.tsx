@@ -1,7 +1,7 @@
 import { memo } from 'react'
 import type { FC } from 'react'
 import type { MenuCategoryId, MenuProduct } from '../../../data/menu.types'
-import { productAnchorId } from '../../../hooks/useMenuState'
+import { productAnchorId } from '../../../lib/menu-ids'
 import { getDisplayDescription } from '../../../lib/menu'
 import { describePrice, formatPrice } from '../../../lib/price'
 
@@ -47,5 +47,5 @@ const MenuItemRow: FC<MenuItemProps> = ({ categoryId, product, isReviewMode }) =
   )
 }
 
-/** Memorizado: el scroll-spy y la búsqueda no vuelven a pintar las filas. */
+/** Memorizado: escribir en la búsqueda no vuelve a pintar las filas. */
 export const MenuItem = memo(MenuItemRow)

@@ -9,7 +9,7 @@ import type { SheetFlow } from '../../lib/whatsapp-flow-context'
 import { Button, ButtonLink } from '../ui/Button'
 import { TEXTAREA_STYLES } from './FlowField'
 
-export const PRIVACY_NOTE = 'No guardamos estos datos; solo arman tu mensaje'
+export const PRIVACY_NOTE = 'No guardamos estos datos; solo sirven para armar tu mensaje'
 
 type FlowSendActionsProps = {
   flow: SheetFlow

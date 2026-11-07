@@ -11,7 +11,7 @@ Stack: Vite + React + TypeScript (estricto) + Tailwind v4 + GSAP/ScrollTrigger +
 npm install
 npm run dev        # servidor local en http://localhost:5173
 npm run typecheck  # chequeo de tipos
-npm test           # pruebas (WhatsApp y menú)
+npm test           # pruebas (WhatsApp, menú, horario, fotos, SEO)
 npm run check:menu # conteo de productos por grupo (falla si no da 158)
 npm run docs:correcciones  # regenera docs/correcciones-menu.md
 npm run build      # build de producción en dist/
@@ -19,6 +19,26 @@ npm run preview    # sirve la build
 ```
 
 `vite.config.ts` usa `base: './'`, así la carpeta `dist/` funciona servida desde cualquier ruta.
+
+## Vista previa y modos de revisión
+
+- Vista previa desplegada: **[PENDIENTE: se llena al desplegar en Vercel]**
+- Modo presentación, variante A (Menta): `/?present=1`
+- Modo presentación, variante B (Caramelo): `/?present=1&v=b`
+- Modo revisión (marca los platos por confirmar): `/?review=1`
+
+La vista previa lleva `noindex` (meta y cabecera `X-Robots-Tag`): es un prototipo para revisar, no la entrega final.
+
+## Documentos
+
+| Documento | Para qué |
+| --- | --- |
+| `docs/PENDIENTES-DUENO.md` | Preguntas para el dueño, listas para mandar por WhatsApp |
+| `docs/GUIA-DE-CAMBIOS.md` | Cómo cambiar un precio, un horario, un número, ocultar secciones y quitar el noindex |
+| `docs/CHECKLIST-ENTREGA.md` | Lo que falta antes de la entrega final |
+| `docs/qa-etapa-6a.md` | Mediciones de rendimiento, accesibilidad y seguridad |
+| `docs/correcciones-menu.md` | Correcciones de ortografía del menú |
+| `docs/fotos-pendientes.md` y `docs/fotos-decisiones.md` | Fotos que faltan y decisión sobre cada imagen recibida |
 
 ## Dónde está cada cosa
 
@@ -53,6 +73,7 @@ npm run preview    # sirve la build
 | Máscaras del logo para la variante B | `scripts/logo-masks.py` (genera `*-mask.webp`) |
 | Marcas de platos por confirmar | Abrir la página con `?review=1` |
 | Recorte de fotos desde los originales y conversión a WebP | `scripts/crop-photos.py` (quita barra de estado, usuarios, textos e íconos; genera también las versiones del `srcset`) |
+| Página 404 (rutas que no existen) | `public/404.html` |
 | Fuentes (sin Google Fonts) | `@fontsource` en `src/styles/globals.css` |
 | `<head>`: robots, JSON-LD y precarga del LCP | `scripts/vite-head.ts`, `src/data/site.ts` |
 | Correcciones de ortografía del menú | `docs/correcciones-menu.md` |
@@ -64,10 +85,12 @@ defecto de Tailwind está desactivada. La variante B se activa con `data-variant
 
 ## Antes de desplegar
 
-- `og:image` y `twitter:image` en `index.html` usan una ruta relativa (`./og-image.jpg`). WhatsApp,
-  Facebook y X necesitan una **URL absoluta**: cámbiala por `https://<dominio>/og-image.jpg` al desplegar.
-- **Indexación**: mientras es prototipo, `site.indexable` es `false` en `src/data/site.ts` y la build
-  agrega `<meta name="robots" content="noindex, nofollow">`. Cuando el cliente apruebe, cambiarlo a `true`.
+- `og:image`, `twitter:image`, `og:url` y canonical los agrega la build a partir de `site.url`
+  (`src/data/site.ts`). WhatsApp, Facebook y X necesitan una **URL absoluta**: con `url` vacío salen relativas
+  (`./og-image.jpg`); pon ahí la URL de la vista previa o del dominio final, sin barra final.
+- **Indexación**: mientras es prototipo, `site.indexable` es `false` en `src/data/site.ts`, la build
+  agrega `<meta name="robots" content="noindex, nofollow">` y `vercel.json` manda la cabecera `X-Robots-Tag`.
+  Cuando el cliente apruebe, cambia las dos cosas (ver `docs/GUIA-DE-CAMBIOS.md`); una prueba avisa si falta una.
 - Los datos estructurados (JSON-LD) salen de `business.ts` al hacer la build (`scripts/vite-head.ts`,
   `src/lib/structured-data.ts`). Cuando haya dominio, se puede agregar `url`.
 - `vercel.json` trae las cabeceras de seguridad (CSP, X-Frame-Options, Referrer-Policy,
@@ -78,20 +101,9 @@ defecto de Tailwind está desactivada. La variante B se activa con `data-variant
 
 ## Datos pendientes: [PLACEHOLDER]
 
-Para listarlos:
+La lista completa, con la pregunta para el dueño de cada dato, está en `docs/PENDIENTES-DUENO.md`.
+Para ver las marcas en el código:
 
 ```bash
-grep -rn "\[PLACEHOLDER\]" src index.html
+grep -rn "\[PLACEHOLDER\]" src index.html scripts
 ```
-
-Al cierre de la etapa 2C:
-
-- Cuál número tiene WhatsApp (restaurante 8396-8602 o pastelería 6349-0223) y a cuál van los eventos.
-- Días y horario del brunch.
-- Texto de "sobre nosotros".
-- Días del brunch (la pestaña dice "Brunch (sáb. y dom.)" sin confirmar).
-- Productos marcados `porConfirmar` en el menú (`npm run check:menu` los lista): las dos chimichangas y el frappé horchata.
-- Texto exacto de la soda italiana "Mango strawberry" (cambio de contenido pendiente de aprobación, ver `docs/correcciones-menu.md`).
-- Facebook y TikTok, si existen.
-- Confirmar si `pizzas.webp` son tortizzas.
-- Fotos faltantes: fachada o entrada y bebidas (la ensalada, el evento y la terraza ya tienen foto).

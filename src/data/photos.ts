@@ -11,7 +11,6 @@ import interiorArco480 from '../assets/img/interior-arco-480.webp'
 import interiorArco800 from '../assets/img/interior-arco-800.webp'
 import interiorMostrador from '../assets/img/interior-mostrador.webp'
 import interiorMostrador480 from '../assets/img/interior-mostrador-480.webp'
-import logoHoneyDipper from '../assets/img/logo-honey-dipper.webp'
 import logoHoneyDipperHero from '../assets/img/logo-honey-dipper-hero.webp'
 import pancakesHelado from '../assets/img/pancakes-helado.webp'
 import pastelChorreado from '../assets/img/pastel-chorreado.webp'
@@ -21,15 +20,11 @@ import rollosCanela from '../assets/img/rollos-canela.webp'
 import sandwichPapasWaffle from '../assets/img/sandwich-papas-waffle.webp'
 import terrazaNoche from '../assets/img/terraza-noche.webp'
 import type { NonEmpty } from '../lib/types'
+import type { MenuCategoryId } from './menu.types'
 
 export type PhotoSection =
-  | 'header'
   | 'hero'
-  | 'menu-ensaladas'
-  | 'menu-hamburguesas'
-  | 'menu-sandwiches'
-  | 'menu-brunch'
-  | 'menu-tortizzas'
+  | `menu-${MenuCategoryId}`
   | 'pasteleria'
   | 'eventos'
   | 'lugar'
@@ -54,16 +49,6 @@ export type Photo = {
 }
 
 export const photos = {
-  logo: {
-    src: logoHoneyDipper,
-    alt: 'Honey Dipper, cafetería y pastelería',
-    width: 1080,
-    height: 1080,
-    sections: ['header'],
-    source: '334567232_128492653313998_3196433340749445455_n.jpg',
-    permission: PERMISSION_OWNER,
-    note: 'Fondo menta #BFD7CA, igual al token Menta Honey. Falta SVG o PNG transparente.',
-  },
   /** Recorte del logo (x 222..862, y 270..950 del original) para el hero. El logo no se toca. */
   logoHero: {
     src: logoHoneyDipperHero,
@@ -224,15 +209,7 @@ export const photos = {
   },
 } satisfies Record<string, Photo>
 
-export type PhotoId = keyof typeof photos
-
 /** Fotos asignadas a una sección o categoría, en el orden de este archivo. */
-export const photosForSection = (section: string): Photo[] => {
+export const photosForSection = (section: PhotoSection): Photo[] => {
   return Object.values(photos).filter((photo) => photo.sections.some((photoSection) => photoSection === section))
 }
-
-/** Espacios donde no hay foto apta; se muestran como [PLACEHOLDER] con forma de arco. */
-export const missingPhotos = [
-  { section: 'lugar', description: '[PLACEHOLDER] Foto de la fachada o la entrada' },
-  { section: 'menu-bebidas', description: '[PLACEHOLDER] Foto de bebidas o café servidos en el local' },
-] as const

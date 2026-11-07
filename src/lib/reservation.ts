@@ -28,9 +28,15 @@ const pad = (value: number): string => {
   return String(value).padStart(2, '0')
 }
 
+const isIsoDate = (value: string): value is IsoDate => {
+  return ISO_DATE.test(value)
+}
+
 /** Constructor de IsoDate: arma el texto con ceros a la izquierda. */
 const toIsoDate = ({ year, month, day }: DateParts): IsoDate => {
-  return `${year}-${pad(month)}-${pad(day)}` as IsoDate
+  const text = `${year}-${pad(month)}-${pad(day)}`
+  if (!isIsoDate(text)) throw new Error(`Fecha inválida: ${text}`)
+  return text
 }
 
 /** Lee 'AAAA-MM-DD'. Devuelve undefined si el texto no es una fecha real (por ejemplo 2026-02-30). */
@@ -119,7 +125,9 @@ const toMinutes = (time: string): number => {
 }
 
 const toSlot = (minutes: number): SlotTime => {
-  return `${pad(Math.floor(minutes / MINUTES_PER_HOUR))}:${pad(minutes % MINUTES_PER_HOUR)}` as SlotTime
+  const text = `${pad(Math.floor(minutes / MINUTES_PER_HOUR))}:${pad(minutes % MINUTES_PER_HOUR)}`
+  if (!isSlotTime(text)) throw new Error(`Hora inválida: ${text}`)
+  return text
 }
 
 export type SlotRules = {

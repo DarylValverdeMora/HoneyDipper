@@ -1,6 +1,4 @@
-import { MenuCategory } from './MenuCategory'
 import { MenuChips } from './MenuChips'
-import { MenuItem } from './MenuItem'
 import { MenuPanel } from './MenuPanel'
 import { MenuProvider } from './MenuProvider'
 import { MenuSearch } from './MenuSearch'
@@ -11,7 +9,5 @@ export const Menu = {
   Tabs: MenuTabs,
   Chips: MenuChips,
   Panel: MenuPanel,
-  Category: MenuCategory,
-  Item: MenuItem,
   Search: MenuSearch,
 }

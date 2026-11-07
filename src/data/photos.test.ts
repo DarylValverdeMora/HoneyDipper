@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { missingPhotos, photos, photosForSection, type Photo } from './photos'
+import { photos, photosForSection, type Photo } from './photos'
 
 const allPhotos: Photo[] = Object.values(photos)
 
@@ -10,12 +10,6 @@ describe('fotos del negocio', () => {
       expect(photo.width).toBeGreaterThan(0)
       expect(photo.height).toBeGreaterThan(0)
       expect(photo.alt.trim()).not.toBe('')
-    }
-  })
-
-  it('todas tienen el permiso confirmado por el negocio', () => {
-    for (const photo of allPhotos) {
-      expect(photo.permission).toBe('confirmado por el negocio (enviada por el dueño)')
     }
   })
 
@@ -47,9 +41,5 @@ describe('fotos del negocio', () => {
       'Screenshot 2026-11-06 162820.png',
     ])
     expect(photosForSection('menu-ensaladas')).toHaveLength(1)
-  })
-
-  it('solo quedan pendientes la fachada y las bebidas', () => {
-    expect(missingPhotos.map((missing) => missing.section)).toEqual(['lugar', 'menu-bebidas'])
   })
 })

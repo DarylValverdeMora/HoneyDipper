@@ -13,7 +13,7 @@ import {
 } from '../lib/reservation'
 import type { DateCheck, DateRange, IsoDate, ReservationDraft, SlotTime } from '../lib/reservation'
 import { assertNever } from '../lib/types'
-import { buildWhatsAppLink, composeFlowMessage } from '../lib/whatsapp'
+import { useFlowMessage } from './useFlowMessage'
 import { useMinuteClock } from './useMinuteClock'
 import { useSendStatus } from './useSendStatus'
 import type { SendStatus } from './useSendStatus'
@@ -91,8 +91,7 @@ export const useReservationForm = (): ReservationForm => {
       { timeZone: TZ, range, maxPeople: business.reservaMaxPersonas },
     )
   }, [draft, validHora, range])
-  const href = useMemo(() => buildWhatsAppLink({ flow: 'reserva', values }), [values])
-  const message = useMemo(() => composeFlowMessage({ flow: 'reserva', values }), [values])
+  const { href, message } = useFlowMessage('reserva', values)
 
   const noSlotsLeft = dateCheck.kind === 'valida' && slots.length === 0
   const timeNotice = noSlotsLeft ? 'Ese día ya no quedan horas para reservar. Elige otro día.' : clearedNotice

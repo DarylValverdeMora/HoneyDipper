@@ -4,6 +4,7 @@ import { menu, menuFlags } from '../data/menu'
 import type { MenuCategory, MenuCategoryId, MenuGroup, MenuGroupId } from '../data/menu.types'
 import { refreshScrollTriggers } from '../lib/load-motion'
 import { getVisibleGroups } from '../lib/menu'
+import { productAnchorId } from '../lib/menu-ids'
 import {
   initialSelection,
   nextStep,
@@ -17,38 +18,6 @@ import type { MenuSelection, NextStep } from '../lib/menu-selection'
 import type { NonEmpty } from '../lib/types'
 import { useReviewMode } from './useReviewMode'
 import { useScrollToElement } from './useScrollToElement'
-
-export const categoryAnchorId = (categoryId: string): string => {
-  return `menu-${categoryId}`
-}
-
-const NON_ALPHANUMERIC = /[^a-z0-9]+/g
-
-/** 'Café con mantequilla de maní' → 'cafe-con-mantequilla-de-mani' */
-const slugify = (text: string): string => {
-  return text
-    .normalize('NFD')
-    .replace(/\p{M}/gu, '')
-    .toLowerCase()
-    .replace(NON_ALPHANUMERIC, '-')
-    .replace(/^-|-$/g, '')
-}
-
-export const productAnchorId = (categoryId: MenuCategoryId, productName: string): string => {
-  return `${categoryAnchorId(categoryId)}--${slugify(productName)}`
-}
-
-export const groupTabId = (groupId: MenuGroupId): string => {
-  return `menu-tab-${groupId}`
-}
-
-export const groupPanelId = (groupId: MenuGroupId): string => {
-  return `menu-panel-${groupId}`
-}
-
-export const categoryTabId = (categoryId: MenuCategoryId): string => {
-  return `menu-categoria-tab-${categoryId}`
-}
 
 /** Cuánto dura el resaltado del plato al llegar desde la búsqueda. */
 const HIGHLIGHT_MS = 1800
@@ -103,10 +72,14 @@ const headerBottom = (): number => {
   return document.querySelector('header')?.getBoundingClientRect().bottom ?? 0
 }
 
+const highlightTimers = new WeakMap<HTMLElement, number>()
+
 const highlightRow = (row: HTMLElement): void => {
   row.focus({ preventScroll: true })
   row.setAttribute('data-highlighted', '')
-  window.setTimeout(() => row.removeAttribute('data-highlighted'), HIGHLIGHT_MS)
+  // Dos saltos seguidos a la misma fila: el segundo reinicia el tiempo en vez de heredar el del primero.
+  window.clearTimeout(highlightTimers.get(row))
+  highlightTimers.set(row, window.setTimeout(() => row.removeAttribute('data-highlighted'), HIGHLIGHT_MS))
 }
 
 /**

@@ -2,7 +2,7 @@ import { memo, useMemo } from 'react'
 import type { FC } from 'react'
 import type { MenuCategory as MenuCategoryData } from '../../../data/menu.types'
 import { photosForSection } from '../../../data/photos'
-import { categoryAnchorId, categoryTabId } from '../../../hooks/useMenuState'
+import { categoryAnchorId, categoryTabId } from '../../../lib/menu-ids'
 import { cn } from '../../../lib/cn'
 import { honeyDrop } from '../../../lib/honey-drop'
 import { toDisplayText } from '../../../lib/menu'
@@ -25,7 +25,7 @@ type CategoryPhotosProps = {
   category: MenuCategoryData
 }
 
-/** Fotos chicas de la categoría (plan 2A). 128 px de ancho: ninguna foto se agranda más que su tamaño real. */
+/** Fotos chicas de la categoría. 128 px de ancho: ninguna foto se agranda más que su tamaño real. */
 const CategoryPhotos: FC<CategoryPhotosProps> = ({ category }) => {
   const categoryPhotos = useMemo(() => photosForSection(`menu-${category.id}`), [category.id])
   if (categoryPhotos.length === 0) return null

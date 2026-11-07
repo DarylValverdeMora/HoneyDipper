@@ -1,6 +1,6 @@
 import type { FC } from 'react'
 import { business } from '../../../data/business'
-import { groupPanelId, groupTabId } from '../../../hooks/useMenuState'
+import { groupPanelId, groupTabId } from '../../../lib/menu-ids'
 import { FlowButton } from '../../flows/FlowButton'
 import { Button } from '../../ui/Button'
 import { useMenu } from './menu-context'

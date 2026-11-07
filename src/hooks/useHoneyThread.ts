@@ -7,6 +7,9 @@ import { buildDropletPath, buildThreadPath, drawnLengthAt, railXFor } from '../l
 import { EASE_FALL, EASE_OUT, LOAD_SEQUENCE, THREAD_SCRUB_SECONDS } from '../lib/motion'
 
 /** La punta del hilo va a esta altura de la pantalla mientras se hace scroll. */
+/** El slogan del hero lleva este atributo (Hero.tsx); empieza invisible y el hilo lo revela. */
+const SLOGAN_SELECTOR = '[data-hero-slogan]'
+
 const TIP_VIEWPORT_RATIO = 0.6
 
 /** Clases de cada gotita. Se crean desde aquí para que Tailwind las encuentre. */
@@ -129,7 +132,7 @@ const createScrollDrawing = ({ gsap }: MotionRuntime, elements: ThreadElements, 
 /** Una sola secuencia: la gota nueva crece en la punta de la del logo, cae y arranca el hilo; aparece el slogan. */
 const createLoadSequence = ({ gsap }: MotionRuntime, elements: ThreadElements, state: ThreadState): void => {
   const drop = elements.scope.querySelector('[data-hero-drop]')
-  const slogan = elements.scope.querySelector('[data-hero-slogan]')
+  const slogan = elements.scope.querySelector(SLOGAN_SELECTOR)
   const fallDistance = Number(drop?.getAttribute('data-fall-distance') ?? 0)
   const { dropGrow, dropFall, dropFade, threadIntro, sloganDelay, sloganReveal, sloganOffsetPx } = LOAD_SEQUENCE
   const timeline = gsap.timeline({ defaults: { ease: EASE_OUT } })
@@ -223,7 +226,7 @@ const startThread = (runtime: MotionRuntime, scope: HTMLElement): (() => void) =
 
 /** Si las librerías no llegan, el slogan se muestra igual (empieza invisible para poder animarlo). */
 const revealSloganWithoutMotion = (scope: HTMLElement): void => {
-  scope.querySelector<HTMLElement>('[data-hero-slogan]')?.style.setProperty('opacity', '1')
+  scope.querySelector<HTMLElement>(SLOGAN_SELECTOR)?.style.setProperty('opacity', '1')
 }
 
 /**

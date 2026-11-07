@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react'
-import { writeToClipboard } from '../lib/clipboard'
+import { ClipboardUnavailableError, writeToClipboard } from '../lib/clipboard'
 
 export type CopyStatus = 'listo' | 'copiado' | 'error'
 
@@ -21,7 +21,10 @@ export const useCopyLink = (): { status: CopyStatus; copy: () => void } => {
   const copy = useCallback(() => {
     writeToClipboard(window.location.href).then(
       () => setStatus('copiado'),
-      () => setStatus('error'),
+      (error: unknown) => {
+        if (!(error instanceof ClipboardUnavailableError)) throw error
+        setStatus('error')
+      },
     )
   }, [])
 

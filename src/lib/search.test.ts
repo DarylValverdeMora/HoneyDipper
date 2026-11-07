@@ -20,7 +20,9 @@ describe('searchMenu', () => {
   })
 
   it('no importan tildes ni mayúsculas en lo que se escribe', () => {
+    expect(namesFor('cafe').length).toBeGreaterThan(0)
     expect(namesFor('CAFÉ')).toEqual(namesFor('cafe'))
+    expect(namesFor('sandwich').length).toBeGreaterThan(0)
     expect(namesFor('Sándwich')).toEqual(namesFor('sandwich'))
   })
 

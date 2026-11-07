@@ -71,8 +71,6 @@ export const whatsappTemplates: MessageTemplates = {
 
 /** Opciones de la hoja de pastel. "Otra" se explica en el chat. */
 export const CAKE_OCCASIONS = ['Cumpleaños', 'Baby shower', 'Aniversario', 'Otra'] as const
-export type CakeOccasion = (typeof CAKE_OCCASIONS)[number]
 
 /** Opciones de la hoja de evento. */
 export const EVENT_TYPES = ['Cumpleaños', 'Baby shower', 'Reunión', 'Otro'] as const
-export type EventType = (typeof EVENT_TYPES)[number]

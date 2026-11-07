@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { menu } from '../data/menu'
-import { countProductsByGroup, getVisibleGroups, listProducts, toDisplayText } from './menu'
+import { countProductsByGroup, getDisplayDescription, getVisibleGroups, listProducts, toDisplayText } from './menu'
 
 describe('toDisplayText', () => {
   it('corrige solo palabras completas y conserva el resto del texto', () => {
@@ -37,10 +37,8 @@ describe('menu', () => {
 })
 
 describe('cambios de contenido', () => {
-  it('muestra la descripción nueva de Mango strawberry y deja el original en los datos', async () => {
-    const { getDisplayDescription, listProducts: list } = await import('./menu')
-    const { menu: data } = await import('../data/menu')
-    const location = list(data).find(({ product }) => product.nombre === 'Mango strawberry')
+  it('muestra la descripción nueva de Mango strawberry y deja el original en los datos', () => {
+    const location = listProducts(menu).find(({ product }) => product.nombre === 'Mango strawberry')
     expect(location?.product.descripcion).toBe('Bebida carbonatada con reducción de frutos rojos o maracuyá.')
     expect(location === undefined ? undefined : getDisplayDescription(location.category.id, location.product)).toBe(
       'Bebida carbonatada con mango y reducción de frutos rojos o maracuyá.',
