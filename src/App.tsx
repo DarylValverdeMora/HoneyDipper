@@ -3,7 +3,7 @@ import type { FC } from 'react'
 import { Footer } from './components/layout/Footer'
 import { Header } from './components/layout/Header'
 import { HoneyThreadLayer } from './components/layout/HoneyThreadLayer'
-import { ReservationSheet } from './components/flows/ReservationSheet'
+import { FlowSheets } from './components/flows/FlowSheets'
 import { WhatsAppFlowProvider } from './components/flows/WhatsAppFlowProvider'
 import { WhatsAppFab } from './components/layout/WhatsAppFab'
 import { Hero } from './components/sections/Hero/Hero'
@@ -60,7 +60,7 @@ export const App: FC = () => {
           <Footer />
         </HoneyThreadLayer>
         <WhatsAppFab />
-        <ReservationSheet />
+        <FlowSheets />
         {presentation.kind === 'activo' && (
           <Suspense fallback={null}>
             <PresentPanel variant={presentation.variant} onSelectVariant={selectVariant} />

@@ -1,7 +1,7 @@
 import type { FC } from 'react'
 import { business } from '../../../data/business'
 import { groupPanelId, groupTabId } from '../../../hooks/useMenuState'
-import { ReserveButton } from '../../flows/ReserveButton'
+import { FlowButton } from '../../flows/FlowButton'
 import { useMenu } from './menu-context'
 import { MenuCategory } from './MenuCategory'
 
@@ -29,7 +29,7 @@ export const MenuPanel: FC = () => {
       })}
       <div className="mt-8 flex flex-col items-start gap-4">
         <p className="text-sm text-foreground">Precios en colones. {business.serviceChargeNote}.</p>
-        <ReserveButton />
+        <FlowButton flow="reserva" />
       </div>
     </div>
   )

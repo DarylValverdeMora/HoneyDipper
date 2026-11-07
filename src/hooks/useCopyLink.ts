@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from 'react'
+import { writeToClipboard } from '../lib/clipboard'
 
 export type CopyStatus = 'listo' | 'copiado' | 'error'
 
@@ -18,11 +19,7 @@ export const useCopyLink = (): { status: CopyStatus; copy: () => void } => {
   }, [status])
 
   const copy = useCallback(() => {
-    if (!('clipboard' in navigator)) {
-      setStatus('error')
-      return
-    }
-    navigator.clipboard.writeText(window.location.href).then(
+    writeToClipboard(window.location.href).then(
       () => setStatus('copiado'),
       () => setStatus('error'),
     )

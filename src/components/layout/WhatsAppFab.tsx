@@ -1,11 +1,10 @@
 import type { FC } from 'react'
 import { business } from '../../data/business'
 import { whatsappTemplates } from '../../data/whatsapp'
-import type { WhatsAppFlow } from '../../data/whatsapp'
 import { useWhatsAppFab } from '../../hooks/useWhatsAppFab'
 import { cn } from '../../lib/cn'
-import { buildWhatsAppLink } from '../../lib/whatsapp'
-import { ButtonLink } from '../ui/Button'
+import type { SheetFlow } from '../../lib/whatsapp-flow-context'
+import { FlowButton } from '../flows/FlowButton'
 import type { ButtonVariants } from '../ui/Button'
 import { ChatIcon } from '../ui/Icons'
 import { Sheet } from '../ui/Sheet'
@@ -14,9 +13,15 @@ const FAB_OPTIONS = [
   { flow: 'reserva', intent: 'principal' },
   { flow: 'pastel', intent: 'secundario' },
   { flow: 'evento', intent: 'discreto' },
-] as const satisfies ReadonlyArray<{ flow: WhatsAppFlow; intent: ButtonVariants['intent'] }>
+] as const satisfies ReadonlyArray<{ flow: SheetFlow; intent: ButtonVariants['intent'] }>
 
-const FabOptions: FC = () => {
+type FabOptionsProps = {
+  /** Cierra el selector antes de abrir la hoja elegida. */
+  onChoose: () => void
+}
+
+/** Cada opción abre su hoja; el foco vuelve al botón flotante al cerrarla. */
+const FabOptions: FC<FabOptionsProps> = ({ onChoose }) => {
   return (
     <ul className="flex flex-col gap-5">
       {FAB_OPTIONS.map(({ flow, intent }) => {
@@ -24,9 +29,7 @@ const FabOptions: FC = () => {
         const line = business.contact[template.line]
         return (
           <li key={flow} className="flex flex-col gap-1.5">
-            <ButtonLink href={buildWhatsAppLink({ flow })} external full intent={intent}>
-              {template.ctaLabel}
-            </ButtonLink>
+            <FlowButton flow={flow} full intent={intent} onBeforeOpen={onChoose} />
             <p className="price text-center text-xs text-foreground-accent">
               {line.label}, {line.displayPhone}
             </p>
@@ -60,8 +63,8 @@ export const WhatsAppFab: FC = () => {
         </button>
       </div>
       <Sheet isOpen={sheet.isOpen} onClose={sheet.close} title="Escríbenos por WhatsApp">
-        <p className="pb-6 text-sm text-foreground-accent">Te abrimos el chat con el mensaje listo para completar.</p>
-        <FabOptions />
+        <p className="pb-6 text-sm text-foreground-accent">Elige qué necesitas y te armamos el mensaje.</p>
+        <FabOptions onChoose={sheet.close} />
       </Sheet>
     </>
   )

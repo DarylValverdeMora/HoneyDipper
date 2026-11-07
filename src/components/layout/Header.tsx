@@ -1,10 +1,7 @@
 import type { FC } from 'react'
 import { navLinks, toAnchor } from '../../data/navigation'
-import { whatsappTemplates } from '../../data/whatsapp'
 import { useMobileNav } from '../../hooks/useMobileNav'
-import { buildWhatsAppLink } from '../../lib/whatsapp'
-import { ReserveButton } from '../flows/ReserveButton'
-import { ButtonLink } from '../ui/Button'
+import { FlowButton } from '../flows/FlowButton'
 import { MenuIcon } from '../ui/Icons'
 import { Sheet } from '../ui/Sheet'
 import { Logo } from './Logo'
@@ -59,10 +56,8 @@ const MobileNavSheet: FC<MobileNavSheetProps> = ({ isOpen, onClose, navigateTo }
         </ul>
       </nav>
       <div className="mt-8 flex flex-col gap-3">
-        <ReserveButton full onBeforeOpen={onClose} />
-        <ButtonLink href={buildWhatsAppLink({ flow: 'pastel' })} external full intent="secundario">
-          {whatsappTemplates.pastel.ctaLabel}
-        </ButtonLink>
+        <FlowButton flow="reserva" full onBeforeOpen={onClose} />
+        <FlowButton flow="pastel" full intent="secundario" onBeforeOpen={onClose} />
       </div>
     </Sheet>
   )
@@ -77,7 +72,7 @@ export const Header: FC = () => {
         <Logo className="h-14" />
         <DesktopNav />
         <div className="flex items-center gap-1">
-          <ReserveButton size="sm" />
+          <FlowButton flow="reserva" size="sm" />
           <button
             type="button"
             onClick={open}

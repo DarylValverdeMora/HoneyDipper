@@ -26,7 +26,7 @@ export const Sheet: FC<SheetProps> = ({ isOpen, onClose, title, children }) => {
       onClick={onClick}
       onKeyDown={onKeyDown}
       data-lenis-prevent
-      className="fixed inset-0 m-0 h-dvh max-h-none w-full max-w-none items-end bg-backdrop p-0 text-foreground backdrop:bg-transparent open:flex motion-safe:open:animate-backdrop-in md:items-stretch md:justify-end"
+      className="fixed inset-0 m-0 h-dvh max-h-none w-full max-w-none items-end bg-backdrop p-0 pb-(--keyboard-inset,0px) text-foreground backdrop:bg-transparent open:flex motion-safe:open:animate-backdrop-in md:items-stretch md:justify-end"
     >
       <div className="flex max-h-11/12 w-full flex-col overflow-y-auto overscroll-contain rounded-t-3xl bg-surface px-6 pt-4 pb-8 shadow-sheet motion-safe:animate-sheet-in-bottom md:h-full md:max-h-none md:w-96 md:rounded-t-none md:rounded-l-3xl md:pt-6 md:motion-safe:animate-sheet-in-right">
         <div className="flex items-center justify-between gap-4 pb-4">

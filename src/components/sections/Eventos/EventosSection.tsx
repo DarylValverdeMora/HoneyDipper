@@ -1,8 +1,6 @@
+import { FlowButton } from '../../flows/FlowButton'
 import type { FC } from 'react'
-import { whatsappTemplates } from '../../../data/whatsapp'
 import { honeyDrop } from '../../../lib/honey-drop'
-import { buildWhatsAppLink } from '../../../lib/whatsapp'
-import { ButtonLink } from '../../ui/Button'
 import { PhotoPlaceholder } from '../../ui/PhotoPlaceholder'
 
 const TITLE_ID = 'eventos-titulo'
@@ -30,9 +28,7 @@ export const EventosSection: FC = () => {
             Si estás pensando en celebrar algo con tu gente aquí en el local, escríbenos. Nos cuentas la fecha y la
             idea, y lo conversamos.
           </p>
-          <ButtonLink href={buildWhatsAppLink({ flow: 'evento' })} external className="self-start">
-            {whatsappTemplates.evento.ctaLabel}
-          </ButtonLink>
+          <FlowButton flow="evento" className="self-start" />
         </div>
         <PhotoPlaceholder
           description="un evento en el local"

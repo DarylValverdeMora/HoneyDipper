@@ -1,10 +1,8 @@
+import { FlowButton } from '../../flows/FlowButton'
 import type { FC } from 'react'
 import { photos } from '../../../data/photos'
-import { whatsappTemplates } from '../../../data/whatsapp'
 import { honeyDrop } from '../../../lib/honey-drop'
-import { buildWhatsAppLink } from '../../../lib/whatsapp'
 import { ArchPhoto } from '../../ui/ArchFrame'
-import { ButtonLink } from '../../ui/Button'
 
 const TITLE_ID = 'pasteleria-titulo'
 
@@ -66,9 +64,7 @@ export const PasteleriaSection: FC = () => {
             cuéntanos:
           </p>
           <QuoteDetails />
-          <ButtonLink href={buildWhatsAppLink({ flow: 'pastel' })} external intent="secundario" className="self-start">
-            {whatsappTemplates.pastel.ctaLabel}
-          </ButtonLink>
+          <FlowButton flow="pastel" intent="secundario" className="self-start" />
         </div>
         <div className="lg:col-span-7">
           <PastryGallery />

@@ -1,3 +1,4 @@
+import { business } from './business'
 import type { BusinessLine } from './business'
 
 export type WhatsAppFlow = 'reserva' | 'pastel' | 'evento' | 'consulta'
@@ -49,8 +50,7 @@ export const whatsappTemplates: MessageTemplates = {
   },
   evento: {
     ctaLabel: 'Consultar por un evento',
-    // [PLACEHOLDER] Confirmar a qué número van las consultas de eventos.
-    line: 'restaurante',
+    line: business.eventosLinea,
     intro: 'Hola, Honey Dipper. Quiero consultar por un evento en el local.',
     fields: [
       { key: 'tipo', label: 'Tipo de evento' },
@@ -68,3 +68,11 @@ export const whatsappTemplates: MessageTemplates = {
     closing: '¿Lo tienen?',
   },
 }
+
+/** Opciones de la hoja de pastel. "Otra" se explica en el chat. */
+export const CAKE_OCCASIONS = ['Cumpleaños', 'Baby shower', 'Aniversario', 'Otra'] as const
+export type CakeOccasion = (typeof CAKE_OCCASIONS)[number]
+
+/** Opciones de la hoja de evento. */
+export const EVENT_TYPES = ['Cumpleaños', 'Baby shower', 'Reunión', 'Otro'] as const
+export type EventType = (typeof EVENT_TYPES)[number]

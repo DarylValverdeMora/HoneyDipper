@@ -13,12 +13,12 @@ import {
 } from '../lib/reservation'
 import type { DateCheck, DateRange, IsoDate, ReservationDraft, SlotTime } from '../lib/reservation'
 import { assertNever } from '../lib/types'
-import { buildWhatsAppLink } from '../lib/whatsapp'
+import { buildWhatsAppLink, composeFlowMessage } from '../lib/whatsapp'
 import { useMinuteClock } from './useMinuteClock'
+import { useSendStatus } from './useSendStatus'
+import type { SendStatus } from './useSendStatus'
 
 const EMPTY_DRAFT: ReservationDraft = { nombre: '', fecha: '', hora: '', personas: '' }
-
-export type SendStatus = 'editando' | 'abriendo'
 
 export type ReservationForm = {
   draft: ReservationDraft
@@ -29,6 +29,8 @@ export type ReservationForm = {
   /** Aviso del campo hora (se limpió, o ya no quedan horas), o ''. */
   timeNotice: string
   href: string
+  /** El mismo texto del enlace, para copiarlo. */
+  message: string
   sendStatus: SendStatus
   labelForSlot: (slot: SlotTime) => string
   setNombre: (value: string) => void
@@ -74,7 +76,7 @@ export const useReservationForm = (): ReservationForm => {
   const now = useMinuteClock()
   const [draft, setDraft] = useState<ReservationDraft>(EMPTY_DRAFT)
   const [clearedNotice, setClearedNotice] = useState('')
-  const [sendStatus, setSendStatus] = useState<SendStatus>('editando')
+  const { sendStatus, markOpening, resetStatus } = useSendStatus()
 
   const range = useMemo(() => reservationDateRange(now, TZ), [now])
   const dateCheck = useMemo(() => checkDate(draft.fecha, range), [draft.fecha, range])
@@ -83,21 +85,22 @@ export const useReservationForm = (): ReservationForm => {
   // Si la hora elegida para hoy ya pasó mientras la hoja estaba abierta, no se manda.
   const validHora = isSlotTime(draft.hora) && slots.includes(draft.hora) ? draft.hora : ''
 
-  const href = useMemo(() => {
-    const values = reservationMessageValues(
+  const values = useMemo(() => {
+    return reservationMessageValues(
       { ...draft, hora: validHora },
       { timeZone: TZ, range, maxPeople: business.reservaMaxPersonas },
     )
-    return buildWhatsAppLink({ flow: 'reserva', values })
   }, [draft, validHora, range])
+  const href = useMemo(() => buildWhatsAppLink({ flow: 'reserva', values }), [values])
+  const message = useMemo(() => composeFlowMessage({ flow: 'reserva', values }), [values])
 
   const noSlotsLeft = dateCheck.kind === 'valida' && slots.length === 0
   const timeNotice = noSlotsLeft ? 'Ese día ya no quedan horas para reservar. Elige otro día.' : clearedNotice
 
   const update = useCallback((patch: Partial<ReservationDraft>) => {
     setDraft((current) => ({ ...current, ...patch }))
-    setSendStatus('editando')
-  }, [])
+    resetStatus()
+  }, [resetStatus])
 
   const setNombre = useCallback(
     (value: string) => update({ nombre: Array.from(value).slice(0, NAME_MAX_LENGTH).join('') }),
@@ -134,8 +137,6 @@ export const useReservationForm = (): ReservationForm => {
   )
 
   const setPersonas = useCallback((value: string) => update({ personas: value }), [update])
-  const markOpening = useCallback(() => setSendStatus('abriendo'), [])
-  const resetStatus = useCallback(() => setSendStatus('editando'), [])
   const labelForSlot = useCallback((slot: SlotTime) => formatReservationTime(slot, TZ), [])
 
   return {
@@ -145,6 +146,7 @@ export const useReservationForm = (): ReservationForm => {
     dateError: describeDateError(dateCheck),
     timeNotice,
     href,
+    message,
     sendStatus,
     labelForSlot,
     setNombre,

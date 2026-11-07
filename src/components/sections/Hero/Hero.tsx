@@ -1,11 +1,8 @@
 import type { FC } from 'react'
 import { business } from '../../../data/business'
 import { photos } from '../../../data/photos'
-import { whatsappTemplates } from '../../../data/whatsapp'
-import { buildWhatsAppLink } from '../../../lib/whatsapp'
-import { ReserveButton } from '../../flows/ReserveButton'
+import { FlowButton } from '../../flows/FlowButton'
 import { ArchPhoto } from '../../ui/ArchFrame'
-import { ButtonLink } from '../../ui/Button'
 import { HeroLogo } from './HeroLogo'
 
 /** Primera vista: logo, slogan, las dos acciones y el arco del local. Fondo Menta Honey. */
@@ -22,10 +19,8 @@ export const Hero: FC = () => {
             {business.slogan}
           </p>
           <div className="flex flex-wrap gap-3">
-            <ReserveButton />
-            <ButtonLink href={buildWhatsAppLink({ flow: 'pastel' })} external intent="secundario">
-              {whatsappTemplates.pastel.ctaLabel}
-            </ButtonLink>
+            <FlowButton flow="reserva" />
+            <FlowButton flow="pastel" intent="secundario" />
           </div>
         </div>
         <ArchPhoto

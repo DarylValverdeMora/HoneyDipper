@@ -86,6 +86,8 @@ export const business = {
   reservaUltimaAntesCierreMin: 60,
   /** [PLACEHOLDER] Máximo de personas que se eligen en la hoja; más que eso se conversa por WhatsApp. */
   reservaMaxPersonas: 10,
+  /** [PLACEHOLDER] Número al que van las consultas de eventos. Por ahora el del restaurante; confirmar con el dueño. */
+  eventosLinea: 'restaurante',
 
   brunch: {
     days: '[PLACEHOLDER] Días del brunch (¿solo sábado y domingo?)',

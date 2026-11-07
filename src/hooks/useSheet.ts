@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef } from 'react'
 import type { KeyboardEvent, MouseEvent, RefObject } from 'react'
 import { useLenisInstance } from '../lib/lenis-context'
+import { useKeyboardInset } from './useKeyboardInset'
 
 const FOCUSABLE_SELECTOR =
   'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
@@ -46,6 +47,7 @@ const trapTabKey = (event: KeyboardEvent<HTMLDialogElement>): void => {
 export const useSheet = ({ isOpen, onClose }: SheetOptions): SheetBindings => {
   const dialogRef = useRef<HTMLDialogElement>(null)
   const lenis = useLenisInstance()
+  useKeyboardInset(dialogRef, isOpen)
 
   useEffect(() => {
     const dialog = dialogRef.current

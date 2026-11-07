@@ -87,6 +87,18 @@ export const checkDate = (value: string, range: DateRange): DateCheck => {
   return { kind: 'valida', date }
 }
 
+export type OpenDateCheck = { kind: 'vacia' } | { kind: 'valida'; date: IsoDate } | { kind: 'pasada'; min: IsoDate } | { kind: 'invalida' }
+
+/** Igual que checkDate pero sin fecha máxima: para pedidos donde no hay datos de anticipación ni de tope. */
+export const checkDateFrom = (value: string, min: IsoDate): OpenDateCheck => {
+  if (value.trim() === '') return { kind: 'vacia' }
+  const parts = parseIsoDate(value)
+  if (!parts) return { kind: 'invalida' }
+  const date = toIsoDate(parts)
+  if (date < min) return { kind: 'pasada', min }
+  return { kind: 'valida', date }
+}
+
 /** Día de la semana de una fecha, sin depender de la zona del dispositivo. */
 export const weekdayOf = (date: IsoDate): DayOfWeek => {
   const parts = parseIsoDate(date)

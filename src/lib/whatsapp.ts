@@ -31,11 +31,16 @@ export const buildWaLink = (phone: WhatsAppNumber, message: string): string => {
   return `${WA_BASE_URL}${phone}?text=${encodeURIComponent(message)}`
 }
 
-/** Enlace wa.me con el mensaje prellenado del flujo, enviado al número que le corresponde. */
-export const buildWhatsAppLink = <F extends WhatsAppFlow>({ flow, values = {} }: WhatsAppRequest<F>): string => {
+/** Texto del mensaje de un flujo, tal como llega a WhatsApp (también sirve para copiarlo). */
+export const composeFlowMessage = <F extends WhatsAppFlow>({ flow, values = {} }: WhatsAppRequest<F>): string => {
   const template: MessageTemplate<F> = whatsappTemplates[flow]
-  const phone = business.contact[template.line].whatsapp
-  return buildWaLink(phone, composeMessage(template, values))
+  return composeMessage(template, values)
+}
+
+/** Enlace wa.me con el mensaje prellenado del flujo, enviado al número que le corresponde. */
+export const buildWhatsAppLink = <F extends WhatsAppFlow>(request: WhatsAppRequest<F>): string => {
+  const phone = business.contact[whatsappTemplates[request.flow].line].whatsapp
+  return buildWaLink(phone, composeFlowMessage(request))
 }
 
 /** Enlace wa.me sin número: WhatsApp pregunta a quién mandarlo. Sirve para compartir la página. */

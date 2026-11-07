@@ -4,7 +4,7 @@ import { useTodayStatus } from '../../../hooks/useTodayStatus'
 import { formatPaymentMethods, toTelLink } from '../../../lib/contact'
 import { honeyDrop } from '../../../lib/honey-drop'
 import { formatDays, formatHours } from '../../../lib/schedule'
-import { ReserveButton } from '../../flows/ReserveButton'
+import { FlowButton } from '../../flows/FlowButton'
 import { ButtonLink } from '../../ui/Button'
 import { MapCard } from './MapCard'
 
@@ -86,7 +86,7 @@ export const VisitaSection: FC = () => {
             <ButtonLink href={business.location.mapsUrl} external intent="secundario">
               Abrir en Google Maps
             </ButtonLink>
-            <ReserveButton />
+            <FlowButton flow="reserva" />
           </div>
         </div>
         <div className="lg:col-span-7 lg:row-span-2">
