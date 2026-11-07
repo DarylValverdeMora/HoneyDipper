@@ -9,7 +9,8 @@ Para publicar se necesitan originales y permiso. Registro completo en `src/data/
 
 ## Fotos que faltan (hoy son [PLACEHOLDER])
 
-- [ ] Logo en SVG o PNG con fondo transparente.
+- [ ] Logo en SVG o PNG con fondo transparente. Mientras tanto, la variante B usa máscaras sacadas del JPG (`scripts/logo-masks.py`).
+- [ ] Imagen estática del mapa (captura de Google Maps o un mapa con clave de API). Hoy "Cómo llegar" muestra una ilustración con el pin y la dirección hasta que se toca "Ver mapa".
 - [ ] Interior en alta resolución (horizontal y vertical).
 - [ ] Terraza de día y de noche (la que hay es de 232×456 y está borrosa).
 - [ ] Fachada o entrada del local.

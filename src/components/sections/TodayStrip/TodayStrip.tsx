@@ -31,7 +31,7 @@ export const TodayStrip: FC = () => {
           <a href={toAnchor('horario')} className={linkStyles}>
             Ver horario completo
           </a>
-          <a href={toAnchor('como-llegar')} className={linkStyles}>
+          <a href={toAnchor('visita')} className={linkStyles}>
             Cómo llegar
           </a>
         </nav>

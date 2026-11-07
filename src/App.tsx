@@ -1,3 +1,4 @@
+import { lazy, Suspense } from 'react'
 import type { FC } from 'react'
 import { Footer } from './components/layout/Footer'
 import { Header } from './components/layout/Header'
@@ -8,13 +9,20 @@ import { EventosSection } from './components/sections/Eventos/EventosSection'
 import { LugarSection } from './components/sections/Lugar/LugarSection'
 import { MenuSection } from './components/sections/Menu/MenuSection'
 import { PasteleriaSection } from './components/sections/Pasteleria/PasteleriaSection'
-import { ComoLlegarPreview } from './components/sections/PreviewSections'
 import { TodayStrip } from './components/sections/TodayStrip/TodayStrip'
+import { VisitaSection } from './components/sections/Visita/VisitaSection'
+import { usePresentation } from './hooks/usePresentation'
 import { useLenis } from './hooks/useLenis'
 import { useReducedMotion } from './hooks/useReducedMotion'
 import { LenisContext } from './lib/lenis-context'
 
 const MAIN_CONTENT_ID = 'contenido'
+
+/** El panel solo se descarga en el modo presentación: el dueño nunca lo ve en la página normal. */
+const PresentPanel = lazy(async () => {
+  const module = await import('./components/presentation/PresentPanel')
+  return { default: module.PresentPanel }
+})
 
 const SkipLink: FC = () => {
   return (
@@ -30,6 +38,7 @@ const SkipLink: FC = () => {
 export const App: FC = () => {
   const reducedMotion = useReducedMotion()
   const lenis = useLenis(!reducedMotion)
+  const { presentation, selectVariant } = usePresentation()
 
   return (
     <LenisContext value={lenis}>
@@ -43,11 +52,16 @@ export const App: FC = () => {
           <PasteleriaSection />
           <EventosSection />
           <LugarSection />
-          <ComoLlegarPreview />
+          <VisitaSection />
         </main>
         <Footer />
       </HoneyThreadLayer>
       <WhatsAppFab />
+      {presentation.kind === 'activo' && (
+        <Suspense fallback={null}>
+          <PresentPanel variant={presentation.variant} onSelectVariant={selectVariant} />
+        </Suspense>
+      )}
     </LenisContext>
   )
 }

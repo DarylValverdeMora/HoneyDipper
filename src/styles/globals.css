@@ -2,6 +2,9 @@
 @import 'lenis/dist/lenis.css';
 @import './tokens.css';
 
+/* Estilos que solo aplican con la variante B del modo presentación */
+@custom-variant variant-b (&:where([data-variant='b'], [data-variant='b'] *));
+
 /*
  * Se apaga la paleta por defecto de Tailwind para obligar a usar los tokens de la marca.
  * `inline` hace que las utilidades lean la variable en tiempo de ejecución,
@@ -16,6 +19,7 @@
   --color-foreground-accent: var(--foreground-accent);
   --color-on-brand: var(--on-brand);
   --color-honey: var(--honey);
+  --color-logo-ink: var(--logo-ink);
   --color-border: var(--border);
   --color-arch: var(--arch);
   --color-cta: var(--cta);
@@ -156,6 +160,13 @@
       var(--wood-tone) calc(var(--wood-slat) * 2) calc(var(--wood-slat) * 3)
     ),
     repeating-linear-gradient(90deg, transparent 0 5px, var(--wood-grain) 5px 6px, transparent 6px 11px);
+}
+
+/* Logo pintado con su máscara: el color sale de bg-*, la forma de --logo-mask */
+@utility logo-mask {
+  mask-image: var(--logo-mask);
+  mask-size: 100% 100%;
+  mask-repeat: no-repeat;
 }
 
 /* Nombres de platos: Cormorant en versalitas */

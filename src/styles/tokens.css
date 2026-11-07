@@ -19,6 +19,8 @@
   /* Derivados para texto (13:1 y 6,3:1 sobre blanco cálido) */
   --hd-verde-pino: #24332d;
   --hd-miel-tostado: #7a5a30;
+  /* Miel oscura: hilo y acentos de la variante B (3,6:1 sobre Caramelo, 5,2:1 sobre Rosa palo) */
+  --hd-miel-oscura: #57391a;
 
   /* Tipografías */
   --hd-font-display: 'Cormorant', 'Cormorant Garamond', Georgia, serif;
@@ -33,6 +35,8 @@
   --foreground-accent: var(--hd-miel-tostado);
   --on-brand: var(--hd-verde-pino);
   --honey: var(--hd-dorado-miel);
+  /* Color del logo cuando se pinta con su máscara (variante B). En A se usa el JPG original. */
+  --logo-ink: var(--hd-dorado-miel);
   --border: var(--hd-dorado-miel);
   --arch: var(--hd-amarillo-mantequilla);
   --cta: var(--hd-verde-pino);
@@ -118,13 +122,28 @@
 }
 
 /*
- * Variante B "Caramelo" (modo presentación, ?present=1&v=b).
- * Solo el mecanismo: se reasignan roles. El diseño completo de B se termina en una etapa posterior.
+ * Variante B "Caramelo" (solo dentro del modo presentación: ?present=1&v=b).
+ * Base Blanco cálido, bloques en Caramelo (header, hero, El lugar), acentos Rosa palo y menta.
+ * Contraste medido (ver README): texto Verde pino 4,53:1 sobre Caramelo, 6,62:1 sobre Rosa palo;
+ * Miel oscura 3,59:1 sobre Caramelo para el hilo (gráfico, mínimo 3:1).
  */
 [data-variant='b'] {
+  --surface: var(--hd-blanco-calido);
   --surface-brand: var(--hd-caramelo);
   --surface-soft: var(--hd-rosa-palo);
+  --foreground: var(--hd-verde-pino);
+  --foreground-accent: var(--hd-miel-oscura);
   --on-brand: var(--hd-verde-pino);
-  --border: var(--hd-miel-tostado);
+  --honey: var(--hd-miel-oscura);
+  --logo-ink: var(--hd-verde-pino);
+  --border: var(--hd-miel-oscura);
+  --arch: var(--hd-menta-honey);
+  --cta: var(--hd-verde-pino);
+  --on-cta: var(--hd-blanco-calido);
   --cta-alt: var(--hd-rosa-palo);
+  --on-cta-alt: var(--hd-verde-pino);
+  --menu-tab-active: var(--hd-menta-honey);
+  --menu-surface-price: var(--hd-miel-oscura);
+  --wood-seam: color-mix(in srgb, var(--hd-miel-oscura) 30%, transparent);
+  --backdrop: rgb(87 57 26 / 0.45);
 }

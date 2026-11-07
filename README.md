@@ -47,6 +47,10 @@ npm run preview    # sirve la build
 | Franja de hoy, Pastelería, Eventos y El lugar | `src/components/sections/TodayStrip/`, `Pasteleria/`, `Eventos/`, `Lugar/` |
 | Ocultar la sección El lugar | `mostrarLugar` en `src/data/business.ts` |
 | Fondo de tablillas de madera (solo CSS) | `@utility wood-slats` en `src/styles/globals.css`, colores `--wood-*` en `tokens.css` |
+| Cómo llegar (id `visita`): dirección, mapa diferido, horario completo, teléfonos, pagos | `src/components/sections/Visita/`, `src/hooks/useDeferredMap.ts`, `src/lib/maps.ts` |
+| Modo presentación (`?present=1`, `?present=1&v=b`) | `src/components/presentation/PresentPanel.tsx`, `src/hooks/usePresentation.ts`, `src/lib/presentation.ts` |
+| Tokens de la variante B "Caramelo" | `[data-variant='b']` en `src/styles/tokens.css` |
+| Máscaras del logo para la variante B | `scripts/logo-masks.py` (genera `*-mask.webp`) |
 | Marcas de platos por confirmar | Abrir la página con `?review=1` |
 | Conversión de fotos a WebP | `scripts/convert-photos.py` |
 | Correcciones de ortografía del menú | `docs/correcciones-menu.md` |

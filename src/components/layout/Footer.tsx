@@ -1,14 +1,9 @@
 import type { FC, ReactNode } from 'react'
 import { business } from '../../data/business'
-import type { ContactLine } from '../../data/business'
-import type { SectionId } from '../../data/navigation'
+import { formatPaymentMethods, toTelLink } from '../../lib/contact'
 import { formatDays, formatHours } from '../../lib/schedule'
 import { Panal } from '../ui/Panal'
 import { Logo } from './Logo'
-
-const toTelLink = (line: ContactLine): string => {
-  return `tel:+${line.whatsapp}`
-}
 
 const linkStyles =
   'underline decoration-foreground/30 underline-offset-4 transition-[text-decoration-color] duration-150 ease-out hover:decoration-foreground'
@@ -16,12 +11,11 @@ const linkStyles =
 type FooterBlockProps = {
   title: string
   children: ReactNode
-  id?: SectionId
 }
 
-const FooterBlock: FC<FooterBlockProps> = ({ title, children, id }) => {
+const FooterBlock: FC<FooterBlockProps> = ({ title, children }) => {
   return (
-    <div id={id} className="flex flex-col gap-3">
+    <div className="flex flex-col gap-3">
       <h2 className="text-2xl">{title}</h2>
       {children}
     </div>
@@ -30,7 +24,7 @@ const FooterBlock: FC<FooterBlockProps> = ({ title, children, id }) => {
 
 const HoursBlock: FC = () => {
   return (
-    <FooterBlock title="Horario" id="horario">
+    <FooterBlock title="Horario">
       <dl className="grid grid-cols-1 gap-2 text-sm">
         {business.openingHours.map((entry) => {
           return (
@@ -83,7 +77,7 @@ const VisitBlock: FC = () => {
           Abrir en Google Maps
         </a>
       </address>
-      <p className="text-sm">Pagos con {business.paymentMethods.join(' y ').toLowerCase()}.</p>
+      <p className="text-sm">Pagos con {formatPaymentMethods(business.paymentMethods)}.</p>
     </FooterBlock>
   )
 }

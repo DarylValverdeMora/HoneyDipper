@@ -37,3 +37,8 @@ export const buildWhatsAppLink = <F extends WhatsAppFlow>({ flow, values = {} }:
   const phone = business.contact[template.line].whatsapp
   return buildWaLink(phone, composeMessage(template, values))
 }
+
+/** Enlace wa.me sin número: WhatsApp pregunta a quién mandarlo. Sirve para compartir la página. */
+export const buildShareLink = (message: string): string => {
+  return `${WA_BASE_URL}?text=${encodeURIComponent(message)}`
+}

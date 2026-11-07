@@ -1,5 +1,7 @@
 import type { FC } from 'react'
+import logoHeroMask from '../../../assets/img/logo-honey-dipper-hero-mask.webp'
 import { photos } from '../../../data/photos'
+import { LogoArt } from '../../ui/LogoArt'
 
 /*
  * Coordenadas dentro del recorte del logo (640×680). La gota original del logo
@@ -24,13 +26,14 @@ export const HeroLogo: FC = () => {
 
   return (
     <h1 className="relative w-full max-w-sm lg:max-w-md">
-      <img
+      <LogoArt
         src={logoHero.src}
+        maskSrc={logoHeroMask}
         alt={logoHero.alt}
         width={logoHero.width}
         height={logoHero.height}
-        fetchPriority="high"
-        className="block h-auto w-full"
+        priority
+        className="h-auto w-full"
       />
       <svg
         aria-hidden="true"

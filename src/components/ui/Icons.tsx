@@ -47,3 +47,12 @@ export const ChatIcon: FC<IconProps> = (props) => {
     </BaseIcon>
   )
 }
+
+export const PinIcon: FC<IconProps> = (props) => {
+  return (
+    <BaseIcon {...props}>
+      <path d="M12 21s-6.5-5.6-6.5-11A6.5 6.5 0 0 1 18.5 10c0 5.4-6.5 11-6.5 11Z" />
+      <circle cx="12" cy="10" r="2.25" />
+    </BaseIcon>
+  )
+}
