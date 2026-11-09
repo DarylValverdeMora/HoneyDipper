@@ -5,7 +5,7 @@ export const EASE_FALL = 'power2.in'
 /** Secuencia de carga: la gota crece, cae y arranca el hilo; el slogan aparece en paralelo. Total < 1,8 s. */
 export const LOAD_SEQUENCE = {
   dropGrow: 0.45,
-  dropFall: 0.55,
+  dropFall: 0.3,
   dropFade: 0.15,
   threadIntro: 0.45,
   sloganDelay: 0.35,

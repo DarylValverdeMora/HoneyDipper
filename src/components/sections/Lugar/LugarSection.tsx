@@ -46,7 +46,7 @@ const MoreOfThePlace: FC = () => {
       />
       <div className="flex items-end gap-4">
         <ArchPhoto photo={photos.terrazaNoche} bordered className="aspect-1/2 w-28 shrink-0" />
-        <PhotoPlaceholder description="la fachada o la entrada" bordered className="aspect-3/4 w-36" />
+        <PhotoPlaceholder description="la fachada o la entrada" bordered className="aspect-3/4 w-36 min-w-0" />
       </div>
     </div>
   )

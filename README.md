@@ -12,6 +12,8 @@ npm install
 npm run dev        # servidor local en http://localhost:5173
 npm run typecheck  # chequeo de tipos
 npm test           # pruebas (WhatsApp, menú, horario, fotos, SEO)
+npm run test:e2e   # Playwright: sin scroll horizontal de 320 a 430 px, header, hilo de miel
+                   # (con WebKit: npx playwright install webkit y PW_WEBKIT=1 npm run test:e2e)
 npm run check:menu # conteo de productos por grupo (falla si no da 158)
 npm run docs:correcciones  # regenera docs/correcciones-menu.md
 npm run build      # build de producción en dist/

@@ -6,8 +6,10 @@
 export type Point = { x: number; y: number }
 
 export type ThreadGeometry = {
-  /** Donde cae la gota del logo: ahí empieza el hilo. */
+  /** Punta de la gota del logo: ahí empieza el hilo, sin hueco. */
   start: Point
+  /** y de la franja vacía entre "HONEY" y "DIPPER" por la que el hilo corre hacia el margen. */
+  runY: number
   /** x del riel vertical, en el margen izquierdo, fuera de las columnas de texto. */
   railX: number
   /** Fondo del contenedor: el hilo termina ahí. */
@@ -20,25 +22,26 @@ export type ThreadPath = {
   railStartY: number
 }
 
-/** Radio de las dos curvas: la que sale de la gota y la que dobla hacia abajo en el borde. */
-const CORNER_RADIUS = 24
+/** Radio de la curva que dobla hacia abajo en el margen. */
+const RAIL_CORNER_RADIUS = 16
 
 const round = (value: number): number => {
   return Math.round(value * 10) / 10
 }
 
 /**
- * Baja un poco desde la gota, corre hacia la izquierda por el margen vacío del logo
- * y dobla hacia abajo por el riel hasta el final de la página.
+ * Sale de la punta de la gota, dobla enseguida hacia la izquierda por la franja vacía del logo
+ * y, en el margen, dobla hacia abajo por el riel hasta el final de la página.
+ * El primer radio es la distancia de la gota a la franja: la curva nunca toca las letras.
  */
-export const buildThreadPath = ({ start, railX, bottom }: ThreadGeometry): ThreadPath => {
-  const runY = start.y + CORNER_RADIUS
-  const railStartY = runY + CORNER_RADIUS
-  const turnX = Math.max(railX, start.x - CORNER_RADIUS)
+export const buildThreadPath = ({ start, runY, railX, bottom }: ThreadGeometry): ThreadPath => {
+  const dropRadius = Math.max(0, runY - start.y)
+  const railStartY = runY + RAIL_CORNER_RADIUS
+  const turnX = Math.max(railX + RAIL_CORNER_RADIUS, start.x - dropRadius)
   const d = [
     `M ${round(start.x)} ${round(start.y)}`,
     `Q ${round(start.x)} ${round(runY)} ${round(turnX)} ${round(runY)}`,
-    `L ${round(railX + CORNER_RADIUS)} ${round(runY)}`,
+    `L ${round(railX + RAIL_CORNER_RADIUS)} ${round(runY)}`,
     `Q ${round(railX)} ${round(runY)} ${round(railX)} ${round(railStartY)}`,
     `L ${round(railX)} ${round(Math.max(bottom, railStartY))}`,
   ].join(' ')
@@ -58,8 +61,9 @@ export const railXFor = (containerLeft: number, gutter: number): number => {
 
 /**
  * Largo de hilo que toca dibujar para que la punta llegue a `tipY`.
- * `introLength` es la parte curva (de la gota al riel). Mientras la carga no termina
- * (`introProgress` < 1), el tramo del riel crece en proporción, así nada aparece antes que la gota caiga.
+ * `introLength` es el tramo de la gota al riel: siempre se dibuja entero al terminar la carga,
+ * aunque la punta del scroll esté más arriba, así el hilo nunca queda cortado junto a la gota.
+ * Mientras la carga no termina (`introProgress` < 1), todo crece en proporción.
  */
 export const drawnLengthAt = ({
   tipY,
