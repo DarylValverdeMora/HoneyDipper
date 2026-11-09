@@ -32,6 +32,22 @@ const readDrawnLength = (page: Page) => {
   })
 }
 
+test.describe('escritorio', () => {
+  test.use({ viewport: { width: 1440, height: 900 } })
+
+  for (const width of [768, 1024, 1440]) {
+    test(`el logo del header se ve siempre a ${width} px, también con el hero a la vista`, async ({ page }) => {
+      await page.setViewportSize({ width, height: 900 })
+      await page.goto('./')
+      await waitForFullPage(page)
+      await expect(headerLogo(page)).toBeVisible()
+      await expect(headerLogo(page)).toHaveCSS('opacity', '1')
+      await page.evaluate(() => window.scrollTo({ top: 1200, behavior: 'instant' }))
+      await expect(headerLogo(page)).toBeVisible()
+    })
+  }
+})
+
 for (const reducedMotion of ['no-preference', 'reduce'] as const) {
   test.describe(`movimiento: ${reducedMotion}`, () => {
     test.use({ viewport: { width: 375, height: 667 }, hasTouch: true, reducedMotion })
@@ -72,13 +88,12 @@ for (const reducedMotion of ['no-preference', 'reduce'] as const) {
       expect(await readDrawnLength(page)).toBeGreaterThanOrEqual(introLength - 1)
     })
 
-    test('con la página cargada ya abajo, el hilo sigue unido a la gota', async ({ page }) => {
+    test('con scroll avanzado, el hilo sigue unido a la gota y crece con el scroll', async ({ page }) => {
       await page.goto('./')
       await waitForFullPage(page)
-      await page.evaluate(() => window.scrollTo({ top: 2400, behavior: 'instant' }))
-      await page.reload()
-      await waitForFullPage(page)
       await page.waitForTimeout(2500)
+      await page.evaluate(() => window.scrollTo({ top: 2400, behavior: 'instant' }))
+      await page.waitForTimeout(1500)
       const start = await readThreadStart(page)
       expect(start).not.toBeNull()
       if (start === null) return

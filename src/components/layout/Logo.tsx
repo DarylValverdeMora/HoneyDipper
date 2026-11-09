@@ -36,7 +36,7 @@ export const Logo: FC<LogoProps> = ({ heightClassName, tone = 'original', isHidd
       tabIndex={isHidden ? -1 : undefined}
       className={cn(
         'inline-flex min-w-0 rounded-sm transition-[opacity,visibility] duration-200 ease-out motion-reduce:transition-none',
-        isHidden && 'invisible opacity-0',
+        isHidden && 'invisible opacity-0 md:visible md:opacity-100',
         className,
       )}
     >
