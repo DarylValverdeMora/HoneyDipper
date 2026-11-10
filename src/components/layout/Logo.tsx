@@ -12,8 +12,8 @@ const WORDMARK_WIDTH = 680
 const WORDMARK_HEIGHT = 500
 
 type LogoProps = {
-  /** Alto del logo (h-*); el ancho sale de la proporción. */
-  heightClassName: string
+  /** Alto y ancho del logo (h-* w-*), en proporción 68:50. */
+  sizeClassName: string
   tone?: LogoTone
   isHidden?: boolean
   className?: string
@@ -22,13 +22,14 @@ type LogoProps = {
 /**
  * Recorte del logo con fondo menta (#BFD7CA, igual a surface-brand en la variante A).
  * En el header va con tone="fuerte" (máscara en tono oscuro) para que no se vea lavado.
- * El alto va fijo y el ancho sale de aspect-ratio: con h-full + w-auto, WebKit resolvía el ancho
- * con el tamaño natural de la imagen y empujaba el botón fuera de la pantalla.
+ * Alto y ancho van fijos en el enlace y el dibujo lo llena (h-full w-full). En Safari de iPhone el
+ * ancho calculado con aspect-ratio + max-w-full quedaba en 0 y el logo no se veía; con h-full + w-auto
+ * tomaba el tamaño natural de la imagen y empujaba el botón fuera de la pantalla.
  * min-w-0: si el espacio no alcanza (texto del sistema grande en 320 px), el logo cede antes que el botón.
  * Oculto (isHidden) no se ve, no se enfoca y no lo lee el lector de pantalla.
  * [PLACEHOLDER] Pedir el logo en SVG o PNG transparente para reemplazar la máscara derivada del JPG.
  */
-export const Logo: FC<LogoProps> = ({ heightClassName, tone = 'original', isHidden = false, className }) => {
+export const Logo: FC<LogoProps> = ({ sizeClassName, tone = 'original', isHidden = false, className }) => {
   return (
     <a
       href={toAnchor('inicio')}
@@ -37,6 +38,7 @@ export const Logo: FC<LogoProps> = ({ heightClassName, tone = 'original', isHidd
       className={cn(
         'inline-flex min-w-0 rounded-sm transition-[opacity,visibility] duration-200 ease-out motion-reduce:transition-none',
         isHidden && 'invisible opacity-0 md:visible md:opacity-100',
+        sizeClassName,
         className,
       )}
     >
@@ -47,7 +49,7 @@ export const Logo: FC<LogoProps> = ({ heightClassName, tone = 'original', isHidd
         width={WORDMARK_WIDTH}
         height={WORDMARK_HEIGHT}
         tone={tone}
-        className={cn('aspect-68/50 max-w-full', heightClassName)}
+        className="h-full w-full"
       />
     </a>
   )
