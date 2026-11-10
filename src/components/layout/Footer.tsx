@@ -91,7 +91,7 @@ export const Footer: FC = () => {
       <div className="mx-auto flex max-w-6xl flex-col gap-10 px-4 pt-14 pb-28 md:px-6 md:pb-14">
         <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-4">
           <div className="flex flex-col gap-4">
-            <Logo heightClassName="h-24" className="self-start overflow-hidden rounded-2xl" />
+            <Logo sizeClassName="h-24 w-32.5" className="self-start overflow-hidden rounded-2xl" />
             <p className="font-display text-xl italic">{business.slogan}</p>
           </div>
           <HoursBlock />

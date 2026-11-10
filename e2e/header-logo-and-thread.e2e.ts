@@ -57,6 +57,9 @@ for (const reducedMotion of ['no-preference', 'reduce'] as const) {
       await waitForFullPage(page)
       await expect(headerLogo(page)).toBeVisible()
 
+      const box = await headerLogo(page).boundingBox()
+      expect(box?.width ?? 0).toBeGreaterThan(60)
+
       await page.evaluate(() => window.scrollTo({ top: 600, behavior: 'instant' }))
       await expect(headerLogo(page)).toBeVisible()
     })

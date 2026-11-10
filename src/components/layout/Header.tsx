@@ -73,7 +73,7 @@ export const Header: FC = () => {
   return (
     <header className="fixed inset-x-0 top-0 z-40 h-header bg-surface-brand shadow-raised">
       <div className="mx-auto flex h-full max-w-6xl min-w-0 items-center justify-between gap-3 px-4 md:gap-4 md:px-6">
-        <Logo heightClassName="h-12 md:h-14" tone="fuerte" />
+        <Logo sizeClassName="h-12 w-16.5 md:h-14 md:w-19" tone="fuerte" />
         <DesktopNav />
         <div className="flex min-w-0 shrink-0 items-center gap-1">
           <FlowButton flow="reserva" size="sm" />
