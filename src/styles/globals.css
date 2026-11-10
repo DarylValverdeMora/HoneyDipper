@@ -26,6 +26,7 @@
   --color-on-brand: var(--on-brand);
   --color-honey: var(--honey);
   --color-logo-ink: var(--logo-ink);
+  --color-logo-ink-strong: var(--logo-ink-strong);
   --color-border: var(--border);
   --color-arch: var(--arch);
   --color-cta: var(--cta);
@@ -168,10 +169,20 @@
     repeating-linear-gradient(90deg, transparent 0 5px, var(--wood-grain) 5px 6px, transparent 6px 11px);
 }
 
+/*
+ * Ancho del logo grande en celular y tablet: también depende del alto de la pantalla (svh),
+ * para que en 375×667 quepan el slogan, los dos botones y el borde del arco sin hacer scroll.
+ */
+@utility w-hero-logo {
+  width: min(100%, 24rem, 42svh);
+}
+
 /* Logo pintado con su máscara: el color sale de bg-*, la forma de --logo-mask */
 @utility logo-mask {
   mask-image: var(--logo-mask);
-  mask-size: 100% 100%;
+  /* contain + izquierda: si el header lo angosta (texto grande en 320 px), el logo se achica sin deformarse */
+  mask-size: contain;
+  mask-position: left center;
   mask-repeat: no-repeat;
 }
 

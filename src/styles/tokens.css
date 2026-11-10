@@ -37,6 +37,8 @@
   --honey: var(--hd-dorado-miel);
   /* Color del logo cuando se pinta con su máscara (variante B). En A se usa el JPG original. */
   --logo-ink: var(--hd-dorado-miel);
+  /* Logo chico del header: el dorado sobre menta queda lavado (1,9:1); Miel tostado da 4,2:1 */
+  --logo-ink-strong: var(--hd-miel-tostado);
   --border: var(--hd-dorado-miel);
   --arch: var(--hd-amarillo-mantequilla);
   --cta: var(--hd-verde-pino);
@@ -142,6 +144,7 @@
   --on-brand: var(--hd-verde-pino);
   --honey: var(--hd-miel-oscura);
   --logo-ink: var(--hd-verde-pino);
+  --logo-ink-strong: var(--hd-verde-pino);
   --border: var(--hd-miel-oscura);
   --arch: var(--hd-menta-honey);
   --cta: var(--hd-verde-pino);

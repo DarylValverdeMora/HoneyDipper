@@ -9,7 +9,7 @@ import type { VariantProps } from 'tailwind-variants'
  */
 export const buttonStyles = tv({
   base: [
-    'inline-flex min-h-11 items-center justify-center gap-2 rounded-full font-body font-medium select-none',
+    'inline-flex min-h-11 items-center justify-center gap-2 rounded-full font-body font-medium whitespace-nowrap select-none',
     'transition-[scale,background-color] duration-150 ease-out',
     'active:not-disabled:scale-96 disabled:pointer-events-none disabled:opacity-50',
   ],
@@ -20,7 +20,8 @@ export const buttonStyles = tv({
       discreto: 'bg-transparent text-foreground hover:bg-foreground/5',
     },
     size: {
-      sm: 'px-4 text-sm',
+      // En pantallas de 320 px el header necesita el botón un poco más angosto.
+      sm: 'px-3 text-sm min-[22.5rem]:px-4',
       md: 'px-6 text-base',
     },
     full: {

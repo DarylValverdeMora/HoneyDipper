@@ -11,9 +11,9 @@ export const Hero: FC = () => {
     <section id="inicio" aria-label="Inicio" className="bg-surface-brand text-on-brand">
       <div
         data-honey-rail
-        className="mx-auto grid max-w-6xl grid-cols-1 items-center gap-10 px-4 pt-6 pb-16 md:px-6 lg:min-h-hero lg:grid-cols-2 lg:gap-16 lg:py-12"
+        className="mx-auto grid max-w-6xl grid-cols-1 items-center gap-8 px-4 pt-6 pb-16 md:gap-10 md:px-6 lg:min-h-hero lg:grid-cols-2 lg:gap-16 lg:py-12"
       >
-        <div className="flex flex-col items-start gap-8">
+        <div className="flex flex-col items-start gap-6 md:gap-8">
           <HeroLogo />
           <p data-hero-slogan className="max-w-md motion-safe:opacity-0 font-display text-3xl leading-tight italic md:text-4xl">
             {business.slogan}

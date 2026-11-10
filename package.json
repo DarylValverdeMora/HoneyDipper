@@ -10,7 +10,8 @@
     "preview": "vite preview",
     "test": "vitest run",
     "check:menu": "tsx scripts/check-menu.ts",
-    "docs:correcciones": "tsx scripts/corrections-report.ts"
+    "docs:correcciones": "tsx scripts/corrections-report.ts",
+    "test:e2e": "playwright test"
   },
   "dependencies": {
     "@fontsource-variable/cormorant": "^5.3.0",
@@ -25,6 +26,7 @@
     "tailwind-variants": "^4.0.1"
   },
   "devDependencies": {
+    "@playwright/test": "^1.63.0",
     "@tailwindcss/vite": "^4.3.5",
     "@types/node": "^26.6.6",
     "@types/react": "^19.3.0",

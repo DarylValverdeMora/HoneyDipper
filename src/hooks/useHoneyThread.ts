@@ -6,10 +6,10 @@ import { HONEY_DROP_ATTRIBUTE } from '../lib/honey-drop'
 import { buildDropletPath, buildThreadPath, drawnLengthAt, railXFor } from '../lib/honey-thread'
 import { EASE_FALL, EASE_OUT, LOAD_SEQUENCE, THREAD_SCRUB_SECONDS } from '../lib/motion'
 
-/** La punta del hilo va a esta altura de la pantalla mientras se hace scroll. */
 /** El slogan del hero lleva este atributo (Hero.tsx); empieza invisible y el hilo lo revela. */
 const SLOGAN_SELECTOR = '[data-hero-slogan]'
 
+/** La punta del hilo va a esta altura de la pantalla mientras se hace scroll. */
 const TIP_VIEWPORT_RATIO = 0.6
 
 /** Clases de cada gotita. Se crean desde aquí para que Tailwind las encuentre. */
@@ -37,6 +37,7 @@ type ThreadElements = {
   line: SVGPathElement
   dropletLayer: SVGGElement
   startMarker: HTMLElement
+  runMarker: HTMLElement
   railReference: HTMLElement
 }
 
@@ -44,9 +45,12 @@ const findElements = (scope: HTMLElement): ThreadElements | null => {
   const line = scope.querySelector<SVGPathElement>('[data-honey-thread-line]')
   const dropletLayer = scope.querySelector<SVGGElement>('[data-honey-droplets]')
   const startMarker = scope.querySelector<HTMLElement>('[data-honey-thread-start]')
+  const runMarker = scope.querySelector<HTMLElement>('[data-honey-thread-run]')
   const railReference = scope.querySelector<HTMLElement>('[data-honey-rail]')
-  if (line === null || dropletLayer === null || startMarker === null || railReference === null) return null
-  return { scope, line, dropletLayer, startMarker, railReference }
+  if (line === null || dropletLayer === null || startMarker === null || runMarker === null || railReference === null) {
+    return null
+  }
+  return { scope, line, dropletLayer, startMarker, runMarker, railReference }
 }
 
 const createDroplets = (elements: ThreadElements, railX: number, scopeTop: number): Droplet[] => {
@@ -66,6 +70,7 @@ const createDroplets = (elements: ThreadElements, railX: number, scopeTop: numbe
 const measure = (elements: ThreadElements, state: ThreadState): void => {
   const scopeRect = elements.scope.getBoundingClientRect()
   const markerRect = elements.startMarker.getBoundingClientRect()
+  const runRect = elements.runMarker.getBoundingClientRect()
   const railRect = elements.railReference.getBoundingClientRect()
   const gutter = parseFloat(getComputedStyle(elements.railReference).paddingLeft)
   const railX = railXFor(railRect.left - scopeRect.left, gutter)
@@ -73,6 +78,7 @@ const measure = (elements: ThreadElements, state: ThreadState): void => {
 
   const { d, railStartY } = buildThreadPath({
     start: { x: markerRect.left - scopeRect.left, y: markerRect.top - scopeRect.top },
+    runY: runRect.top - scopeRect.top,
     railX,
     bottom,
   })
@@ -129,7 +135,7 @@ const createScrollDrawing = ({ gsap }: MotionRuntime, elements: ThreadElements, 
   )
 }
 
-/** Una sola secuencia: la gota nueva crece en la punta de la del logo, cae y arranca el hilo; aparece el slogan. */
+/** Una sola secuencia: la gota nueva crece en la punta de la del logo, se suelta y el hilo sale de ahí; aparece el slogan. */
 const createLoadSequence = ({ gsap }: MotionRuntime, elements: ThreadElements, state: ThreadState): void => {
   const drop = elements.scope.querySelector('[data-hero-drop]')
   const slogan = elements.scope.querySelector(SLOGAN_SELECTOR)
