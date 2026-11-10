@@ -1,19 +1,12 @@
-import { useRef } from 'react'
 import type { FC } from 'react'
 import { navLinks, toAnchor } from '../../data/navigation'
-import { useHeroLogoOutOfView } from '../../hooks/useHeroLogoOutOfView'
-import { useMediaQuery } from '../../hooks/useMediaQuery'
 import { useMobileNav } from '../../hooks/useMobileNav'
 import { FlowButton } from '../flows/FlowButton'
 import { MenuIcon } from '../ui/Icons'
 import { Sheet } from '../ui/Sheet'
-import { HERO_LOGO_ID } from '../sections/Hero/HeroLogo'
 import { Logo } from './Logo'
 
 const MOBILE_NAV_ID = 'menu-movil'
-
-/** Desde md ya no hay hamburguesa: el header lleva navegación y el logo se ve siempre. */
-const DESKTOP_QUERY = '(min-width: 48rem)'
 
 const DesktopNav: FC = () => {
   return (
@@ -71,21 +64,16 @@ const MobileNavSheet: FC<MobileNavSheetProps> = ({ isOpen, onClose, navigateTo }
 }
 
 /**
- * Header fijo. En el celular, mientras el logo grande del hero se ve, el logo del header se oculta
- * para no repetirlo. En escritorio (desde md) se ve siempre, junto a la navegación.
+ * Header fijo. El logo se ve siempre, en el celular y en escritorio.
  * min-w-0 en los grupos flexibles: nada puede empujar el ancho más allá de la pantalla.
  */
 export const Header: FC = () => {
-  const headerRef = useRef<HTMLElement>(null)
   const { isOpen, open, close, navigateTo } = useMobileNav()
-  const isHeroLogoOutOfView = useHeroLogoOutOfView(HERO_LOGO_ID, headerRef)
-  const isDesktop = useMediaQuery(DESKTOP_QUERY)
-  const showLogo = isDesktop || isHeroLogoOutOfView
 
   return (
-    <header ref={headerRef} className="fixed inset-x-0 top-0 z-40 h-header bg-surface-brand shadow-raised">
+    <header className="fixed inset-x-0 top-0 z-40 h-header bg-surface-brand shadow-raised">
       <div className="mx-auto flex h-full max-w-6xl min-w-0 items-center justify-between gap-3 px-4 md:gap-4 md:px-6">
-        <Logo heightClassName="h-12 md:h-14" tone="fuerte" isHidden={!showLogo} />
+        <Logo heightClassName="h-12 md:h-14" tone="fuerte" />
         <DesktopNav />
         <div className="flex min-w-0 shrink-0 items-center gap-1">
           <FlowButton flow="reserva" size="sm" />

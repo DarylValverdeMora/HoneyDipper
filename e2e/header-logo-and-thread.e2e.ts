@@ -52,16 +52,13 @@ for (const reducedMotion of ['no-preference', 'reduce'] as const) {
   test.describe(`movimiento: ${reducedMotion}`, () => {
     test.use({ viewport: { width: 375, height: 667 }, hasTouch: true, reducedMotion })
 
-    test('el logo del header aparece solo cuando el logo grande salió de la pantalla', async ({ page }) => {
+    test('el logo del header se ve siempre, también con el logo grande a la vista', async ({ page }) => {
       await page.goto('./')
       await waitForFullPage(page)
-      await expect(headerLogo(page)).toBeHidden()
+      await expect(headerLogo(page)).toBeVisible()
 
       await page.evaluate(() => window.scrollTo({ top: 600, behavior: 'instant' }))
       await expect(headerLogo(page)).toBeVisible()
-
-      await page.evaluate(() => window.scrollTo({ top: 0, behavior: 'instant' }))
-      await expect(headerLogo(page)).toBeHidden()
     })
 
     test('el hilo nace en la punta de la gota y el tramo hasta el riel queda dibujado', async ({ page }) => {
